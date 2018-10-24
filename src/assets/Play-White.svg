@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 51 51">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #fff;
+      }
+
+      .cls-2 {
+        fill: #8446e8;
+      }
+    </style>
+  </defs>
+  <g id="Group_5007" data-name="Group 5007" transform="translate(-1233 -389)">
+    <circle id="Ellipse_1121" data-name="Ellipse 1121" class="cls-1" cx="25.5" cy="25.5" r="25.5" transform="translate(1233 389)"/>
+    <path id="Path_12637" data-name="Path 12637" class="cls-2" d="M0,1.037V15.024a1.006,1.006,0,0,0,1.514.868l12.11-6.984a1.021,1.021,0,0,0,0-1.756L1.514.169A1.013,1.013,0,0,0,0,1.037Z" transform="translate(1254 406.965)"/>
+  </g>
+</svg>

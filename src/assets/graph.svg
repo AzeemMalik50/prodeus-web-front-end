@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 208 160">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #ebcb4d;
+      }
+
+      .cls-2 {
+        fill: #3e99f4;
+      }
+
+      .cls-3 {
+        fill: #61cb96;
+      }
+
+      .cls-4 {
+        fill: #8446e8;
+      }
+
+      .cls-5, .cls-8 {
+        fill: #fff;
+      }
+
+      .cls-6, .cls-9 {
+        fill: #bcbcbc;
+        font-family: Roboto-Regular, Roboto;
+      }
+
+      .cls-6 {
+        font-size: 12px;
+      }
+
+      .cls-10, .cls-7 {
+        fill: #22283a;
+      }
+
+      .cls-7 {
+        font-size: 18px;
+        font-family: RobotoMono-Medium, Roboto Mono;
+        font-weight: 500;
+      }
+
+      .cls-8 {
+        stroke: #ebcb4d;
+        stroke-width: 2px;
+      }
+
+      .cls-9 {
+        font-size: 10px;
+      }
+
+      .cls-10 {
+        font-size: 14px;
+        font-family: RobotoMono-Bold, Roboto Mono;
+        font-weight: 700;
+      }
+
+      .cls-11 {
+        stroke: none;
+      }
+
+      .cls-12 {
+        fill: none;
+      }
+    </style>
+  </defs>
+  <g id="Group_5342" data-name="Group 5342" transform="translate(-6769 -15636)">
+    <g id="Group_5300" data-name="Group 5300" transform="translate(-241 2978)">
+      <g id="Group_5298" data-name="Group 5298" transform="translate(-70)">
+        <g id="Group_5297" data-name="Group 5297">
+          <g id="Group_5296" data-name="Group 5296">
+            <path id="Path_12761" data-name="Path 12761" class="cls-1" d="M80.453,80.293,2.3,63.664A79.824,79.824,0,0,1,80.453.2Z" transform="translate(7127.64 12657.8)"/>
+            <path id="Path_12762" data-name="Path 12762" class="cls-2" d="M80.291,85.528,2.414,103.542A73.3,73.3,0,0,1,2.137,68.9Z" transform="translate(7127.803 12652.564)"/>
+            <path id="Path_12763" data-name="Path 12763" class="cls-3" d="M80.476,86.9,46.705,159.417A78.013,78.013,0,0,1,2.6,104.914Z" transform="translate(7127.617 12651.192)"/>
+            <path id="Path_12764" data-name="Path 12764" class="cls-4" d="M84.171,80.293V.2a80,80,0,0,1,0,160A74.863,74.863,0,0,1,50.4,152.718Z" transform="translate(7123.922 12657.8)"/>
+          </g>
+        </g>
+        <circle id="Ellipse_1164" data-name="Ellipse 1164" class="cls-5" cx="50" cy="50" r="50" transform="translate(7158 12688)"/>
+      </g>
+      <g id="Group_5299" data-name="Group 5299" transform="translate(296 31)">
+        <text id="Credits" class="cls-6" transform="translate(6842 12723)"><tspan x="-18.952" y="0">Credits</tspan></text>
+        <text id="_10.2K" data-name="10.2K" class="cls-7" transform="translate(6842 12707)"><tspan x="-27.004" y="0">10.2K</tspan></text>
+      </g>
+    </g>
+    <g id="Rectangle_6381" data-name="Rectangle 6381" class="cls-8" transform="translate(6769 15636)">
+      <rect class="cls-11" width="80" height="42" rx="5"/>
+      <rect class="cls-12" x="1" y="1" width="78" height="40" rx="4"/>
+    </g>
+    <g id="Group_5305" data-name="Group 5305" transform="translate(-304 2981)">
+      <text id="Project_Credits" data-name="Project Credits" class="cls-9" transform="translate(7113 12690)"><tspan x="-32.773" y="0">Project Credits</tspan></text>
+      <text id="_1.6k" data-name="1.6k" class="cls-10" transform="translate(7113 12675)"><tspan x="-16.803" y="0">1.6k</tspan></text>
+    </g>
+  </g>
+</svg>
