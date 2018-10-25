@@ -3,6 +3,8 @@ import Router from 'vue-router'
 import Home from './views/Home.vue';
 import Feeds from './views/Feeds.vue';
 import ClassPage from '@/views/ClassPage.vue';
+import ClassDashBoard from '@/views/ClassDashBoard.vue';
+
 
 Vue.use(Router)
 
@@ -16,7 +18,9 @@ export default new Router({
       component: Home,
       children: [
         { path: '', component: Feeds },
-        { path: 'class-page', component: ClassPage }
+        { path: 'class-page', component: ClassPage },
+        { path: 'class-dashboard', component: ClassDashBoard }
+        
       ]
     },
     {

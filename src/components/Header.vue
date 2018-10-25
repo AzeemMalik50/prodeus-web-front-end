@@ -3,19 +3,21 @@
     <div data-collapse="none" data-animation="default" data-duration="400" class="navbar w-nav">
       <div class="nav-wrap">
         <div class="nav-menu left">
-          <a href="#" class="brand w-nav-brand">
+          <!-- <a href="#" class="brand w-nav-brand"> -->
+            <router-link to="/" class="brand w-nav-brand">
             <logo class="logo" />
-          </a>
+            </router-link>
+          <!-- </a> -->
           <form action="/search" class="search w-form">
             <Search class="image-4" />
             <input type="search" class="search-input w-input" maxlength="256" name="query" placeholder="Search prodeus" id="search" required="">
             <input type="submit" value="Search" class="search-button w-button"></form>
-          <a href="coursecatalog.html" class="w-inline-block">
+          <a href="#" class="w-inline-block">
             <AddPost class="add-post" />
           </a>
         </div>
         <nav role="navigation" class="nav-menu w-nav-menu">
-          <a href="coursecatalog.html" class="link-block w-inline-block">
+          <a href="#" class="link-block w-inline-block">
             <ClassroomInactive class="height-20" />
           </a>
           <a href="#" class="link-block w-inline-block">
