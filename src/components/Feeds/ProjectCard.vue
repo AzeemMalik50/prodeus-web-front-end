@@ -10,8 +10,8 @@
         <h1 class="heading-4 center" v-html="description"></h1>
       </div>
       <div class="flex-space-around">
-        <Views class="view" />
         <Heart :class="{heart: liked}" />
+        <Reblog class="view" />
         <Comment />
         <Share />
       </div>
@@ -21,9 +21,9 @@
 
 <script>
 import Heart from "@/assets/heart.svg";
+import Reblog from "@/assets/reblog.svg";
 import Comment from "@/assets/comment.svg";
 import Share from "@/assets/share.svg";
-import Views from "@/assets/views.svg";
 
 export default {
   props: ["liked", "title", "description"],
@@ -31,7 +31,7 @@ export default {
     Heart,
     Comment,
     Share,
-    Views
+    Reblog
   }
 };
 </script>

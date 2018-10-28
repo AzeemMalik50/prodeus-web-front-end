@@ -44,12 +44,12 @@
               <h1 class="heading-2">Syllabus</h1>
             </div>
           </div>
-          <LessonBlock />
-          <LessonBlock />
-          <LessonBlock />
-          <LessonBlock />
-          <LessonBlock />
-          <LessonBlock />
+          <div class="lesson-wrapper" v-for="lesson in lessons" :key="lesson.num">
+            <LessonBlock :lesson="lesson" :key="lesson.num"/>
+            <transition name="fade" mode="out-in" :duration="{ enter: 500, leave: 250 }">
+              <LessonDetail v-if="lesson.expanded" />
+            </transition>
+          </div>
         </div>
       </div>
     </div>
@@ -82,6 +82,7 @@ import ClassRatingReview from "@/components/Class/ClassRatingReview.vue";
 import StudentReview from "@/components/Class/StudentReview.vue";
 import LessonBlock from "@/components/Class/LessonBlock.vue";
 import InstructorInfo from "@/components/Class/InstructorInfo.vue";
+import LessonDetail from "@/components/Class/LessonDetail.vue";
 
 export default {
   name: "ClassPage",
@@ -90,10 +91,34 @@ export default {
     ClassRatingReview,
     StudentReview,
     LessonBlock,
-    InstructorInfo
+    InstructorInfo,
+    LessonDetail
   },
   data() {
-    return {};
+    return {
+      lessons: [
+        {
+          num: "1",
+          expanded: false
+        },
+        {
+          num: "2",
+          expanded: false
+        },
+        {
+          num: "3",
+          expanded: false
+        },
+        {
+          num: "4",
+          expanded: false
+        },
+        {
+          num: "5",
+          expanded: false
+        }
+      ]
+    };
   }
 };
 </script>
