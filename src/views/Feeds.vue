@@ -15,6 +15,11 @@
       <ClassCard v-bind="classData" />
       <ProjectCard v-bind="projectData" />
     </div>
+     <div class="flexcolumn">
+      <ClassCard v-bind="classData" />
+      <ProjectCard v-bind="projectData" />
+      <QuestionCard />
+    </div>
   </div>
 </template>
 
