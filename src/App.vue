@@ -21,4 +21,7 @@ svg {
  {
   opacity: 0;
 }
+.cursor-pointer {
+  cursor: pointer;
+}
 </style>

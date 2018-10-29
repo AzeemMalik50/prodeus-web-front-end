@@ -19,23 +19,53 @@
             <div class="_10px-botttom-margin">
                 <h1 class="heading-31">Attached Files</h1>
             </div>
-            <div class="div-block-82"><img src="images/file.svg" height="15" alt="" class="image-11">
+            <div class="div-block-82">
+                <File class="image-11" />
                 <div class="div-block-81"><a href="#" class="link-2">Latin typography.zip</a>
                     <div class="text-block-6">346KB</div>
                 </div>
             </div>
-            <div class="div-block-82"><img src="images/file.svg" height="15" alt="" class="image-11">
+            <div class="div-block-82">
+                <File class="image-11" />
                 <div class="div-block-81"><a href="#" class="link-2">Latin typography.zip</a>
                     <div class="text-block-6">346KB</div>
                 </div>
             </div>
         </div>
-        <div class="div-block-79"><img src="images/Play-White.svg" height="40" alt=""></div>
+        <div class="div-block-79">
+            <PlayWhite class="play" />
+        </div>
     </div>
 </template>
 
 <script>
+import PlayWhite from "@/assets/Play-White.svg";
+import File from "@/assets/file.svg";
+
+export default {
+  components: {
+    PlayWhite,
+    File
+  }
+};
 </script>
 
+
 <style lang="scss" scoped>
+.image-11 {
+  height: 15px;
+  .cls-1 {
+    fill: #0d0d0d;
+  }
+}
+
+.playt {
+  height: 40px;
+  .cls-1 {
+    fill: #fff;
+  }
+  .cls-2 {
+    fill: #8446e8;
+  }
+}
 </style>
