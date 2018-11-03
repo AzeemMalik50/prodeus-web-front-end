@@ -4,6 +4,7 @@ import Home from './views/Home.vue';
 import Feeds from './views/Feeds.vue';
 import ClassPage from '@/views/ClassPage.vue';
 import ClassDashBoard from '@/views/ClassDashBoard.vue';
+import AddClass from '@/views/AddClass.vue';
 
 
 Vue.use(Router)
@@ -23,6 +24,11 @@ export default new Router({
         
       ]
     },
+{
+  path: '/add-class',
+  name: 'addClass',
+  component: AddClass,
+},
     {
       path: '/about',
       name: 'about',

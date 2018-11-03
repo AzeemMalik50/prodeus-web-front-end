@@ -24,4 +24,7 @@ svg {
 .cursor-pointer {
   cursor: pointer;
 }
+.ql-container{
+    border-bottom: 2px solid #8446e8 !important;
+}
 </style>

@@ -10,10 +10,10 @@
         <h1 class="heading-4 center" v-html="description"></h1>
       </div>
       <div class="flex-space-around">
-        <Heart :class="{heart: liked}" />
-        <Reblog class="view" />
-        <Comment />
-        <Share />
+        <Heart :class="{'heart-active': liked}" />
+        <Reblog class="reblog-active" />
+        <Comment class="comment-active"/>
+        <Share class="share-active" />
       </div>
     </div>
   </div>
@@ -37,12 +37,26 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.heart {
+.heart-active {
   path {
-    fill: #f3181d !important;
+    fill: #E04859 !important;
   }
 }
-
+.reblog-active {
+  path {
+    fill: #3EA7F4;
+  }
+}
+.comment-active {
+  path {
+    fill: #EBCB4D;
+  }
+}
+.share-active {
+  path {
+    fill: #22283a;
+  }
+}
 svg {
   width: 18px;
   cursor: pointer;

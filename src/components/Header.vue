@@ -12,7 +12,7 @@
             <Search class="image-4" />
             <input type="search" class="search-input w-input" maxlength="256" name="query" placeholder="Search prodeus" id="search" required="">
             <input type="submit" value="Search" class="search-button w-button"></form>
-          <a href="#" class="w-inline-block">
+          <a href="#" class="w-inline-block" @click="openCreateClass()">
             <AddPost class="add-post" />
           </a>
         </div>
@@ -48,10 +48,12 @@
         </a>
       </nav>
     </div>
+    <AddClass v-if="showCreateClass" />
   </div>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import Logo from "@/assets/Logo.svg";
 import Search from "@/assets/Search.svg";
 import AddPost from "@/assets/Add-Post.svg";
@@ -59,6 +61,7 @@ import ClassroomInactive from "@/assets/ClassroomInactive.svg";
 import MessagesInactive from "@/assets/MessagesInactive.svg";
 import NotificationsInactive from "@/assets/NotificationsInactive.svg";
 import Profile from "@/assets/Profile.svg";
+import AddClass from '../views/AddClass';
 
 export default {
   components: {
@@ -68,7 +71,16 @@ export default {
     ClassroomInactive,
     MessagesInactive,
     NotificationsInactive,
-    Profile
+    Profile,
+    AddClass
+  },
+  methods: {
+openCreateClass(){
+  this.$store.dispatch('changeCreateClass', true);
+}
+  },
+  computed: {
+    ...mapGetters(["showCreateClass"])
   }
 };
 </script>
@@ -138,4 +150,5 @@ svg {
     fill: #bcbcbc;
   }
 }
+
 </style>
