@@ -26,5 +26,12 @@ svg {
 }
 .ql-container{
     border-bottom: 2px solid #8446e8 !important;
+    border-bottom-right-radius: 5px !important;
+    border-bottom-left-radius: 5px !important;
+}
+
+.ql-toolbar {
+  border-top-left-radius: 5px!important;
+    border-top-right-radius: 5px!important;
 }
 </style>

@@ -45,7 +45,7 @@ export default {
 .trash {
   height: 12px;
   position: absolute;
-  right: 25px;
+  right: 13px;
 
 }
 .attachment {
