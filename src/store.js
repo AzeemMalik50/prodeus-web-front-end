@@ -5,11 +5,15 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    showCreateClass: false
+    showCreateClass: false,
+    isProjectOpen: false
   },
   mutations: {
     changeCreateClass: (state, payload) => {
       state.showCreateClass = payload;
+    },
+    updateProjectDialog: (state, payload) => {
+      state.isProjectOpen = payload;
     },
   },
   actions: {
@@ -17,10 +21,15 @@ export default new Vuex.Store({
       commit
     },payload) => {
       commit('changeCreateClass', payload);
+    },
+    updateProjectDialog: async ({
+      commit
+    },payload) => {
+      commit('updateProjectDialog', payload);
     }
   },
   getters: {
     showCreateClass: state => state.showCreateClass,
-
+    isProjectOpen: state => state.isProjectOpen,
   }
 })

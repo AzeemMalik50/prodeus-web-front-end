@@ -1,5 +1,6 @@
 <template>
-  <div class="card">
+<div>
+<div class="card" @click="openCreateClass()">
     <div class="div-block-66"><img src="../../assets/fortune.jpg" alt="" class="image-10"></div>
     <div class="_20px-pad-wrapper">
       <div class="profile-picture post"></div>
@@ -17,21 +18,34 @@
       </div>
     </div>
   </div>
+    <Project v-if="isProjectOpen" />
+</div>
+  
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import Heart from "@/assets/heart.svg";
 import Reblog from "@/assets/reblog.svg";
 import Comment from "@/assets/comment.svg";
 import Share from "@/assets/share.svg";
-
+import Project from "../../views/Project.vue"
 export default {
   props: ["liked", "title", "description"],
   components: {
     Heart,
     Comment,
     Share,
-    Reblog
+    Reblog,
+    Project
+  },
+  methods: {
+openCreateClass(){
+  this.$store.dispatch('updateProjectDialog', true);  
+}
+  },
+   computed: {
+    ...mapGetters(["isProjectOpen"])
   }
 };
 </script>
