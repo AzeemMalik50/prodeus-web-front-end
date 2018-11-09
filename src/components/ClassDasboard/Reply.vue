@@ -1,5 +1,5 @@
 <template>
-    <div class="_10px-botttom-margin">
+    <!-- <div class="_10px-botttom-margin"> -->
         <div class="reply-wrap">
             <div class="profile-picture _28"></div>
             <div class="message-content-wrap">
@@ -7,7 +7,7 @@
                     <div class="left-align">
                         <h6 class="heading-17">Will Cairns</h6>
                         <div class="_10-side-margins">
-                            <h6 class="heading-18">10:52 in Lesson 2</h6>
+                            <h6 v-if="!isProjectOpen" class="heading-18">10:52 in Lesson 2</h6>
                         </div>
                     </div>
                 </div>
@@ -61,11 +61,18 @@
                         </div>
                     </div>
                 </div> -->
+               
             </div>
         </div>
-    </div>
+    <!-- </div> -->
 </template>
 
 <script>
-export default {};
+import { mapGetters } from "vuex";
+
+export default {
+     computed: {
+    ...mapGetters(["isProjectOpen"])
+  }
+};
 </script>

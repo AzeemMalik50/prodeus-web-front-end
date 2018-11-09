@@ -25,7 +25,7 @@ svg {
   cursor: pointer;
 }
 .ql-container{
-    border-bottom: 2px solid #8446e8 !important;
+    //border-bottom: 2px solid #8446e8 !important;
     border-bottom-right-radius: 5px !important;
     border-bottom-left-radius: 5px !important;
 }

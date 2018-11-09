@@ -4,6 +4,7 @@ import Home from './views/Home.vue';
 import Feeds from './views/Feeds.vue';
 import ClassPage from '@/views/ClassPage.vue';
 import ClassDashBoard from '@/views/ClassDashBoard.vue';
+import CreatePost from '@/views/CreatePost.vue';
 
 Vue.use(Router)
 
@@ -21,6 +22,16 @@ export default new Router({
         { path: 'class-dashboard', component: ClassDashBoard }
         
       ]
+    },
+    {
+      path: '/create-project',
+      name: 'project',
+      component: CreatePost
+    },
+    {
+      path: '/create-question',
+      name: 'question',
+      component: CreatePost
     },
     {
       path: '/about',

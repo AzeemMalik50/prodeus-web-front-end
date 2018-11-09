@@ -1,6 +1,7 @@
 <template>
   <div class="card _10px-botttom-padding" :class="cardClasses">
     <div class="_20px-pad-wrapper">
+      <div class="_20px-margin">      
       <div class="message-wrap">
         <div class="profile-picture _38px" :class="dpClasses"></div>
         <div class="message-content-wrap">
@@ -50,19 +51,26 @@
             </transition>
         </div>
       </div>
+      </div>
+<comment-input />
     </div>
+
+
   </div>
 </template>
 
 <script>
 import Replies from "@/assets/replies.svg";
 import Reply from "@/components/ClassDasboard/Reply.vue";
+import CommentInput from "@/components/ClassDasboard/CommentInput.vue";
+
 
 export default {
   props: ["cardClasses", "dpClasses"],
   components: {
     Replies,
-    Reply
+    Reply,
+    CommentInput
   },
   data(){
     return {
