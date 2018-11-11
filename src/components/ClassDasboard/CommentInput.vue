@@ -25,18 +25,16 @@
 import Attachment from "@/assets/attachment.svg";
 
 export default {
-    components: {
-        Attachment
-    }
-}
+  components: {
+    Attachment
+  }
+};
 </script>
 <style lang="scss" scoped>
-
-
 .attach {
-    height: 14px;
-        top: 36px;
-    position: relative;
-    left: 95%;
+  height: 14px;
+  top: 36px;
+  position: relative;
+  left: 95%;
 }
 </style>

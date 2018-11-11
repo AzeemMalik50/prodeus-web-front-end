@@ -6,7 +6,9 @@ import store from './store'
 import './styles/normalize.css';
 import './styles/webflow.css';
 import './styles/ongoing.css';
+import axios from 'axios';
 
+axios.defaults.baseURL = process.env.VUE_APP_API_BASE_URL;
 // require styles
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
