@@ -1,5 +1,5 @@
 import { userService } from '../_services';
-import router from '../router';
+import router from '@/router';
 import axios from 'axios';
 
 const user = JSON.parse(localStorage.getItem('user'));
@@ -12,8 +12,10 @@ export const authentication = {
     state: initialState,
     actions: {
         login: ({ dispatch, commit }, { email, password }) => {
-            return userService.login(email, password);
-          ;
+            return userService.login(email, password, fullName);
+        },
+        signup: ({ dispatch, commit }, { email, password , fullName}) => {
+            return userService.signup(email, password, fullName);
         },
         loginSuccess: ({ dispatch, commit }, payload) => {
             // store user details and jwt token in local storage to keep user logged in between page refreshes

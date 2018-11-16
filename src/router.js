@@ -6,6 +6,8 @@ import ClassPage from '@/views/ClassPage.vue';
 import ClassDashBoard from '@/views/ClassDashBoard.vue';
 import CreatePost from '@/views/CreatePost.vue';
 import Login from '@/views/Login.vue';
+import SignUp from '@/views/SignUp.vue';
+
 
 Vue.use(Router)
 
@@ -19,8 +21,8 @@ Vue.use(Router)
       component: Home,
       children: [
         { path: '', component: Feeds },
-        { path: 'class-page', component: ClassPage },
-        { path: 'class-dashboard', component: ClassDashBoard }
+        { path: 'class-page/:id', name: 'classPage', component: ClassPage, props: true },
+        { path: 'class-dashboard', name: 'classDashboard',component: ClassDashBoard }
       ]
     },
     {
@@ -37,6 +39,10 @@ Vue.use(Router)
       path:'/login',
       name: 'login',
       component: Login
+    }, {
+      path:'/sign_up',
+      name: 'signup',
+      component: SignUp
     },
     {
       path: '/about',

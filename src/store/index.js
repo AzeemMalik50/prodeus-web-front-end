@@ -1,6 +1,10 @@
 import Vue from 'vue'
-import Vuex from 'vuex'
+import Vuex from 'vuex';
 import { authentication } from './authentication.module';
+import { categories } from './categories.module';
+import { classes } from './classes.module';
+
+
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -33,6 +37,8 @@ export default new Vuex.Store({
     isProjectOpen: state => state.isProjectOpen,
   },
   modules: {
-    authentication
+    authentication,
+    categories,
+    classes
 }
 })

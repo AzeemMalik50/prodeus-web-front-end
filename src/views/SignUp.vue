@@ -6,13 +6,13 @@
           <div class="div-block-95">
             <div>
               <div class="_15px-bottom-padding">
-                <h1 class="heading-39">Higher education <br>for the digital age.</h1>
+                  <h1 class="heading-39">Enroll with Prodeus <br>for Free.</h1>
               </div>
             </div>
             <div class="_15px-bottom-padding">
               <div class="div-block-100"></div>
             </div>
-            <div class="text-block-12">Sign in and start learning <br>the most in demand skills</div>
+            <div class="text-block-12">Sign up and start learning <br>the most in demand skills</div>
           </div>
         </div>
         <div class="div-block-94">
@@ -22,28 +22,19 @@
                 </div>
             <div class="form-block-5 w-form">
               <form @submit.prevent="handleSubmit" id="email-form" name="email-form" data-name="Email Form" class="form-4">
+            <Name class="pwd-icon name"  />
+              <input type="text" v-model="fullName" class="text-field-3 w-input" maxlength="256" name="name" data-name="Name" placeholder="Full name" id="name">
                <Email class="pwd-icon email" />
                 <input type="email" v-model="email" class="text-field-3 w-input" maxlength="256" name="email" data-name="Email" placeholder="Email" id="email" required="">
                <Password class="pwd-icon" />
                 <input type="password" v-model="password" class="text-field-3 w-input" maxlength="256" name="password" data-name="password" placeholder="Password" id="password" required="">
-                <input type="submit" :disabled="submitted || !email || !password" value="Sign in" data-wait="Please wait..." class="submit-button-4 w-button">
+                <input type="submit" :disabled="submitted || !email || !password" value="Sign up" data-wait="Please wait..." class="submit-button-4 w-button">
                 </form>
               <div class="w-form-done">
                 <div>Thank you! Your submission has been received!</div>
               </div>
               <div class="w-form-fail" v-if="loginError">
                 <div>{{loginError}}</div>
-              </div>
-            </div>
-            <div class="_20px-bottom-margin">
-              <div class="flex-space-between">
-                <div class="div-block-101">
-                    <input type="checkbox" class="image-22 checkbox" />
-                  <div>Remember me</div>
-                </div>
-                <div class="div-block-101 right">
-                  <div>Forgot password?</div>
-                </div>
               </div>
             </div>
             <div class="_10px-botttom-margin">
@@ -57,19 +48,20 @@
               <div class="flex-space-between">
                 <div class="social-sign-in facebook">
                     <facebook class="fb-icon image-20" />
-                  <div class="text-block-10">Sign in with Facebook</div>
+                  <div class="text-block-10">Sign up with Facebook</div>
                 </div>
                 <div class="social-sign-in">
                     <google class="google-icon image-21" />
-                  <div>Sign in with Google</div>
+                  <div>Sign up with Google</div>
                 </div>
               </div>
             </div>
-            <div class="div-block-98">
+           <div class="div-block-98">
+              <p class="paragraph-7">By signing up you agree to Prodeus’ Terms of Service and Privacy Policy.</p>
               <div class="div-block-99">
-                <div class="text-block-11">Not a member?</div>
-                 <router-link class="link-4" to="sign_up">
-                    Sign up
+                <div class="text-block-11">Already a member?</div>
+                <router-link class="link-4" to="login">
+                    Login
                 </router-link>
                 </div>
             </div>
@@ -102,22 +94,21 @@ export default {
     return {
       email: "",
       password: "",
+      fullName:"",
       submitted: false,
       loginError: null
     };
   },
   computed: {
-    loggingIn() {
-      return this.$store.state.authentication.status.loggingIn;
-    }
+    
   },
   methods: {
     handleSubmit(e) {
       this.submitted = true;
-      const { email, password } = this;
+      const { email, password , fullName} = this;
       const { dispatch } = this.$store;
       if (email && password) {
-        dispatch("authentication/login", { email, password }).then(
+        dispatch("authentication/signup", { email, password, fullName }).then(
           response => {
             let user = response.data.user;
             if (user.accessToken) {
