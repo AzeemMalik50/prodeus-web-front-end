@@ -12,9 +12,8 @@
                 <h1 class="heading-31">Assignement Guidelines</h1>
             </div>
             <div class="_20px-bottom-margin">
-                <p class="paragraph-6">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique. Duis cursus, mi quis viverra ornare, eros dolor interdum nulla, ut commodo diam libero vitae erat. Aenean faucibus nibh et justo
-                    cursus id rutrum lorem imperdiet. Nunc ut sem vitae risus tristique posuere.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique. Duis cursus, mi quis viverra ornare, eros dolor interdum
-                    nulla, ut commodo diam libero vitae erat. Aenean faucibus nibh et justo cursus id rutrum lorem imperdiet. Nunc ut sem vitae risus tristique posuere.</p>
+                <p class="paragraph-6"  v-html="lesson.description">
+                    </p>
             </div>
             <div class="_10px-botttom-margin">
                 <h1 class="heading-31">Attached Files</h1>
@@ -46,7 +45,8 @@ export default {
   components: {
     PlayWhite,
     File
-  }
+  },
+  props:['lesson']
 };
 </script>
 

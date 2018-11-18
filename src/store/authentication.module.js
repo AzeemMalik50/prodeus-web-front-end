@@ -12,7 +12,7 @@ export const authentication = {
     state: initialState,
     actions: {
         login: ({ dispatch, commit }, { email, password }) => {
-            return userService.login(email, password, fullName);
+            return userService.login(email, password);
         },
         signup: ({ dispatch, commit }, { email, password , fullName}) => {
             return userService.signup(email, password, fullName);

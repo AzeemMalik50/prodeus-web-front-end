@@ -2258,7 +2258,7 @@ h2 {
   grid-template-columns: 1fr 1fr;
   -ms-grid-rows: auto auto;
   grid-template-rows: auto auto;
-  background-image: url('../assets/fortune.jpg');
+  /* background-image: url('../assets/fortune.jpg'); */
   background-position: 50% 50%;
   background-size: cover;
   background-repeat: no-repeat;

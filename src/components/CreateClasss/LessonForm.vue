@@ -4,9 +4,19 @@
       <div class="_30px-bottom-margin">
         <div class="flex-space-between">
           <h1 class="heading-4">{{lessonHeading}}</h1>
-          <div class="button top-padding">
-            <h1 class="form-button">Upload Video</h1>
+         <video v-show="isVideoSelected" id="video" controls height="150" width="180" hidden />
+        <input type="file" accept="video/mp4,video/x-m4v,video/*" id="attachFiles" @change="fileSelect($event.target.name, $event.target.files);" class="input-file" hidden>            
+         <div class="video-upload">
+          <div class="button top-padding cursor-pointer" @click="chooseFiles()">
+            <h1 class="form-button"> {{lesson.toUpload.video ? lesson.toUpload.video.name.substring(0,20) :'Upload Video'}}</h1>
           </div>
+          <div class="image-container" v-if="lesson.toUpload.video" @click="removeSelectedFile()" >
+          <img class="thumbnail"  :src="videoThumbnail"/>
+           <div class="after">
+             <cross class="cross" />
+           </div>
+          </div>
+         </div>
         </div>
       </div>
       <div class="w-form">
@@ -61,22 +71,26 @@
 import WhiteCheck from "@/assets/White-Check.svg";
 import CheckLine from "@/assets/check-line.svg";
 import FileUpload from "@/components/CreateClasss/FileUpload";
+import Cross from "@/assets/x.svg";
 
 export default {
   components: {
     FileUpload,
     WhiteCheck,
-    CheckLine
+    CheckLine,
+    Cross
   },
   props: {
     lesson: Object,
     lessonHeading: String,
-    allowAssigment: Boolean
+    allowAssigment: Boolean,
+    isVideoSelected: Boolean
   },
   data() {
     return {
       hasAssignment: false,
-      isAssignReq:false,
+      isAssignReq: false,
+      videoThumbnail: "",
       config: {
         modules: {
           toolbar: [
@@ -89,13 +103,84 @@ export default {
     };
   },
   methods: {
-     toggleAssignment() {
+    chooseFiles() {
+      document.getElementById("attachFiles").click();
+    },
+    removeSelectedFile() {
+      if (document.getElementById("attachFiles")) {
+        document.getElementById("attachFiles").value = "";
+      }
+      this.videoThumbnail = null;
+      this.lesson.toUpload.video = null;
+      this.lesson.toUpload.thumbnail = null;
+      
+    },
+    toggleAssignment() {
       this.lesson.hasAssignment = !this.lesson.hasAssignment;
     },
-   assignmentRequired(){
-     this.isAssignReq = !this.lesson.teacherAssignment.isrequired;
-     this.lesson.teacherAssignment.isrequired = this.isAssignReq;
-   }
+    fileSelect(fieldName, fileList) {
+      if (!fileList.length) return;
+      this.$parent.isVideoSelected = true;
+      var file = event.target.files[0];
+      var fileReader = new FileReader();
+      this.lesson.toUpload.video = file;
+      fileReader.onload = () => {
+        var blob = new Blob([fileReader.result], { type: file.type });
+        var url = URL.createObjectURL(blob);
+        var video = document.getElementById("video");
+        video.onloadedmetadata = () => {
+          window.URL.revokeObjectURL(video.src);
+          var duration = video.duration;
+          this.lesson.secondsDuration = duration;
+        };
+
+        var timeupdate = () => {
+          if (snapImage()) {
+            video.removeEventListener("timeupdate", timeupdate);
+            video.pause();
+          }
+        };
+        video.addEventListener("loadeddata", () => {
+          if (snapImage()) {
+            video.removeEventListener("timeupdate", timeupdate);
+          }
+        });
+        var snapImage = () => {
+          var canvas = document.createElement("canvas");
+          canvas.width = video.videoWidth;
+          canvas.height = video.videoHeight;
+          canvas
+            .getContext("2d")
+            .drawImage(video, 0, 0, canvas.width, canvas.height);
+          var image = canvas.toDataURL();
+          // console.log(image);
+          this.videoThumbnail = image;
+          this.lesson.toUpload.thumbnail = new File(
+            [image],
+            `lesson${this.lesson.lessonNumber}.png`
+          );
+          // uploading video......
+          // this.uploadVideo();
+          var success = image.length > 100000;
+          if (success) {
+            URL.revokeObjectURL(url);
+          }
+          return success;
+        };
+        video.addEventListener("timeupdate", timeupdate);
+        video.preload = "metadata";
+        video.src = url;
+        // Load video in Safari / IE11
+        video.muted = true;
+        video.playsInline = true;
+        video.play();
+      };
+      fileReader.readAsArrayBuffer(file);
+    },
+    assignmentRequired() {
+      this.isAssignReq = !this.lesson.teacherAssignment.isrequired;
+      this.lesson.teacherAssignment.isrequired = this.isAssignReq;
+    }
   }
 };
 </script>
@@ -111,10 +196,59 @@ export default {
   border: 1px solid #d9d9d9 !important;
 }
 .div-block-54 {
-  border: 2px solid #8446e8 ;
-  
+  border: 2px solid #8446e8;
 }
 .in-active {
   background-color: #fff !important;
+}
+.thumbnail {
+  // margin-left: 12px;
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
+}
+.video-upload {
+  display: inherit;
+}
+.image-container {
+  position: relative;
+  right: 0;
+  width: 50px;
+  height: 50px;
+  margin-left: 12px;
+}
+.image-container .after {
+  position: relative;
+  top: -50px;
+  left: -12px;
+  width: 50px;
+  height: 50px;
+  display: none;
+  color: #fff;
+  margin-left: 12px;
+  border-radius: 10px;
+}
+.image-container:hover .after {
+  display: block;
+  background: rgba(0, 0, 0, 0.4);
+}
+.cross {
+  position: relative;
+  height: 20px;
+  left: 15px;
+  top: 15px;
+  .cls-1,
+  .cls-3 {
+    fill: none;
   }
+
+  .cls-1 {
+    stroke: #fff;
+  }
+
+  .cls-2 {
+    stroke: none;
+  }
+}
 </style>

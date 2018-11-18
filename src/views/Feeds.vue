@@ -5,7 +5,7 @@
       <!-- <ProjectCard v-bind="projectData" /> -->
       <!-- <QuestionCard /> -->
     </div>
-    <div class="flexcolumn">
+    <!-- <div class="flexcolumn">
       <ProjectCard v-bind="projectData" />
       <QuestionCard />
       <ClassCard :feedClass="classData" />
@@ -19,7 +19,7 @@
       <ClassCard :feedClass="classData" />
       <ProjectCard v-bind="projectData" />
       <QuestionCard />
-    </div>
+    </div> -->
   </div>
 </template>
 

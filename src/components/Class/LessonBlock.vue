@@ -10,9 +10,9 @@
       <Hide />
       <div class="div-block-7">
         <div class="_5px-bottom-margin">
-          <h2 class="heading-6">Lesson {{lesson.num}}</h2>
+          <h2 class="heading-6">Lesson {{lesson.lessonNumber}}</h2>
         </div>
-        <h1 class="heading-4">Origins of Typography: The Fundamentals</h1>
+        <h1 class="heading-4">{{lesson.title}}</h1>
       </div>
     </div>
     <div class="div-block-8">

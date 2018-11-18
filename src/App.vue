@@ -34,4 +34,8 @@ svg {
  // border-top-left-radius: 5px!important;
     border-top-right-radius: 5px!important;
 }
+//loader overlay
+.vld-overlay.is-full-page {
+    z-index: 100000 !important;
+}
 </style>

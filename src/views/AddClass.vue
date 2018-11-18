@@ -81,7 +81,7 @@
               </div>
             </div>
             <div class="align-right">
-              <div class="button" @click="changeTab('2')" :class="{inactive: !isClassInfoReady}">
+              <div class="button" @click="changeTab('2', true)" :class="{inactive: !isClassInfoReady}">
                 <h1 class="form-button">Next</h1>
               </div>
             </div>
@@ -110,22 +110,22 @@
                   </div>
                 </div>
                 <!-- lesson component-->
-                <lesson-form v-if="!newClass.trailer.completed" :lesson="newClass.trailer" :lessonHeading="lessonHeading" :allowAssigment="False"/>
-                <lesson-form v-else :lesson="newClass.lessons[lessonIndex]" :lessonHeading="lessonHeading" :allowAssigment="True"/>
+                <lesson-form v-if="!newClass.trailer.completed" :lesson="newClass.trailer" :lessonHeading="lessonHeading" :isVideoSelected="isVideoSelected" :allowAssigment="False"/>
+                <lesson-form v-else :lesson="newClass.lessons[lessonIndex]" :lessonHeading="lessonHeading" :isVideoSelected="isVideoSelected" :allowAssigment="True"/>
               </div>
               <div class="_40-side-padding" v-if="lessonIndex !== newClass.lessons.length -1">
                 <div class="_20-px-top-bottom-padding">
                   <div class="align-right">
                     <div class="button outline" @click="completeLesson()">
-                      <h1 class="form-button outline">Next Lesson</h1>
+                      <h1 class="form-button outline"> {{newClass.trailer.isUploading ? 'Uploading...' : 'Next Lesson'}}</h1>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
             <div class="align-right">
-              <div  @click="changeTab('3')" class="button" :class="{inactive: !isLessonsReady}">
-                <h1 class="form-button">Next</h1>
+              <div  @click="changeTab('3', true)" class="button" :class="{inactive: lessonIndex !== newClass.lessons.length -1}">
+                <h1 class="form-button"> {{newClass.trailer.isUploading ? 'Uploading...' : 'Next'}}</h1>
               </div>
             </div>
           </div>
@@ -170,45 +170,57 @@
       </div>
     </div>
   </div>
+   <loading :color="'#8446e8'" :active.sync="newClass.trailer.isUploading" 
+        :is-full-page="true"></loading>
   </div>
 </template>
 
 <script>
 import { mapGetters, createNamespacedHelpers } from "vuex";
-
+import CheckLine from "../assets/check-line.svg";
+import WhiteCheck from "../assets/White-Check.svg";
+import FileUpload from "../components/CreateClasss/FileUpload";
+import LessonForm from "../components/CreateClasss/LessonForm";
 const { mapState, mapActions } = createNamespacedHelpers("categories");
+import Loading from "vue-loading-overlay";
+import "vue-loading-overlay/dist/vue-loading.css";
 const teacherAssignment = {
   guidelines: "",
-  // media: [],
+  media: [],
   isrequired: false
 };
 const newLesson = {
   title: "",
   description: "",
-  // media: [],
+  toUpload: {
+    video: "",
+    thumbnail: ""
+  },
+  media: "",
+  img: "",
+  secondsDuration: 0,
   completed: false,
   lessonNumber: 0,
-  // media: '',
-  hasAssignment: false
+  hasAssignment: false,
+  isUploading: false
 };
-import CheckLine from "../assets/check-line.svg";
-import WhiteCheck from "../assets/White-Check.svg";
-import FileUpload from "../components/CreateClasss/FileUpload";
-import LessonForm from "../components/CreateClasss/LessonForm";
 
 export default {
   components: {
     CheckLine,
     WhiteCheck,
     FileUpload,
-    LessonForm
+    LessonForm,
+    Loading
   },
 
   data() {
     return {
+      isVideoSelected: false,
       selectedTab: "1",
       content: "<h2>I am Example</h2>",
       hasAssignment: false,
+      isUploading: false,
       True: true,
       False: false,
       difficulties: ["BEGINNER", "INTERMEDIATE", "ADVANCED"],
@@ -232,49 +244,59 @@ export default {
         skillTags: [],
         difficulty: "BEGINNER",
         category: "",
+        img: "",
         lessons: [],
         trailer: {
           title: "",
           description: "",
-          media: [],
+          toUpload: {
+            video: "",
+            thumbnail: ""
+          },
+          secondsDuration: 0,
           completed: false,
-          lessonNumber: 0
+          lessonNumber: 0,
+          img: "",
+          media: "",
+          isUploading: false
         },
         finalProject: {
-        title: "",
-        guidelines: ""
+          title: "",
+          guidelines: ""
+        }
       }
-      }
-      
     };
   },
   created() {
     this.$store.dispatch("categories/getCategories");
     this.addLessson(2);
-    window.addEventListener('keyup', this.closeClassModal)
+    window.addEventListener("keyup", this.closeClassModal);
   },
   watch: {
     newClass: {
       handler(val) {
-        const lessIndex = this.currentLessonIndex();
-        if (lessIndex > -1) {
-          this.lessonIndex = lessIndex;
+        const lastIndex = this.currentLessonIndex();
+        // set trailer image to class image
+        this.newClass.img = this.newClass.trailer.img;
+        if (lastIndex > -1) {
+          this.lessonIndex = lastIndex;
         }
         if (this.newClass.lessons[this.lessonIndex].hasAssignment) {
           this.newClass.lessons[this.lessonIndex][
             "teacherAssignment"
           ] = JSON.parse(JSON.stringify(teacherAssignment));
         } else {
-          delete this.newClass.lessons[this.lessonIndex]["teacherAssignment"];
+          let lesson = this.newClass.lessons[this.lessonIndex];
+          delete lesson.teacherAssignment;
         }
         const lastLessonIndex = this.newClass.lessons.length - 1;
         const lastLesson = this.newClass.lessons[lastLessonIndex];
-        
-        if(lastLesson.title && lastLesson.description){
-          this.newClass.lessons[lastLessonIndex].completed = true;
-        } else {
-          this.newClass.lessons[lastLessonIndex].completed = false;
-        }
+
+        // if (lastLesson.title && lastLesson.description) {
+        //   this.newClass.lessons[lastLessonIndex].completed = true;
+        // } else {
+        //   this.newClass.lessons[lastLessonIndex].completed = false;
+        // }
       },
       deep: true
     }
@@ -286,34 +308,83 @@ export default {
         this.newClass.lessons.push(JSON.parse(JSON.stringify(newLesson)));
       }
     },
-    changeTab(tab) {
-      if (tab === "1") {
+    changeTab(tab, checkForm) {
+      if (!checkForm) {
         this.selectedTab = tab;
       }
-      if (tab === "2" && this.isClassInfoReady) {
+      if (tab === "2" && this.isClassInfoReady && checkForm) {
         this.selectedTab = tab;
       }
-      if (tab === "3" && this.isLessonsReady) {
-        this.selectedTab = tab;
+      if (tab === "3" && checkForm) {
+        /*  Complete last lesson  */
+        this.completeLesson(tab);
       }
-        this.selectedTab = tab;      
     },
     setDifficulty(dif) {
       this.newClass.difficulty = dif;
     },
     closeAddClass() {
-      this.$store.dispatch("classes/createClass", this.newClass);
-        this.$store.dispatch("changeCreateClass", false);      
-    },
-    closeClassModal(e){
-      if(e.keyCode === 27){
-        this.$store.dispatch("changeCreateClass", false);      
+      /*  final project submittion and call create-classs api */
+      if (this.isFinalProjectReady) {
+        this.$store.dispatch("classes/createClass", this.newClass);
+        /*  action to close create-class-form */
+
+        this.$store.dispatch("changeCreateClass", false);
       }
     },
-    completeLesson() {
+    closeClassModal(e) {
+      /*  press escape to close modal */
+
+      if (e.keyCode === 27) {
+        if (confirm("Are you sure to exit create class!")) {
+          this.$store.dispatch("changeCreateClass", false);
+        }
+      }
+    },
+    completeLesson(lastTab) {
+      /*  video upload form data */
       const refData = this.currentLesson();
-      if (refData.title && refData.description) {
-        refData.completed = true;
+      this.isUploading = true;
+      if (
+        refData.title &&
+        refData.description &&
+        refData.toUpload.video &&
+        refData.toUpload.thumbnail
+      ) {
+        let formData = new FormData();
+        formData.append("thumbnail", refData.toUpload.thumbnail);
+        formData.append("video", refData.toUpload.video);
+
+        /*testing pupose */
+        // refData.media = '5bef63cf6c632510682052a6';
+        // refData.img = '5bef63cf6c632510682052a7';
+        // refData.completed = true;
+        // this.isUploading = false;
+        // this.isVideoSelected = false;
+        // refData.isUploading = false;
+        // if (lastTab) {
+        //   this.selectedTab = lastTab;
+        // }
+
+        this.$store
+          .dispatch("classes/uploadFile", formData)
+          .then(response => {
+            refData.media = response.data.video._id;
+            refData.img = response.data.thumbnail._id;
+            refData.completed = true;
+            this.isUploading = false;
+            this.isVideoSelected = false;
+            refData.isUploading = false;
+            if (document.getElementById("attachFiles")) {
+              document.getElementById("attachFiles").value = "";
+            }
+            if (lastTab) {
+              this.selectedTab = lastTab;
+            }
+          })
+          .catch(err => {
+            console.error("FAILURE!!", err);
+          });
       }
     },
     currentLesson() {

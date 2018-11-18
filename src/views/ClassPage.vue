@@ -17,7 +17,7 @@
           </div>
         </div>
 
-      <div class="trailer">
+      <div class="trailer" :style="background">
         <div class="div-block-5">
           <h1 class="heading-8 overlay">Advanced</h1>
         </div>
@@ -27,8 +27,10 @@
       </div>
       <div class="card">
 
-
-
+<!-- <video  height="200" controls width="200" >
+   <source src="http://localhost:3000/api/media/5bef63cf6c632510682052a6" type="video/mp4">
+</video> -->
+<!-- <img height="200" width="200" src="http://localhost:3000/api/media/5bef63cf6c632510682052a7" /> -->
 <div class="_120px-wrapper">
             <div class="classpage-title">
               <h1 class="heading-2">Class Info</h1>
@@ -37,13 +39,16 @@
               <h2 class="heading-7">24,786 Students Enrolled  |  10 Lessons 1:03:44</h2>
             </div>
             <h2 class="heading-11">24,786 Students Enrolled<br>10 Lessons 1:03:44</h2>
-            <div class="_20px-bottom-margin">
+            <!-- <div class="_20px-bottom-margin">
               <p class="paragraph"><strong>About This Class<br></strong>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique. Duis cursus, mi quis viverra ornare, eros dolor interdum nulla, ut commodo diam libero vitae erat. Aenean faucibus nibh et justo cursus id rutrum lorem imperdiet. Nunc ut sem vitae risus tristique posuere.</p>
-            </div>
-            <div class="_20px-bottom-margin"><img src="../assets/fortune.jpg" alt="" class="image"></div>
+            </div> -->
+            <!-- <div class="_20px-bottom-margin">
+              <img :src="currentClass.img" alt="" class="image"></div>
             <div class="_10px-botttom-margin"></div>
             <div class="_30px-bottom-margin">
               <p class="paragraph"><strong>What You Will Learn<br></strong>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique. Duis cursus, mi quis viverra ornare, eros dolor interdum nulla, ut commodo diam libero vitae erat. Aenean faucibus nibh et justo cursus id rutrum lorem imperdiet. Nunc ut sem vitae risus tristique posuere.</p>
+            </div> -->
+            <div class="_30px-bottom-margin" v-html="currentClass.aboutClass">
             </div>
             <div class="_30px-bottom-margin">
               <h1 class="heading-40">Topics Covered</h1>
@@ -76,10 +81,10 @@
               <h1 class="heading-2">Syllabus</h1>
             </div>
           </div>
-          <div class="lesson-wrapper" v-for="lesson in lessons" :key="lesson.num">
-            <LessonBlock :lesson="lesson" :key="lesson.num"/>
+          <div class="lesson-wrapper" v-for="lesson in currentClass.lessons" :key="lesson.lessonNumber">
+            <LessonBlock :lesson="lesson" :key="lesson.lessonNumber"/>
             <transition name="fade" mode="out-in" :duration="{ enter: 500, leave: 250 }">
-              <LessonDetail v-if="lesson.expanded" />
+              <LessonDetail :lesson="lesson" v-if="lesson.expanded" />
             </transition>
           </div>
         </div>
@@ -121,7 +126,7 @@ import LessonDetail from "@/components/Class/LessonDetail.vue";
 
 export default {
   name: "ClassPage",
-  props:['id'],
+  props: ["id"],
   components: {
     Play,
     LeftArrow,
@@ -132,9 +137,10 @@ export default {
     InstructorInfo,
     LessonDetail
   },
-  created(){
+  created() {
     this.$store.dispatch("classes/getClass", this.id);
-
+    this.$cookies.set('accessToken',
+    JSON.parse(localStorage.getItem('user')).accessToken, 60 * 60);
   },
   data() {
     return {
@@ -163,7 +169,10 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({currentClass:'classes/currentClass'})
+     background() {
+      return { "background-image": `url(${this.currentClass.img})` };
+    },
+    ...mapGetters({ currentClass: "classes/currentClass" })
   }
 };
 </script>

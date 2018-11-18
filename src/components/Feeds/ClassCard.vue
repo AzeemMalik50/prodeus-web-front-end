@@ -6,7 +6,7 @@
         <star-rating :inline="true" :star-size="16" :read-only="true" v-model="rating" :show-rating="false" :star-points="[23,2, 14,17, 0,19, 10,34, 7,50, 23,43, 38,50, 36,34, 46,19, 31,17]" :rating="5" inactive-color="#dbdbdb" active-color="#8446E8"></star-rating>
       </div>
     </div>
-    <div class="class-image" @click="goClass()"></div>
+    <div class="class-image" @click="goClass()" :style="background"></div>
     <div class="_20px-pad-wrapper">
       <div class="profile-picture post"></div>
       <div class="_20px-margin">
@@ -32,13 +32,30 @@ export default {
     StarRating
   },
   data() {
-    return {rating: 4,
-        enrolled: false
+    return {
+      rating: 4,
+      enrolled: false,
+      backImage: ""
     };
+  },
+  created() {
+    this.$store.dispatch("classes/getMedia", this.feedClass.img).then(
+      response => {
+        this.backImage = response.data;
+      },
+      err => {
+        console.error(err);
+      }
+    );
   },
   methods: {
     goClass() {
       this.$router.push({ path: `/class-page/${this.feedClass._id}` });
+    }
+  },
+  computed: {
+    background() {
+      return { "background-image": `url(${this.backImage})` };
     }
   }
 };
