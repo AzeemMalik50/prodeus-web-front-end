@@ -2,7 +2,11 @@
   <div class="home">
     <Header/>
     <div class="page-section">
+      <transition
+        name="fade"
+        mode="out-in">
       <router-view></router-view>
+      </transition>
     </div>
   </div>
 </template>
@@ -10,7 +14,6 @@
 <script>
 // @ is an alias to /src
 import Header from '@/components/Header.vue';
-
 export default {
   name: 'home',
   components: {
@@ -18,3 +21,16 @@ export default {
   }
 };
 </script>
+<style lang="css">
+.fade-enter-active,
+.fade-leave-active {
+  transition-duration: 0.3s;
+  transition-property: opacity;
+  transition-timing-function: ease;
+}
+
+.fade-enter,
+.fade-leave-active {
+  opacity: 0
+}
+</style>

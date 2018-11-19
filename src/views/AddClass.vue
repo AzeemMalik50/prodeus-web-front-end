@@ -183,7 +183,7 @@ import FileUpload from "../components/CreateClasss/FileUpload";
 import LessonForm from "../components/CreateClasss/LessonForm";
 const { mapState, mapActions } = createNamespacedHelpers("categories");
 import Loading from "vue-loading-overlay";
-import "vue-loading-overlay/dist/vue-loading.css";
+// import "vue-loading-overlay/dist/vue-loading.css";
 const teacherAssignment = {
   guidelines: "",
   media: [],

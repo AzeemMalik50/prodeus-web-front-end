@@ -7,8 +7,7 @@ import ClassDashBoard from '@/views/ClassDashBoard.vue';
 import CreatePost from '@/views/CreatePost.vue';
 import Login from '@/views/Login.vue';
 import SignUp from '@/views/SignUp.vue';
-
-
+import store from './store'
 Vue.use(Router)
 
  const router = new Router({
@@ -21,7 +20,11 @@ Vue.use(Router)
       component: Home,
       children: [
         { path: '', component: Feeds },
-        { path: 'class-page/:id', name: 'classPage', component: ClassPage, props: true },
+        { path: 'class-page/:id', name: 'classPage', component: ClassPage, props: true , 
+        beforeEnter(to, from, next){
+          store.dispatch("classes/getClass", to.params.id);
+          next();
+        }},
         { path: 'class-dashboard', name: 'classDashboard',component: ClassDashBoard }
       ]
     },
@@ -49,7 +52,14 @@ Vue.use(Router)
       name: 'about',
       component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
     }
-  ]
+  ],
+  scrollBehavior (to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition
+    } else {
+      return { x: 0, y: 0 }
+    }
+  }
 })
 router.beforeEach((to, from, next) => {
   // redirect to login page if not logged in and trying to access a restricted page
@@ -63,5 +73,6 @@ router.beforeEach((to, from, next) => {
     return next('/login');
   }
   next();
-})
+});
+
 export default router;

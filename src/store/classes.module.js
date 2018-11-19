@@ -24,11 +24,14 @@ export const classes = {
         .then(response => {
           authService.getMedia(`/images/${response.data.img}`)
             .then(res => {
+              response.data.totalDuration = 0;
               response.data.img = res.data;
               response.data.lessons = response.data.lessons.map(lesson => {
+                response.data.totalDuration += lesson.secondsDuration;
                 lesson.expanded = false;
                 return lesson
-              })
+              });
+              response.data.totalDuration = Math.round(response.data.totalDuration);
               commit('setCurrentClass', response.data);
             });
         },
