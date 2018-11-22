@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 31 29.646">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #8446e8;
+      }
+
+      .cls-2 {
+        fill: #fff;
+        font-size: 12px;
+        font-family: RobotoSlab-Regular, Roboto Slab;
+      }
+    </style>
+  </defs>
+  <g id="Group_4408" data-name="Group 4408" transform="translate(-1401.001 -1035)">
+    <path id="star" class="cls-1" d="M17,1.977l3.5,7.085a1.669,1.669,0,0,0,1.257.913l7.819,1.136a1.669,1.669,0,0,1,.925,2.847l-5.657,5.515a1.669,1.669,0,0,0-.48,1.478l1.335,7.787A1.67,1.67,0,0,1,23.27,30.5l-6.993-3.676a1.671,1.671,0,0,0-1.554,0L7.731,30.5a1.67,1.67,0,0,1-2.422-1.76l1.335-7.787a1.669,1.669,0,0,0-.48-1.478L.507,13.958a1.669,1.669,0,0,1,.925-2.847L9.25,9.975a1.669,1.669,0,0,0,1.257-.913L14,1.977A1.669,1.669,0,0,1,17,1.977Z" transform="translate(1401 1033.953)"/>
+    <text id="I" class="cls-2" transform="translate(1414.835 1055)"><tspan x="0" y="0">I</tspan></text>
+  </g>
+</svg>
