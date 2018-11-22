@@ -18,15 +18,15 @@
         <div class="div-block-94">
           <div class="_40px-pad-wrap stretch">
             <div class="_40px-bottom-margin center">
-                <wordmark class="wordmark" />
+                <img src="../assets/facebook_1.svg" class="wordmark" />
                 </div>
             <div class="form-block-5 w-form">
               <form @submit.prevent="handleSubmit" id="email-form" name="email-form" data-name="Email Form" class="form-4">
-            <Name class="pwd-icon name"  />
+            <img src="../assets/name.svg" class="pwd-icon name"  />
               <input type="text" v-model="fullName" class="text-field-3 w-input" maxlength="256" name="name" data-name="Name" placeholder="Full name" id="name">
-               <Email class="pwd-icon email" />
+               <img src="../assets/email.svg" class="pwd-icon email" />
                 <input type="email" v-model="email" class="text-field-3 w-input" maxlength="256" name="email" data-name="Email" placeholder="Email" id="email" required="">
-               <Password class="pwd-icon" />
+               <img src="../assets/password.svg" class="pwd-icon" />
                 <input type="password" v-model="password" class="text-field-3 w-input" maxlength="256" name="password" data-name="password" placeholder="Password" id="password" required="">
                 <input type="submit" :disabled="submitted || !email || !password" value="Sign up" data-wait="Please wait..." class="submit-button-4 w-button">
                 </form>
@@ -46,12 +46,12 @@
             </div>
             <div class="_20px-bottom-margin">
               <div class="flex-space-between">
-                <div class="social-sign-in facebook">
-                    <facebook class="fb-icon image-20" />
+                <div class="social-sign-in facebook" @click="auth('facebook')">
+                    <img src="../assets/facebook_1.svg" class="fb-icon image-20" />
                   <div class="text-block-10">Sign up with Facebook</div>
                 </div>
-                <div class="social-sign-in">
-                    <google class="google-icon image-21" />
+                <div class="social-sign-in" @click="auth('google')">
+                    <img src="../assets/google.svg" class="google-icon image-21" />
                   <div>Sign up with Google</div>
                 </div>
               </div>
@@ -73,23 +73,8 @@
 </template>
 
 <script>
-import google from "../assets/google.svg";
-import facebook from "../assets/facebook_1.svg";
-import wordmark from "../assets/wordmark.svg";
-import Password from "../assets/password.svg";
-import Name from "../assets/name.svg";
-import Email from "../assets/email.svg";''
-
 
 export default {
-  components: {
-    google,
-    facebook,
-    wordmark,
-    Password,
-    Name,
-    Email
-  },
   data() {
     return {
       email: "",
@@ -126,6 +111,26 @@ export default {
           }
         );
       }
+    },
+        auth(network) {
+      const { dispatch } = this.$store;
+
+      const hello = this.hello;
+      hello(network)
+        .login()
+        .then(() => {
+          const authRes = hello(network).getAuthResponse();
+          dispatch("authentication/facebookAuth", authRes.access_token);
+          /*
+          performs operations using the token from authRes
+        */
+          // hello(network).api('me').then(function (json) {
+          //   const profile = json;
+          //   /*
+          //     performs operations using the user info from profile
+          //   */
+          // });
+        });
     }
   }
 };
@@ -183,11 +188,10 @@ export default {
 .pwd-icon {
   height: 18px;
   position: relative;
-  top: 40px;
+  top: 34px;
   padding-left: 20px;
   &.email {
     height: 12px;
-    top: 36px;
   }
 }
 .text-field-3 {

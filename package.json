@@ -8,9 +8,11 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "hellojs": "^1.17.1",
     "moment-timezone": "^0.5.23",
     "vue": "^2.5.17",
     "vue-cookies": "^1.5.7",
+    "vue-hellojs": "0.0.4",
     "vue-loading-overlay": "^3.1.0",
     "vue-moment": "^4.0.0",
     "vue-quill-editor": "^3.0.6",

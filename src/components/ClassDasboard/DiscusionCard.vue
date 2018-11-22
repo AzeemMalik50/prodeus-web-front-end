@@ -33,7 +33,7 @@
             <transition name="fade" mode="out-in" :duration="{ enter: 500, leave: 250 }">          
           <div v-if="hideReply" class="left-align">
             <div class="_16-px-right-margin" @click="showReply()">
-              <Replies class="reply" />
+              <img src="@/assets/replies.svg" class="reply" />
             </div>
             <div class="message-profile-wrap cursor-pointer" @click="showReply()">
               <div class="div-block-32"></div>

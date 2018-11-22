@@ -20,9 +20,9 @@
               <p class="paragraph-5">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique. Duis cursus, mi quis viverra ornare, eros dolor interdum nulla, ut commodo diam libero vitae erat.</p>
             </div>
             <div class="div-block-77">
-              <UpVote />
+              <img src="@/assets/upvote.svg" />
               <h1 class="heading-30">112</h1>
-              <DownVote />
+              <img src="@/assets/downvote.svg" />
             </div>
           </div>
         </div>
@@ -31,14 +31,9 @@
 </template>
 
 <script>
-import UpVote from "@/assets/upvote.svg";
-import DownVote from "@/assets/downvote.svg";
+
 
 export default {
-  components: {
-    UpVote,
-    DownVote
-  }
 };
 </script>
 

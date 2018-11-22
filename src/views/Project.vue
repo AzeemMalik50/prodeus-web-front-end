@@ -99,27 +99,27 @@
         </div>
         <div class="flex-space-around">
           <div class="left-align">
-            <Group1 class="group1" />
+            <img src="../assets/Group-5403.svg" class="group1" />
             <div class="text-block-7">4.2k</div>
           </div>
           <div class="left-align">
-            <Group2 class="group2" />
+            <img src="../assets/Group-5401.svg" class="group2" />
             <div class="text-block-7">4.2k</div>
           </div>
           <div class="left-align">
-            <Group3 class="group3" />
+            <img src="../assets/Group-5402.svg" class="group3" />
             <div class="text-block-7">4.2k</div>
           </div>
           <div class="left-align">
-            <Group4 class="group4" />
+            <img src="../assets/Group-5400.svg" class="group4" />
             <div class="text-block-7">4.2k</div>
           </div>
         </div>
         <div class="social-share-wrap">
-          <Facebook class="fb" />
-          <Tweet class="twt" />
-          <dribbble class="drb" />
-          <Link class="lnk" />
+          <img src="../assets/facebook.svg" class="fb" />
+          <img src="../assets/tweet.svg" class="twt" />
+          <img src="../assets/Dribbble.svg" class="drb" />
+          <img src="../assets/Link.svg" class="lnk" />
         </div>
       </div>
     </div>
@@ -128,16 +128,7 @@
 
 <script>
 
-  import Facebook from "../assets/facebook.svg";
-  import Tweet from "../assets/tweet.svg";
-  import Dribbble from "../assets/Dribbble.svg";
-  import Link from "../assets/Link.svg";
-  import Group1 from "../assets/Group-5403.svg";
-  import Group2 from "../assets/Group-5401.svg";
-  import Group3 from "../assets/Group-5402.svg";
-  import Group4 from "../assets/Group-5400.svg";
-  import ShareBotton from "../assets/share-button.svg";
-  import LeftArrow from "../assets/left-arrow.svg";
+
   
   import Reply from "@/components/ClassDasboard/Reply.vue";
   import CommentInput from "@/components/ClassDasboard/CommentInput.vue";
@@ -145,16 +136,6 @@
   
   export default {
     components: {
-      Facebook,
-      Tweet,
-      Dribbble,
-      Link,
-      Group1,
-      Group2,
-      Group3,
-      Group4,
-      LeftArrow,
-      ShareBotton,
       Reply,
       CommentInput,
       DiscusionCard

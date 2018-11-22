@@ -7,7 +7,7 @@
                         <h2 class="heading-6">Assignment 1</h2>
                     </div>
                     <div>
-                        <InstructorReviewed v-if="status == 'approved'" class="reviwed-svg"/>
+                        <img src="@/assets/instructor-reviewed.svg" v-if="status == 'approved'" class="reviwed-svg"/>
                         <h1 v-else class="tag" :class="{'in-review': status == 'In Review'}">{{status}}</h1>
                     </div>
                 </div>
@@ -20,13 +20,9 @@
 </template>
 
 <script>
-import InstructorReviewed from "@/assets/instructor-reviewed.svg";
 export default {
   name: "AssignmentCard",
-  props: ["status"],
-  components: {
-    InstructorReviewed
-  }
+  props: ["status"]
 };
 </script>
 

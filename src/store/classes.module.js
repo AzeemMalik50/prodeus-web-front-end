@@ -44,12 +44,18 @@ export const classes = {
           error => commit('failure', error)
         );
     },
-    uploadFile({ commit }, payload) {
+    uploadVideo({ commit }, payload) {
       return authService.fileUpload('/uploads/video', payload);
+    },
+    uploadFiles({ commit }, payload) {
+      return authService.fileUpload('/uploads', payload);
     },
     getMedia({ commit }, mediaId) {
       return authService.getMedia(`/images/${mediaId}`);
     },
+    enrollClass({commit}, payload){
+      return authService.put(`/classes/instructor/${payload.classId}/enroll`, payload);
+    }
   },
   mutations: {
     setCurrentClass(state, cClass) {

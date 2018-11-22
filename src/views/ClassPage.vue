@@ -9,24 +9,26 @@
             </div>
             <div class="_20px-margin">
               <h2 class="heading-6 center">{{currentClass.category}}</h2>
-            </div><a href="#" class="link">Enroll</a>
+            </div>
+            <a v-if="!isEnrolled" href="#" @click.prevent="enrollClass()" class="link">Enroll</a>
+            <a v-if="isEnrolled" href="#" class="link">Enrolled</a>     
             <div class="div-block-84">
               <div class="back-wrap" @click="$router.push('/')">
-                <left-arrow  class="image-13 left-arrow" />
+                <img src="../assets/left-arrow.svg"  class="image-13 left-arrow" />
               <a href="#" class="link-3">Back</a></div>
             </div>
           </div>
         </div>
 
-      <!-- <div class="trailer" :style="background">
+      <div class="trailer">
         <div class="div-block-5">
           <h1 class="heading-8 overlay">Advanced</h1>
         </div>
         <div class="play">
-          <Play class="play-btn" />
-        </div>
-      </div> -->
   <ProdeusPlayer v-if="videoUrl" :poster="poster" :videoUrl="videoUrl" />
+        </div>
+      </div>
+      
       <div class="card">
 <div class="_120px-wrapper">
             <div class="classpage-title">
@@ -43,20 +45,12 @@
             <div class="_30px-bottom-margin">
               <h1 class="heading-40">Topics Covered</h1>
             </div>
-            <div class="flex-space-around wrap">
-              <div class="div-block-102">
-                <div class="tag-text">Illustration</div>
-                <cross  class="image-23 cross"/>
+            <div class="flex-space-around wrap flex-space-evently">
+              <div class="div-block-102" v-for="skill in currentClass.skillTags" :key="skill">
+                <div class="tag-text">{{skill}}</div>
+                <img src="../assets/x.svg" class="image-23 cross"/>
                 </div>
-              <div class="div-block-102">
-                <div class="tag-text">Photoshop</div>
-                <cross  class="image-23 cross"/></div>
-              <div class="div-block-102">
-                <div class="tag-text">Graphic Design</div>
-                <cross  class="image-23 cross"/></div>
-              <div class="div-block-102">
-                <div class="tag-text">Calligraphy</div>
-                <cross  class="image-23 cross"/></div>
+              
             </div>
           </div>
       </div>
@@ -70,7 +64,7 @@
           <div class="lesson-wrapper" v-for="lesson in currentClass.lessons" :key="lesson.lessonNumber">
             <LessonBlock :lesson="lesson" :key="lesson.lessonNumber"/>
             <transition name="fade" mode="out-in" :duration="{ enter: 500, leave: 250 }">
-              <LessonDetail :lesson="lesson" v-if="lesson.expanded" />
+              <LessonDetail :lesson="lesson" v-show="lesson.expanded" />
             </transition>
           </div>
         </div>
@@ -104,9 +98,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import Play from "@/assets/play.svg";
-import Cross from "../assets/x.svg";
-import LeftArrow from "../assets/left-arrow.svg";
+
 import ClassRatingReview from "@/components/Class/ClassRatingReview.vue";
 import StudentReview from "@/components/Class/StudentReview.vue";
 import LessonBlock from "@/components/Class/LessonBlock.vue";
@@ -119,9 +111,6 @@ export default {
   name: "ClassPage",
   props: ["id"],
   components: {
-    Play,
-    LeftArrow,
-    Cross,
     ClassRatingReview,
     StudentReview,
     LessonBlock,
@@ -129,13 +118,6 @@ export default {
     LessonDetail,
     ProdeusPlayer,
     Loading
-  },
-  created() {
-    this.$cookies.set(
-      "accessToken",
-      JSON.parse(localStorage.getItem("user")).accessToken,
-      60 * 60
-    );
   },
   data() {
     return {};
@@ -158,15 +140,40 @@ export default {
         return null;
       }
     },
+    currentUserId() {
+      return this.$store.state.authentication.user._id;
+    },
+    isEnrolled() {
+      const enrollIndex = this.currentClass.enrolledStudents.findIndex(
+        x => x === this.currentUserId
+      );
+      return enrollIndex > -1 ? true : false;
+    },
     ...mapGetters({ currentClass: "classes/currentClass" })
   },
   methods: {
     duration(totalSeconds) {
       const hours = Math.floor(totalSeconds / 3600);
-     totalSeconds %= 3600;
+      totalSeconds %= 3600;
       const minutes = Math.floor(totalSeconds / 60);
       const seconds = totalSeconds % 60;
-      return hours+':' +minutes+':'+seconds;
+      return hours + ":" + minutes + ":" + seconds;
+    },
+    enrollClass() {
+      this.$store
+        .dispatch("classes/enrollClass", {
+          classId: this.id,
+          studentId: this.currentUserId
+        })
+        .then(
+          response => {
+            console.log(response.data);
+            this.currentClass.enrolledStudents = response.data.enrolledStudents;
+          },
+          err => {
+            console.error(err);
+          }
+        );
     }
   }
 };
@@ -199,5 +206,8 @@ export default {
   .cls-2 {
     stroke: none;
   }
+}
+.flex-space-evently {
+  justify-content: space-evenly !important;
 }
 </style>

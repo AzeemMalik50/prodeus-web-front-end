@@ -5,7 +5,7 @@
         <div class="flex-space-between">
           <h1 class="heading-4">{{lessonHeading}}</h1>
          <video v-show="isVideoSelected" id="video" controls height="150" width="180" hidden />
-        <input type="file" accept="video/mp4,video/x-m4v,video/*" id="attachFiles" @change="fileSelect($event.target.name, $event.target.files);" class="input-file" hidden>            
+        <input type="file" accept="video/mp4,video/x-m4v,video/*" id="videoFile" @change="fileSelect($event.target.name, $event.target.files);" class="input-file" hidden>            
          <div class="video-upload">
           <div class="button top-padding cursor-pointer" @click="chooseFiles()">
             <h1 class="form-button"> {{lesson.toUpload.video ? lesson.toUpload.video.name.substring(0,20) :'Upload Video'}}</h1>
@@ -13,7 +13,7 @@
           <div class="image-container" v-if="lesson.toUpload.video" @click="removeSelectedFile()" >
           <img class="thumbnail"  :src="videoThumbnail"/>
            <div class="after">
-             <cross class="cross" />
+             <img src="@/assets/x.svg" class="cross" />
            </div>
           </div>
          </div>
@@ -33,33 +33,33 @@
         <div class="w-form-done">
           <div>Thank you! Your submission has been received!</div>
         </div>
-        <!-- <div class="w-form-fail">
-            <div>Oops! Something went wrong while submitting the form.</div>
-         </div> -->
+        <div class="w-form-fail" :class="{'display-block' : lesson.isError}">
+            <div>Oops! Missing required fields.</div>
+         </div>
       </div>
       <div v-if="allowAssigment">
         <div class="button secondary" @click="toggleAssignment()">
           <h1 class="form-button purple">{{lesson.hasAssignment ? 'Assignment' : 'Add Assignment'}}</h1>
         </div>
         <transition v-if="lesson.hasAssignment" name="fade" mode="out-in" :duration="{ enter: 500, leave: 250 }">
-          <div class="assignment w-form">
+          <div class="assignment w-form" v-if="lesson.teacherAssignment">
             <form id="email-form-2" name="email-form-2" data-name="Email Form 2" class="form-3 border-none">
               <div class="div-block-53">
                 <div class="text-block-3">Required</div>
                 <div class="div-block-54 cursor-pointer" :class="{'in-active': !isAssignReq}" @click="assignmentRequired()">
-                  <WhiteCheck v-if="isAssignReq" class="check" />
+                  <img src="@/assets/White-Check.svg" v-if="isAssignReq" class="check" />
                 </div>
               </div>
               <quill-editor v-model="lesson.teacherAssignment.guidelines" :options="config" ref="myQuillEditor">
               </quill-editor>
-              <FileUpload />
+              <FileUpload :attachObject="lesson.teacherAssignment" />
               <input type="submit" value="Submit" data-wait="Please wait..." class="submit-button-2 w-button"></form>
             <div class="w-form-done">
               <div>Thank you! Your submission has been received!</div>
             </div>
-            <!-- <div class="w-form-fail">
+            <div class="w-form-fail">
               <div>Oops! Something went wrong while submitting the form.</div>
-            </div> -->
+            </div>
           </div>
         </transition>
       </div>
@@ -68,17 +68,11 @@
 </template>
 
 <script>
-import WhiteCheck from "@/assets/White-Check.svg";
-import CheckLine from "@/assets/check-line.svg";
 import FileUpload from "@/components/CreateClasss/FileUpload";
-import Cross from "@/assets/x.svg";
 
 export default {
   components: {
-    FileUpload,
-    WhiteCheck,
-    CheckLine,
-    Cross
+    FileUpload
   },
   props: {
     lesson: Object,
@@ -104,11 +98,11 @@ export default {
   },
   methods: {
     chooseFiles() {
-      document.getElementById("attachFiles").click();
+      document.getElementById("videoFile").click();
     },
     removeSelectedFile() {
-      if (document.getElementById("attachFiles")) {
-        document.getElementById("attachFiles").value = "";
+      if (document.getElementById("videoFile")) {
+        document.getElementById("videoFile").value = "";
       }
       this.videoThumbnail = null;
       this.lesson.toUpload.video = null;
@@ -117,6 +111,7 @@ export default {
     },
     toggleAssignment() {
       this.lesson.hasAssignment = !this.lesson.hasAssignment;
+      this.$parent.addAssignment();
     },
     fileSelect(fieldName, fileList) {
       if (!fileList.length) return;
@@ -250,5 +245,8 @@ export default {
   .cls-2 {
     stroke: none;
   }
+}
+.display-block {
+  display: block;
 }
 </style>

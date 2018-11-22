@@ -5,82 +5,291 @@
         <div class="nav-menu left">
           <!-- <a href="#" class="brand w-nav-brand"> -->
             <router-link to="/" class="brand w-nav-brand">
-            <logo class="logo" />
+            <img src="@/assets/Logo.svg" class="logo" />
             </router-link>
           <!-- </a> -->
           <form action="/search" class="search w-form">
-            <Search class="image-4" />
+            <img src="@/assets/Search.svg" class="image-4" />
             <input type="search" class="search-input w-input" maxlength="256" name="query" placeholder="Search prodeus" id="search" required="">
             <input type="submit" value="Search" class="search-button w-button"></form>
-          <a href="#" class="w-inline-block" @click="openCreateClass()">
-            <AddPost class="add-post" />
+          <a href="#" class="w-inline-block cursor-pointer"  @click="toggelePanel('isAdd')">
+            <img src="@/assets/Add-Post.svg" class="add-post" />
           </a>
         </div>
         <nav role="navigation" class="nav-menu w-nav-menu">
           <a href="#" class="link-block w-inline-block">
-            <ClassroomInactive class="height-20" />
+            <img src="@/assets/ClassroomInactive.svg" class="height-20" />
           </a>
           <a href="#" class="link-block w-inline-block">
-            <MessagesInactive class="width-20" />
+            <img src="@/assets/MessagesInactive.svg" class="width-20" />
           </a>
-          <a href="#" class="link-block w-inline-block">
-            <NotificationsInactive class="height-20" />
+          <a  class="link-block w-inline-block cursor-pointer" cursor-pointer @click="toggelePanel('isNotify')">
+            <img src="@/assets/NotificationsInactive.svg" class="height-20" />
           </a>
-          <a href="#" class="link-block w-inline-block">
-            <Profile class="width-20" />
+          <a  class="link-block w-inline-block cursor-pointer cursor-pointer" @click="toggelePanel('isUser')">
+            <img :src="profilePic" v-if="profilePic" class="width-20" />
+            <img src="@/assets/Profile.svg" v-else class="width-20" />
           </a>
         </nav>
       </div>
     </div>
+      <div class="navmodal-wrap">
+    <div class="navmodal-container">
+      <div class="div-block-104" v-if="isNotify">
+        <div class="div-block-105">
+          <h1 class="heading-41">Notifications</h1>
+        </div>
+        <img src="../assets/Path-13444.svg" height="26" alt="" class="image-27 notified">
+        <div class="div-block-106">
+          <div class="div-block-111">
+            <h1 class="heading-6 grey">NEW</h1>
+          </div>
+          <div class="div-block-107 unread">
+            <div class="flex-space-between">
+              <div class="div-block-109">
+                <div class="profile-picture _38px"></div>
+              </div>
+              <div class="div-block-108">
+                <div class="text-block-13"><strong>Paul Walker</strong> liked your post <strong class="bold-text">A Brief History of Typography and ...</strong></div>
+                <div class="horiz-left-align-justify-atart">
+                  <img src="../assets/like.svg" height="12" alt="" class="image-25">
+                  <h6 class="_10-side-margins">24h</h6>
+                </div>
+              </div>
+              <div class="div-block-110">
+                <img src="../assets/fortune.jpg" alt=""></div>
+            </div>
+          </div>
+          <div class="div-block-107 unread">
+            <div class="flex-space-between">
+              <div class="div-block-109">
+                <div class="profile-picture _38px"></div>
+              </div>
+              <div class="div-block-108">
+                <div class="text-block-13"><strong>Paul Walker</strong> commented on your Question &quot;What artistic period did Monet paint his masterpiece...&quot;</div>
+                <div class="horiz-left-align-justify-atart">
+                  <img src="../assets/Group-4427.svg" height="12" alt="" class="image-25">
+                  <h6 class="_10-side-margins">24h</h6>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="div-block-107 unread">
+            <div class="flex-space-between">
+              <div class="div-block-109">
+                <div class="profile-picture _38px"></div>
+              </div>
+              <div class="div-block-108">
+                <div class="text-block-13"><strong>Paul Walker</strong> enrolled in your class <strong class="bold-text">A Brief History of Typography and ...</strong></div>
+                <div class="horiz-left-align-justify-atart">
+                  <img src="../assets/student.svg" height="12" alt="" class="image-25">
+                  <h6 class="_10-side-margins">24h</h6>
+                </div>
+              </div>
+              <div class="div-block-110">
+                <img src="../assets/IMG_0479.png" srcset="images/IMG_0479-p-500.png 500w, images/IMG_0479-p-800.png 800w, images/IMG_0479.png 960w" sizes="56px" alt="" class="image-26"></div>
+            </div>
+          </div>
+          <div class="div-block-111">
+            <h1 class="heading-6 grey">EARLIER</h1>
+          </div>
+          <div class="div-block-107">
+            <div class="flex-space-between">
+              <div class="div-block-109">
+                <div class="profile-picture _38px"></div>
+              </div>
+              <div class="div-block-108">
+                <div><strong>Paul Walker</strong> liked your post <strong class="text-block-13">A Brief History of Typography and ...</strong></div>
+                <div class="horiz-left-align-justify-atart">
+                  <img src="../assets/like.svg" height="12" alt="" class="image-25">
+                  <h6 class="_10-side-margins">24h</h6>
+                </div>
+              </div>
+              <div class="div-block-110">
+                <img src="../assets/fortune.jpg" alt=""></div>
+            </div>
+          </div>
+          <div class="div-block-107">
+            <div class="flex-space-between">
+              <div class="div-block-109">
+                <div class="profile-picture _38px"></div>
+              </div>
+              <div class="div-block-108">
+                <div class="text-block-13"><strong>Paul Walker</strong> liked your post <strong class="bold-text">A Brief History of Typography and ...</strong></div>
+                <div class="horiz-left-align-justify-atart">
+                  <img src="../assets/like.svg" height="12" alt="" class="image-25">
+                  <h6 class="_10-side-margins">24h</h6>
+                </div>
+              </div>
+              <div class="div-block-110">
+                <img src="../assets/fortune.jpg" alt=""></div>
+            </div>
+          </div>
+          <div class="div-block-107">
+            <div class="flex-space-between">
+              <div class="div-block-109">
+                <div class="profile-picture _38px"></div>
+              </div>
+              <div class="div-block-108">
+                <div class="text-block-13"><strong>Paul Walker</strong> liked your post <strong class="bold-text">A Brief History of Typography and ...</strong></div>
+                <div class="horiz-left-align-justify-atart">
+                  <img src="../assets/like.svg" height="12" alt="" class="image-25">
+                  <h6 class="_10-side-margins">24h</h6>
+                </div>
+              </div>
+              <div class="div-block-110">
+                <img src="../assets/fortune.jpg" alt=""></div>
+            </div>
+          </div>
+          <div class="div-block-107">
+            <div class="flex-space-between">
+              <div class="div-block-109">
+                <div class="profile-picture _38px"></div>
+              </div>
+              <div class="div-block-108">
+                <div class="text-block-13"><strong>Paul Walker</strong> commented on your Question &quot;What artistic period did Monet paint his masterpiece...&quot;</div>
+                <div class="horiz-left-align-justify-atart">
+                  <img src="../assets/Group-4427.svg" height="12" alt="" class="image-25">
+                  <h6 class="_10-side-margins">24h</h6>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="div-block-104 user" v-if="isUser">
+        <div class="div-block-105">
+          <h1 class="heading-41">My Account</h1>
+        </div>
+        <img src="../assets/Path-13444.svg" height="26" alt="" class="image-27">
+        <div class="div-block-106">
+          <div class="div-block-112">
+            <div class="horiz-left-align-justify-atart">
+              <img src="../assets/Profile.svg" width="20" alt="" class="image-28"></div><a href="#" class="link-5">View my profile</a></div>
+          <div class="div-block-112">
+            <div class="horiz-left-align-justify-atart">
+              <img src="../assets/settings-work-tool-grey.svg" width="20" alt="" class="image-28"></div><a href="#" class="link-5">Account Settings</a></div>
+          <div class="div-block-112" @click="logOut()">
+            <div class="horiz-left-align-justify-atart">
+              <img src="../assets/logout.svg" width="20" alt="" class="image-28">
+              </div><a href="#" class="link-5">Log Out</a></div>
+        </div>
+      </div>
+      <div class="div-block-104 add" v-if="isAdd">
+        <div class="div-block-114">
+          <div class="_10px-botttom-margin cursor-pointer">
+            <div class="div-block-113 project" @click="openPostForm('project')">
+              <img src="../assets/add-white.svg" height="20" alt="" class="image-29">
+              <div class="text-block-14">Add a project</div>
+            </div>
+          </div>
+          <div class="_10px-botttom-margin cursor-pointer">
+            <div class="div-block-113 question" @click="openPostForm('question')">
+              <img src="../assets/add-white.svg" height="20" alt="" class="image-29">
+              <div class="text-block-14">Ask a question</div>
+            </div>
+          </div>
+          <div class="_10px-botttom-margin"></div>
+          <div class="div-block-113 class cursor-pointer" @click="openCreateClass()">
+            <img src="../assets/add-white.svg" height="20" alt="" class="image-29">
+            <div class="text-block-14">Create a class</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
     <div data-collapse="none" data-animation="default" data-duration="400" class="navbar-bottom w-nav">
       <nav role="navigation" class="nav-menu bottom w-nav-menu">
         <a href="#" class="link-block w-inline-block">
-          <ClassroomInactive class="height-24" />
+          <img src="@/assets/ClassroomInactive.svg" class="height-24" />
         </a>
         <a href="#" class="link-block w-inline-block">
-          <MessagesInactive class="width-24" />
+          <img src="@/assets/MessagesInactive.svg" class="width-24" />
         </a>
         <a href="#" class="link-block w-inline-block">
-          <NotificationsInactive class="height-24" />
+          <img src="@/assets/NotificationsInactive.svg" class="height-24" />
         </a>
         <a href="#" class="link-block w-inline-block">
-          <Profile class="width-24" />
+          <img src="@/assets/Profile.svg" class="width-24" />
         </a>
       </nav>
     </div>
     <AddClass v-if="showCreateClass" />
+    <create-post v-if="showPostForm" :type="postType" />
+    
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
-import Logo from "@/assets/Logo.svg";
-import Search from "@/assets/Search.svg";
-import AddPost from "@/assets/Add-Post.svg";
-import ClassroomInactive from "@/assets/ClassroomInactive.svg";
-import MessagesInactive from "@/assets/MessagesInactive.svg";
-import NotificationsInactive from "@/assets/NotificationsInactive.svg";
-import Profile from "@/assets/Profile.svg";
-import AddClass from '../views/AddClass';
+
+import AddClass from "../views/AddClass";
+import CreatePost from "../views/CreatePost";
 
 export default {
   components: {
-    Logo,
-    Search,
-    AddPost,
-    ClassroomInactive,
-    MessagesInactive,
-    NotificationsInactive,
-    Profile,
-    AddClass
+    AddClass,
+    CreatePost
+  },
+  data() {
+    return {
+      postType:'',
+      isAdd: false,
+      isNotify: false,
+      isUser: false
+    };
+  },
+  created() {
+    this.$cookies.set(
+      "accessToken",
+      JSON.parse(localStorage.getItem("user")).accessToken,
+      "1m"
+    );
   },
   methods: {
-openCreateClass(){
-  this.$store.dispatch('changeCreateClass', true);
-}
+    toggelePanel(name) {
+      this[name] = !this[name];
+      if (name == "isAdd") {
+        this.isNotify = false;
+        this.isUser = false;
+      }
+      if (name == "isNotify") {
+        this.isAdd = false;
+        this.isUser = false;
+      }
+      if (name == "isUser") {
+        this.isAdd = false;
+        this.isNotify = false;
+      }
+    },
+    openCreateClass() {
+      this.isAdd = false;
+      this.$store.dispatch("changeCreateClass", true);
+    },
+    openPostForm(type) {
+      this.isAdd = false;
+      this.postType = type;
+      this.$store.dispatch("toggelPostForm", true);
+    },
+    logOut() {
+      this.$store.dispatch("authentication/logout");
+      this.$cookies.remove("accessToken");
+    }
   },
   computed: {
-    ...mapGetters(["showCreateClass"])
+    profilePic() {
+      let storeUser = JSON.parse(localStorage.getItem("user"));
+      if (storeUser.img) {
+        return process.env.VUE_APP_API_BASE_URL + "/media/" + storeUser.img.id;
+      } else if (storeUser.facebook && storeUser.facebook.img) {
+        return storeUser.facebook.img;
+      } else if (storeUser.google && storeUser.google.img) {
+        return storeUser.google.img;
+      } else {
+        return null;
+      }
+    },
+    ...mapGetters(["showCreateClass", "showPostForm"])
   }
 };
 </script>
@@ -150,5 +359,4 @@ svg {
     fill: #bcbcbc;
   }
 }
-
 </style>

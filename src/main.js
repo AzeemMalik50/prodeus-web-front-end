@@ -4,6 +4,9 @@ import VueCookies from 'vue-cookies'
 import VueVideoPlayer from 'vue-video-player'
 import VueMoment from 'vue-moment';
 import moment from 'moment-timezone';
+
+const HelloJs = require('hellojs/dist/hello.all.min.js');
+const VueHello = require('vue-hellojs');
 // require videojs style
 import 'video.js/dist/video-js.css'
 //loaing component
@@ -15,6 +18,8 @@ import store from './store'
 import './styles/normalize.css';
 import './styles/webflow.css';
 import './styles/ongoing.css';
+import './styles/styles.scss';
+
 import axios from 'axios';
 
 axios.defaults.baseURL = process.env.VUE_APP_API_BASE_URL;
@@ -30,6 +35,13 @@ Vue.use(VueMoment, {
   moment,
 });
 
+HelloJs.init({
+  google: process.env.VUE_APP_GOOGLE_APP_CLIENT_ID,
+  facebook: process.env.VUE_APP_FACEBOOK_APP_CLIENT_ID
+}, {
+  redirect_uri: 'authcallback/'
+});
+Vue.use(VueHello, HelloJs);
 Vue.config.productionTip = false
 Vue.use(VueQuillEditor, /* { default global options } */);
 Vue.use(VueCookies);

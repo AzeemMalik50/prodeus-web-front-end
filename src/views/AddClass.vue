@@ -51,14 +51,23 @@
                     <div class="_30px-bottom-margin">
                       <select id="field-2" name="field-2" v-model="newClass.category" required="true" data-name="Field 2" class="form-text w-select">
                         <option  value="">Select a category</option>
-                        <option v-for="catg in allCategories" :key="catg.id" :value="catg.name +' ' + catg.metaCategory">
-                          {{catg.name +' ' + catg.metaCategory}}</option>
+                        <option v-for="catg in allCategories" :key="catg.id" :value="catg.name">
+                          {{catg.name}}</option>
                         </select>
                    
                         </div>
-                    <div class="_30px-bottom-margin">
-                      <input type="text" class="form-text w-input" maxlength="256" name="skills-2" data-name="Skills 2" placeholder="Topics" id="skills-2" required="">
-                      </div><input type="submit" value="Submit" data-wait="Please wait..." class="submit-button w-button">
+                    <div class="_30px-bottom-margin form-text chip-field">
+                     
+                 <div class="div-block-102 chip" v-for="(skill, index) in newClass.skillTags" :key="skill">
+                <div class="tag-text">{{skill}}</div>
+                <span @click="removeSkill(index)" class="image-23" >
+                <img src="../assets/x.svg" class="cross"/>                
+                </span>
+                </div>
+                
+                      <input type="text" @keyup.enter.prevent="addSkill();" v-model="skill" class="chip-input w-input" maxlength="256" name="skills-2" data-name="Skills 2" placeholder="Topics" id="skills-2" required="">
+                      </div>
+                      <!-- <input type="submit" value="Submit" data-wait="Please wait..." class="submit-button w-button"> -->
                     <div class="difficulty">
                       <div class="_20px-bottom-margin">
                         <h1 class="heading-18 center">Select Difficulty</h1>
@@ -99,11 +108,11 @@
                 <div class="div-block-46">
                   <div class="lesson-container">
                     <h1 class="heading-22" :class="{'complete': newClass.trailer.completed}">Trailer</h1>
-                    <CheckLine class="image-8 check" v-if="newClass.trailer.completed" />
+                    <img src="../assets/check-line.svg" class="image-8 check" v-if="newClass.trailer.completed" />
                     </div>
                   <div class="lesson-container" v-for="(lesson, index) in newClass.lessons" :key="index">
                     <h1 class="heading-22" :class="{'complete':lesson.completed}">Lesson {{index + 1}}</h1>
-                    <CheckLine class="image-8 check" v-if="lesson.completed" />                    
+                    <img src="../assets/check-line.svg" class="image-8 check" v-if="lesson.completed" />                    
                     </div>
                      <div class="lesson-container cursor-pointer" @click="addLesson();">
                     <h1 class="heading-22 add-lesson">+ Add Lesson</h1>
@@ -147,7 +156,7 @@
                       <input type="text" class="form-text w-input" v-model="newClass.finalProject.title" maxlength="256" name="Final-Title-2" data-name="Final Title 2" placeholder="Title" id="Final-Title-2" required=""></div>
                       <quill-editor v-model="newClass.finalProject.guidelines" :options="config" ref="myQuillEditor">
                       </quill-editor>
-                        <FileUpload />
+                        <FileUpload :attachObject="newClass.finalProject" />
                         <input type="submit" value="Submit" data-wait="Please wait..." class="submit-button-2 w-button"></form>
                       <div class="w-form-done">
                         <div>Thank you! Your submission has been received!</div>
@@ -170,24 +179,24 @@
       </div>
     </div>
   </div>
-   <loading :color="'#8446e8'" :active.sync="newClass.trailer.isUploading" 
+   <loading :color="'#8446e8'" :active.sync="isUploading" 
         :is-full-page="true"></loading>
   </div>
 </template>
 
 <script>
 import { mapGetters, createNamespacedHelpers } from "vuex";
-import CheckLine from "../assets/check-line.svg";
-import WhiteCheck from "../assets/White-Check.svg";
 import FileUpload from "../components/CreateClasss/FileUpload";
 import LessonForm from "../components/CreateClasss/LessonForm";
 const { mapState, mapActions } = createNamespacedHelpers("categories");
 import Loading from "vue-loading-overlay";
+import axios from "axios";
 // import "vue-loading-overlay/dist/vue-loading.css";
 const teacherAssignment = {
   guidelines: "",
+  isrequired: false,
   media: [],
-  isrequired: false
+  files: {}
 };
 const newLesson = {
   title: "",
@@ -202,13 +211,12 @@ const newLesson = {
   completed: false,
   lessonNumber: 0,
   hasAssignment: false,
-  isUploading: false
+  isUploading: false,
+  isError: false
 };
 
 export default {
   components: {
-    CheckLine,
-    WhiteCheck,
     FileUpload,
     LessonForm,
     Loading
@@ -216,15 +224,14 @@ export default {
 
   data() {
     return {
+      skill: "",
       isVideoSelected: false,
       selectedTab: "1",
-      content: "<h2>I am Example</h2>",
       hasAssignment: false,
       isUploading: false,
       True: true,
       False: false,
       difficulties: ["BEGINNER", "INTERMEDIATE", "ADVANCED"],
-      difficulty: "BEGINNER",
       isChecked: true,
       files: [],
       lessonIndex: 0,
@@ -258,11 +265,14 @@ export default {
           lessonNumber: 0,
           img: "",
           media: "",
-          isUploading: false
+          isUploading: false,
+          isError: false
         },
         finalProject: {
           title: "",
-          guidelines: ""
+          guidelines: "",
+          media: [],
+          files: {}
         }
       }
     };
@@ -281,7 +291,19 @@ export default {
         if (lastIndex > -1) {
           this.lessonIndex = lastIndex;
         }
-        if (this.newClass.lessons[this.lessonIndex].hasAssignment) {
+        let isTeachAssign = this.newClass.lessons[this.lessonIndex];
+        const lastLessonIndex = this.newClass.lessons.length - 1;
+        const lastLesson = this.newClass.lessons[lastLessonIndex];
+      },
+      deep: true
+    }
+  },
+  methods: {
+    addAssignment(){
+       if (
+          this.newClass.lessons[this.lessonIndex].hasAssignment &&
+          !this.newClass.lessons[this.lessonIndex].teacherAssignment
+        ) {
           this.newClass.lessons[this.lessonIndex][
             "teacherAssignment"
           ] = JSON.parse(JSON.stringify(teacherAssignment));
@@ -289,19 +311,16 @@ export default {
           let lesson = this.newClass.lessons[this.lessonIndex];
           delete lesson.teacherAssignment;
         }
-        const lastLessonIndex = this.newClass.lessons.length - 1;
-        const lastLesson = this.newClass.lessons[lastLessonIndex];
-
-        // if (lastLesson.title && lastLesson.description) {
-        //   this.newClass.lessons[lastLessonIndex].completed = true;
-        // } else {
-        //   this.newClass.lessons[lastLessonIndex].completed = false;
-        // }
-      },
-      deep: true
-    }
-  },
-  methods: {
+    },
+    addSkill() {
+      if (this.skill && this.newClass.skillTags.indexOf(this.skill) === -1) {
+        this.newClass.skillTags.push(this.skill);
+        this.skill = "";
+      }
+    },
+    removeSkill(index) {
+      this.newClass.skillTags.splice(index, 1);
+    },
     addLessson(count) {
       for (var i = 0; i < count; i++) {
         newLesson.lessonNumber = i + 1;
@@ -343,21 +362,24 @@ export default {
     },
     completeLesson(lastTab) {
       /*  video upload form data */
+      if (document.getElementById("videoFile")) {
+        document.getElementById("videoFile").value = "";
+      }
       const refData = this.currentLesson();
-      this.isUploading = true;
       if (
         refData.title &&
         refData.description &&
         refData.toUpload.video &&
         refData.toUpload.thumbnail
       ) {
+        this.isUploading = true;
         let formData = new FormData();
         formData.append("thumbnail", refData.toUpload.thumbnail);
         formData.append("video", refData.toUpload.video);
 
-        /*testing pupose */
-        // refData.media = '5bef63cf6c632510682052a6';
-        // refData.img = '5bef63cf6c632510682052a7';
+        /*testing purpose */
+        // refData.media = "5bef63cf6c632510682052a6";
+        // refData.img = "5bef63cf6c632510682052a7";
         // refData.completed = true;
         // this.isUploading = false;
         // this.isVideoSelected = false;
@@ -366,11 +388,31 @@ export default {
         //   this.selectedTab = lastTab;
         // }
 
-        this.$store
-          .dispatch("classes/uploadFile", formData)
-          .then(response => {
-            refData.media = response.data.video._id;
-            refData.img = response.data.thumbnail._id;
+        /* Assignment files  */
+        let requests = [this.$store.dispatch("classes/uploadVideo", formData)];
+        if (
+          refData.teacherAssignment &&
+          refData.teacherAssignment.files &&
+          refData.teacherAssignment.files.length
+        ) {
+          let assignment = new FormData();
+          for (let i = 0; i < refData.teacherAssignment.files.length; i++) {
+            assignment.append(
+              "prodeusFiles",
+              refData.teacherAssignment.files[i]
+            );
+          }
+          requests.push(
+            this.$store.dispatch("classes/uploadFiles", assignment)
+          );
+        }
+        axios.all(requests).then(
+          axios.spread((videos, assigns) => {
+            refData.media = videos.data.video._id;
+            refData.img = videos.data.thumbnail._id;
+            if (assigns) {
+              refData.teacherAssignment.media = assigns.data;
+            }
             refData.completed = true;
             this.isUploading = false;
             this.isVideoSelected = false;
@@ -382,9 +424,9 @@ export default {
               this.selectedTab = lastTab;
             }
           })
-          .catch(err => {
-            console.error("FAILURE!!", err);
-          });
+        );
+      } else {
+        refData.isError = true;
       }
     },
     currentLesson() {
@@ -411,7 +453,8 @@ export default {
         this.newClass.title &&
         this.newClass.aboutClass &&
         this.newClass.difficulty &&
-        this.newClass.category
+        this.newClass.category &&
+        this.newClass.skillTags.length
       );
     },
     isLessonsReady() {
@@ -469,6 +512,62 @@ export default {
 .button {
   &.inactive {
     cursor: not-allowed;
+  }
+}
+.chip-field {
+  flex-wrap: wrap;
+  min-height: 50px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  height: auto;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding: 0px 10px;
+  -webkit-box-flex: 0;
+  -ms-flex: 0 auto;
+  flex: 0 auto;
+  border-style: none;
+  border-bottom-width: 1px;
+  border-bottom-color: #8446e8;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  background-color: #f4f4f5;
+  color: rgba(0, 0, 0, 0.5);
+}
+.chip {
+  margin-top: 10px;
+  margin-left: 1px;
+  position: relative;
+}
+.chip-input {
+  min-width: 60px;
+  position: relative;
+  flex: 1;
+  display: block;
+  width: 100%;
+  height: auto;
+  padding: 8px 12px;
+  margin-bottom: 0;
+  font-size: 14px;
+  line-height: 1.428571429;
+  color: #333333;
+  border: none;
+  background-color: #f4f4f5;
+}
+.cross {
+  height: 20px;
+  .cls-1,
+  .cls-3 {
+    fill: none;
+  }
+
+  .cls-1 {
+    stroke: #fff;
+  }
+
+  .cls-2 {
+    stroke: none;
   }
 }
 </style>

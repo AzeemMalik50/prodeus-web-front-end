@@ -10,11 +10,15 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     showCreateClass: false,
+    showPostForm: false,
     isProjectOpen: false
   },
   mutations: {
     changeCreateClass: (state, payload) => {
       state.showCreateClass = payload;
+    },
+    toggelPostForm: (state, payload) => {
+      state.showPostForm = payload;
     },
     updateProjectDialog: (state, payload) => {
       state.isProjectOpen = payload;
@@ -23,22 +27,28 @@ export default new Vuex.Store({
   actions: {
     changeCreateClass: async ({
       commit
-    },payload) => {
+    }, payload) => {
       commit('changeCreateClass', payload);
+    },
+    toggelPostForm: async ({
+      commit
+    }, payload) => {
+      commit('toggelPostForm', payload);
     },
     updateProjectDialog: async ({
       commit
-    },payload) => {
+    }, payload) => {
       commit('updateProjectDialog', payload);
     }
   },
   getters: {
     showCreateClass: state => state.showCreateClass,
+    showPostForm: state => state.showPostForm,
     isProjectOpen: state => state.isProjectOpen,
   },
   modules: {
     authentication,
     categories,
     classes
-}
+  }
 })

@@ -24,10 +24,10 @@
             <h1 class="heading-37">ADD CONTENT</h1>
           </div>
           <div class="_40px-bottom-margin">
-             <Group1 class="group-icon image-16" />
-             <Group2 class="group-icon image-17" />
-             <Group3 class="group-icon image-18" />
-             <Group4 class="group-icon image-19" />
+             <img src="../assets/Group-5511.svg" class="group-icon image-16" />
+             <img src="../assets/Group-5508.svg" class="group-icon image-17" />
+             <img src="../assets/Group-5514.svg" class="group-icon image-18" />
+             <img src="../assets/Group-5517.svg" class="group-icon image-19" />
           </div>
           <div class="div-block-92"><a class="link outline" :class="getClass">Choose Category</a><a class="link grey">Submit</a></div>
         </div>
@@ -36,22 +36,12 @@
   </div>
 </template>
 <script>
-import Group1 from '../assets/Group-5511.svg';
-import Group2 from '../assets/Group-5508.svg';
-import Group3 from '../assets/Group-5514.svg';
-import Group4 from '../assets/Group-5517.svg';
-
 export default {
-    components: {
-        Group1,
-        Group2,
-        Group3,
-        Group4        
-    },
-    data() {
-        return {
-            content:"",
-             config: {
+  props: ["type"],
+  data() {
+    return {
+      content: "",
+      config: {
         modules: {
           toolbar: [
             ["bold", "italic", "underline", "link"],
@@ -60,28 +50,38 @@ export default {
           ]
         }
       }
-        }
-    },
-    created(){
-      console.log(this.$router.history.current.name)
-    },
-    computed: {
-      getClass(){
-        const cRoute = this.$router.history.current.name;
-        if(cRoute === 'project') {
-          return {'project': true}
-        }else {
-          return {'question': true}
+    };
+  },
+  created() {
+    console.log(this.$router.history.current.name);
+    window.addEventListener("keyup", this.closePostModal);
+  },
+  methods: {
+    closePostModal(e) {
+      /*  press escape to close modal */
+      if (e.keyCode === 27) {
+        if (confirm("Are you sure to close!")) {
+          this.$store.dispatch("toggelPostForm", false);
         }
       }
     }
-}
+  },
+  computed: {
+    getClass() {
+      if (this.type === "project") {
+        return { project: true };
+      } else {
+        return { question: true };
+      }
+    }
+  }
+};
 </script>
 <style lang="scss" scoped>
-.group-icon  {
-    height: 40px;;
+.group-icon {
+  height: 40px;
 }
 .quill-editor {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 </style>

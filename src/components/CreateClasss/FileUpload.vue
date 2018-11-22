@@ -1,52 +1,62 @@
 <template>
     <div class="_50px-block border files">
-        <input type="file" multiple id="attachFiles" @change="filesChange($event.target.name, $event.target.files);" class="input-file" hidden>
+        <input type="file" multiple id="assignmentFiles"
+        accept="application/zip,application/x-zip,application/x-zip-compressed,"
+        @change="filesChange($event.target.name, $event.target.files);" hidden>
         <div class="text-block-4 assignment" @click="chooseFiles()">
             Attach Files</div>
-        <div class="attached-item" v-for="(file,index) in files" :key="file.name">
-            <Attachment class="attachment" />
+        <div class="attached-item" v-for="(file,index) in attachedFiles" :key="file.name">
+            <img src="../../assets/attachment.svg" class="attachment" />
             <span>{{file.name.length < 35 ? file.name : file.name.slice(0, 35)+'...'}}</span>
             <span @click="removeAttachItem(index)" class="trash">
-             <Trash class="trash"  />
+             <img src="../../assets/Trash.svg" class="trash"  />
             </span>
         </div>
     </div>
 </template>
 
 <script>
-import Attachment from "@/assets/attachment.svg";
-import Trash from "@/assets/Trash.svg";
+
 export default {
-  components: {
-    Attachment,
-    Trash
-  },
+  props: ["attachObject"],
   data() {
     return {
-      files: []
+      attachedFiles:[]
     };
   },
   methods: {
     chooseFiles: function() {
-      document.getElementById("attachFiles").click();
+      document.getElementById("assignmentFiles").click();
     },
+    toArray(fileList) {
+    return Array.prototype.slice.call(fileList);
+},
     filesChange(fieldName, fileList) {
       if (!fileList.length) return;
-      this.files = fileList;
+       fileList = this.toArray(this.attachedFiles ).concat(this.toArray(fileList));
+      this.attachedFiles = fileList;
+    this.attachObject.files = this.attachedFiles;      
     },
     removeAttachItem(index) {
-      this.files = Array.from(this.files, x => x);
-      this.files.splice(Number(index), 1);
+      this.attachedFiles = Array.from(this.attachedFiles, x => x);
+     // for (let i = 0; i < this.files.length; i++) {
+      this.attachedFiles.splice(index, 1);
+    this.attachObject.files = this.attachedFiles;      
+      
+     // }
+    
     }
   }
 };
 </script>
 <style lang="scss" scoped>
 .trash {
+  // height: 12px;
+  // position: absolute;
+  // right: 13px;
   height: 12px;
-  position: absolute;
-  right: 13px;
-
+    position: relative;
+    right: -50%;
 }
 .attachment {
   height: 12px;

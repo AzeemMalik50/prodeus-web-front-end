@@ -3,11 +3,19 @@ import { authHeader } from '../_helpers';
 export const userService = {
     login,
     logout,
-    signup
+    signup,
+    facebookAuth,
+    googleAuth
 };
 
 function login(email, password) {
     return axios.post(`/login`, { email, password });
+}
+function facebookAuth(payload) {
+    return axios.get(`/auth/facebook/callback?access_token=${payload}`);
+}
+function googleAuth(payload) {
+    return axios.get(`/auth/google/callback?access_token=${payload}`);
 }
 function signup(email, password, fullName) {
     return axios.post(`/signup`, { email, password, fullName });

@@ -97,13 +97,11 @@
 </template>
 
 <script>
-import Replies from "@/assets/replies.svg";
 import DiscusionCard from "@/components/ClassDasboard/DiscusionCard.vue";
 import AssignmentCard from "@/components/ClassDasboard/AssignmentCard.vue";
 
 export default {
   components: {
-    Replies,
     DiscusionCard,
     AssignmentCard
   },

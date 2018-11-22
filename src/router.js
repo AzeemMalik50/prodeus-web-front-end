@@ -29,16 +29,6 @@ Vue.use(Router)
       ]
     },
     {
-      path: '/create-project',
-      name: 'project',
-      component: CreatePost
-    },
-    {
-      path: '/create-question',
-      name: 'question',
-      component: CreatePost
-    },
-    {
       path:'/login',
       name: 'login',
       component: Login

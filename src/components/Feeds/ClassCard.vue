@@ -13,8 +13,10 @@
         <h2 class="heading-6 center" v-html="feedClass.category"></h2>
       </div>
       <div class="_30px-bottom-margin">
-        <h1 class="heading-4 center">{{feedClass.title}}</h1>
-      </div><a href="#" class="link outline">{{enrolled ? 'Enrolled': 'Enroll'}}</a></div>
+        <h1 class="heading-4 center">{{classTitle}}</h1>
+      </div>
+      <a href="#" @click.prevent="enrollClass()" class="link outline">{{enrolled ? 'Enrolled': 'Enroll'}}</a>
+      </div>
   </div>
 </template>
 
@@ -51,11 +53,40 @@ export default {
   methods: {
     goClass() {
       this.$router.push({ path: `/class-page/${this.feedClass._id}` });
+    },
+    enrollClass() {
+      this.$store
+        .dispatch("classes/enrollClass", {
+          classId: this.feedClass._id,
+          studentId: this.currentUserId
+        })
+        .then(
+          response => {
+            this.goClass();
+          },
+          err => {
+            console.error(err);
+          }
+        );
     }
   },
   computed: {
     background() {
       return { "background-image": `url(${this.backImage})` };
+    },
+    currentUserId() {
+      return this.$store.state.authentication.user._id;
+    },
+    isEnrolled() {
+      const enrollIndex = this.feedClass.enrolledStudents.findIndex(
+        x => x === this.currentUserId
+      );
+      return enrollIndex > -1 ? true : false;
+    },
+    classTitle() {
+      return this.feedClass.title.length <= 50
+        ? this.feedClass.title
+        : this.feedClass.title.slice(0, 45) + "...";
     }
   }
 };

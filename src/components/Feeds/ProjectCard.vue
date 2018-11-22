@@ -11,10 +11,10 @@
         <h1 class="heading-4 center" v-html="description"></h1>
       </div>
       <div class="flex-space-around">
-        <Heart :class="{'heart-active': liked}" />
-        <Reblog class="reblog-active" />
-        <Comment class="comment-active"/>
-        <Share class="share-active" />
+        <img src="@/assets/heart.svg" :class="{'heart-active': liked}" />
+        <img src="@/assets/reblog.svg" class="reblog-active" />
+        <img src="@/assets/comment.svg" class="comment-active"/>
+        <img src="@/assets/share.svg" class="share-active" />
       </div>
     </div>
   </div>
@@ -25,18 +25,10 @@
 
 <script>
 import { mapGetters } from "vuex";
-import Heart from "@/assets/heart.svg";
-import Reblog from "@/assets/reblog.svg";
-import Comment from "@/assets/comment.svg";
-import Share from "@/assets/share.svg";
 import Project from "../../views/Project.vue"
 export default {
   props: ["liked", "title", "description"],
   components: {
-    Heart,
-    Comment,
-    Share,
-    Reblog,
     Project
   },
   methods: {
