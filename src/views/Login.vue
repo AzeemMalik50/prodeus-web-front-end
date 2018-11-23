@@ -55,11 +55,11 @@
             </div>
             <div class="_20px-bottom-margin">
               <div class="flex-space-between">
-                <div class="social-sign-in facebook" @click="auth('facebook')">
+                <div class="social-sign-in facebook cursor-pointer" @click="auth('facebook')">
                     <img src="../assets/facebook_1.svg" class="fb-icon image-20" />
                   <div class="text-block-10">Sign in with Facebook</div>
                 </div>
-                <div class="social-sign-in" @click="auth('google')">
+                <div class="social-sign-in cursor-pointer" @click="auth('google')">
                     <img src="../assets/google.svg" class="google-icon image-21" />
                   <div>Sign in with Google</div>
                 </div>
@@ -124,7 +124,10 @@ export default {
       const { dispatch } = this.$store;
       const hello = this.hello;
       hello(network)
-        .login()
+        .login({
+          scope: "email",
+          force: true
+        })
         .then(() => {
           const authRes = hello(network).getAuthResponse();
           if (network === "facebook") {

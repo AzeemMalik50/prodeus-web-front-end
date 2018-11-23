@@ -52,7 +52,7 @@ export const authentication = {
         loginSuccess: (state, user) => {
             state.status = { loggedIn: true };
             state.user = user;
-            router.push({ name: 'home' });            
+            router.push({path:'/'});
         },
         loginFailure: (state) => {
             state.status = {};
