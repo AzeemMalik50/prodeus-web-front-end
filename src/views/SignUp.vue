@@ -33,7 +33,7 @@
               <div class="w-form-done">
                 <div>Thank you! Your submission has been received!</div>
               </div>
-              <div class="w-form-fail" v-if="loginError">
+              <div class="w-form-fail block" v-if="loginError">
                 <div>{{loginError}}</div>
               </div>
             </div>
