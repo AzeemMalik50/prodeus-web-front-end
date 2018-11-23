@@ -27,7 +27,7 @@
             <img src="@/assets/NotificationsInactive.svg" class="height-20" />
           </a>
           <a  class="link-block w-inline-block cursor-pointer cursor-pointer" @click="toggelePanel('isUser')">
-            <img :src="profilePic" v-if="profilePic" class="width-20" />
+            <img :src="profilePic" v-if="profilePic" class="width-20 profile-pic" />
             <img src="@/assets/Profile.svg" v-else class="width-20" />
           </a>
         </nav>

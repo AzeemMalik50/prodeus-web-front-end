@@ -71,7 +71,7 @@
       </div>
     </div>
     <div class="flexcolumn">
-      <InstructorInfo />
+      <InstructorInfo :instructor="currentClass.instructor" />
       <ClassRatingReview />
       <div class="card">
         <div>
