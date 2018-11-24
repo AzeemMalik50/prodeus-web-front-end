@@ -33,7 +33,7 @@ Vue.use(Router)
       name: 'login',
       component: Login
     }, {
-      path:'/sign_up',
+      path:'/sign-up',
       name: 'signup',
       component: SignUp
     },
@@ -53,7 +53,7 @@ Vue.use(Router)
 })
 router.beforeEach((to, from, next) => {
   // redirect to login page if not logged in and trying to access a restricted page
-  const publicPages = ['/login'];
+  const publicPages = ['/login', '/sign-up'];
   const authRequired = !publicPages.includes(to.path);
   const loggedIn = localStorage.getItem('user');
 

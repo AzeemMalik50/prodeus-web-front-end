@@ -68,7 +68,7 @@
             <div class="div-block-98">
               <div class="div-block-99">
                 <div class="text-block-11">Not a member?</div>
-                 <router-link class="link-4" to="sign_up">
+                 <router-link class="link-4" to="/sign-up">
                     Sign up
                 </router-link>
                 </div>
