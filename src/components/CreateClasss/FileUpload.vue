@@ -1,27 +1,23 @@
 <template>
     <div class="_50px-block border files">
         <input type="file" multiple id="assignmentFiles"
-        accept="application/zip,application/x-zip,application/x-zip-compressed,"
         @change="filesChange($event.target.name, $event.target.files);" hidden>
         <div class="text-block-4 assignment" @click="chooseFiles()">
             Attach Files</div>
         <div class="attached-item" v-for="(file,index) in attachedFiles" :key="file.name">
             <img src="../../assets/attachment.svg" class="attachment" />
             <span>{{file.name.length < 35 ? file.name : file.name.slice(0, 35)+'...'}}</span>
-            <span @click="removeAttachItem(index)" class="trash">
-             <img src="../../assets/Trash.svg" class="trash"  />
-            </span>
+             <img @click="removeAttachItem(index)" src="../../assets/Trash.svg" class="trash"  />
         </div>
     </div>
 </template>
 
 <script>
-
 export default {
   props: ["attachObject"],
   data() {
     return {
-      attachedFiles:[]
+      attachedFiles: []
     };
   },
   methods: {
@@ -29,22 +25,23 @@ export default {
       document.getElementById("assignmentFiles").click();
     },
     toArray(fileList) {
-    return Array.prototype.slice.call(fileList);
-},
+      return Array.prototype.slice.call(fileList);
+    },
     filesChange(fieldName, fileList) {
       if (!fileList.length) return;
-       fileList = this.toArray(this.attachedFiles ).concat(this.toArray(fileList));
+      fileList = this.toArray(this.attachedFiles).concat(
+        this.toArray(fileList)
+      );
       this.attachedFiles = fileList;
-    this.attachObject.files = this.attachedFiles;      
+      this.attachObject.files = this.attachedFiles;
     },
     removeAttachItem(index) {
       this.attachedFiles = Array.from(this.attachedFiles, x => x);
-     // for (let i = 0; i < this.files.length; i++) {
+      // for (let i = 0; i < this.files.length; i++) {
       this.attachedFiles.splice(index, 1);
-    this.attachObject.files = this.attachedFiles;      
-      
-     // }
-    
+      this.attachObject.files = this.attachedFiles;
+
+      // }
     }
   }
 };
@@ -55,8 +52,8 @@ export default {
   // position: absolute;
   // right: 13px;
   height: 12px;
-    position: relative;
-    right: -50%;
+  position: absolute;
+  right: 23px;
 }
 .attachment {
   height: 12px;
