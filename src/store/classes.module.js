@@ -8,6 +8,10 @@ export const classes = {
     currentClass: {},
     error: {},
     feeds: [],
+    myClasses: {
+      type: '',
+      data: []
+    }
   },
   actions: {
     createClass({ commit }, payload) {
@@ -17,6 +21,13 @@ export const classes = {
             router.push({ name: 'classPage', params: { id: response.data._id } });
           }, error => commit('failure', error)
         );
+    },
+    getMyClasses({ commit }, payload) {
+      authService.get(`/classes/${payload.type}/${payload.id}`)
+        .then(response => {
+          commit('setMyClasses', {type:payload.type, data: response.data});
+        },
+          error => commit('failure', error));
     },
     getClass({ commit }, id) {
       commit('setCurrentClass', {});
@@ -53,7 +64,7 @@ export const classes = {
     getMedia({ commit }, mediaId) {
       return authService.getMedia(`/images/${mediaId}`);
     },
-    enrollClass({commit}, payload){
+    enrollClass({ commit }, payload) {
       return authService.put(`/classes/instructor/${payload.classId}/enroll`, payload);
     }
   },
@@ -64,6 +75,10 @@ export const classes = {
     setFeeds(state, feeds) {
       state.feeds = feeds;
     },
+    setMyClasses(state, myClasses) {
+      state.myClasses.type = myClasses.type;
+      state.myClasses.data = myClasses.data;
+    },
     failure(state, error) {
       state.error = { error };
     }
@@ -71,6 +86,7 @@ export const classes = {
   getters: {
     allCategories: state => state.allCategories,
     currentClass: state => state.currentClass,
-    feeds: state => state.feeds
+    feeds: state => state.feeds,
+    myClasses: state => state.myClasses    
   },
 }

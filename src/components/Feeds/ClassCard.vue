@@ -52,7 +52,7 @@ export default {
   },
   methods: {
     goClass() {
-      this.$router.push({ path: `/class-page/${this.feedClass._id}` });
+      this.$router.push({ path: `/classes/${this.feedClass._id}` });
     },
     enrollClass() {
       this.$store

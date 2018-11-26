@@ -1,13 +1,11 @@
 <template>
   <div class="home">
     <Header/>
-    <div class="page-section">
       <transition
         name="fade"
         mode="out-in">
       <router-view></router-view>
       </transition>
-    </div>
   </div>
 </template>
 

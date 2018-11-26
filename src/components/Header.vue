@@ -17,9 +17,9 @@
           </a>
         </div>
         <nav role="navigation" class="nav-menu w-nav-menu">
-          <a href="#" class="link-block w-inline-block">
+          <router-link :to="{ name: 'instructorClasses', params: { id: loggedInUser._id} }" class="link-block w-inline-block">
             <img src="@/assets/ClassroomInactive.svg" class="height-20" />
-          </a>
+          </router-link>
           <a href="#" class="link-block w-inline-block">
             <img src="@/assets/MessagesInactive.svg" class="width-20" />
           </a>
@@ -233,7 +233,7 @@ export default {
   },
   data() {
     return {
-      postType:'',
+      postType: "",
       isAdd: false,
       isNotify: false,
       isUser: false
@@ -278,7 +278,7 @@ export default {
   },
   computed: {
     profilePic() {
-      let storeUser = JSON.parse(localStorage.getItem("user"));
+      let storeUser = this.loggedInUser;
       if (storeUser.img) {
         return process.env.VUE_APP_API_BASE_URL + "/media/" + storeUser.img.id;
       } else if (storeUser.facebook && storeUser.facebook.img) {
@@ -288,6 +288,9 @@ export default {
       } else {
         return null;
       }
+    },
+    loggedInUser() {
+      return JSON.parse(localStorage.getItem("user"));
     },
     ...mapGetters(["showCreateClass", "showPostForm"])
   }

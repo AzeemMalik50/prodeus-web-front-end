@@ -7,10 +7,11 @@ import ClassDashBoard from '@/views/ClassDashBoard.vue';
 import CreatePost from '@/views/CreatePost.vue';
 import Login from '@/views/Login.vue';
 import SignUp from '@/views/SignUp.vue';
+import MyClasses from '@/views/MyClasses.vue';
 import store from './store'
 Vue.use(Router)
 
- const router = new Router({
+const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
@@ -20,20 +21,36 @@ Vue.use(Router)
       component: Home,
       children: [
         { path: '', component: Feeds },
-        { path: 'class-page/:id', name: 'classPage', component: ClassPage, props: true , 
-        beforeEnter(to, from, next){
-          store.dispatch("classes/getClass", to.params.id);
-          next();
-        }},
-        { path: 'class-dashboard', name: 'classDashboard',component: ClassDashBoard }
+        {
+          path: 'classes/:id', name: 'classPage', component: ClassPage, props: true,
+          beforeEnter(to, from, next) {
+            store.dispatch("classes/getClass", to.params.id);
+            next();
+          }
+        },
+        { path: 'class-dashboard', name: 'classDashboard', component: ClassDashBoard },
+        {
+          path: 'classes/instructor/:id', name: 'instructorClasses', component: MyClasses, props: true,
+          beforeEnter(to, from, next) {
+            store.dispatch("classes/getMyClasses", { id: to.params.id, type: 'instructor' });
+            next();
+          }
+        },
+        {
+          path: 'classes/student/:id', name: 'studentClasses', component: MyClasses, props: true,
+          beforeEnter(to, from, next) {
+            store.dispatch("classes/getMyClasses", { id: to.params.id, type: 'student' });
+            next();
+          }
+        }
       ]
     },
     {
-      path:'/login',
+      path: '/login',
       name: 'login',
       component: Login
     }, {
-      path:'/sign-up',
+      path: '/sign-up',
       name: 'signup',
       component: SignUp
     },
@@ -43,7 +60,7 @@ Vue.use(Router)
       component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
     }
   ],
-  scrollBehavior (to, from, savedPosition) {
+  scrollBehavior(to, from, savedPosition) {
     if (savedPosition) {
       return savedPosition
     } else {
@@ -57,8 +74,8 @@ router.beforeEach((to, from, next) => {
   const authRequired = !publicPages.includes(to.path);
   const loggedIn = localStorage.getItem('user');
 
-  if(!authRequired && loggedIn){
-  return next(/** from.path **/);
+  if (!authRequired && loggedIn) {
+    return next(/** from.path **/);
   } else if (authRequired && !loggedIn) {
     return next('/login');
   }

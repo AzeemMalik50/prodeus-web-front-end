@@ -1,4 +1,5 @@
 <template>
+    <div class="page-section">
   <div class="flex-row">
     <div class="flexcolumn" v-for="feed in feeds" :key="feed._id">
       <ClassCard :feedClass="feed" />
@@ -21,6 +22,7 @@
       <QuestionCard />
     </div> -->
   </div>
+    </div>
 </template>
 
 <script>
