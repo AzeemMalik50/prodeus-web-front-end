@@ -163,9 +163,10 @@
         </div>
         <img src="../assets/Path-13444.svg" height="26" alt="" class="image-27">
         <div class="div-block-106">
-          <div class="div-block-112">
+          <div class="div-block-112" @click="toRoute('profile');toggelePanel('isUser')">
             <div class="horiz-left-align-justify-atart">
-              <img src="../assets/Profile.svg" width="20" alt="" class="image-28"></div><a href="#" class="link-5">View my profile</a></div>
+              <img src="../assets/Profile.svg" width="20" alt="" class="image-28"></div>
+              <router-link :to="{name:'profile'}" class="link-5">View my profile</router-link></div>
           <div class="div-block-112">
             <div class="horiz-left-align-justify-atart">
               <img src="../assets/settings-work-tool-grey.svg" width="20" alt="" class="image-28"></div><a href="#" class="link-5">Account Settings</a></div>
@@ -216,7 +217,7 @@
     </div>
     <AddClass v-if="showCreateClass" />
     <create-post v-if="showPostForm" :type="postType" />
-    
+
   </div>
 </template>
 
@@ -274,12 +275,15 @@ export default {
     logOut() {
       this.$store.dispatch("authentication/logout");
       this.$cookies.remove("accessToken");
+    },
+    toRoute(name){
+      this.$router.push({name:name})
     }
   },
   computed: {
     profilePic() {
       let storeUser = this.loggedInUser;
-      if (storeUser.img) {
+      if (storeUser.local.img) {
         return process.env.VUE_APP_API_BASE_URL + "/media/" + storeUser.img.id;
       } else if (storeUser.facebook && storeUser.facebook.img) {
         return storeUser.facebook.img;

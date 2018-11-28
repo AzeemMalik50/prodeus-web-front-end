@@ -28,8 +28,8 @@ export default {
     return {
       // videojs options
       playerOptions: {
-        height: "480",
-        width: "810",
+       // height: "480",
+        // width: "810",
         autoplay: false,
         //muted: true,
         language: "en",
@@ -105,8 +105,7 @@ export default {
     // player is ready
     playerReadied(player) {
       // seek to 10s
-      console.log("example player 1 readied", player);
-      player.currentTime(10);
+     // player.currentTime(10);
       // console.log('example 01: the player is readied', player)
     }
   }

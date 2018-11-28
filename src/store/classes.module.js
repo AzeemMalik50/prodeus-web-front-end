@@ -1,5 +1,6 @@
 import { authService } from '../_services/auth.service';
 import router from '@/router';
+import axios from 'axios';
 
 const apiUrl = '/'
 export const classes = {
@@ -25,7 +26,15 @@ export const classes = {
     getMyClasses({ commit }, payload) {
       authService.get(`/classes/${payload.type}/${payload.id}`)
         .then(response => {
-          commit('setMyClasses', {type:payload.type, data: response.data});
+          axios.all(response.data.map((mClass) => {
+            return authService.getMedia(`/images/${mClass.img._id}`)
+              .then(function (img) {
+                mClass.img = img.data;
+                return mClass;
+              });
+          })).then((finalClasses) => {
+            commit('setMyClasses', { type: payload.type, data: finalClasses });
+          });
         },
           error => commit('failure', error));
     },
@@ -87,6 +96,6 @@ export const classes = {
     allCategories: state => state.allCategories,
     currentClass: state => state.currentClass,
     feeds: state => state.feeds,
-    myClasses: state => state.myClasses    
+    myClasses: state => state.myClasses
   },
 }

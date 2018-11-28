@@ -10,7 +10,7 @@
         </div>
         <div class="div-block-117"><img src="@/assets/Menu.svg" width="4" alt=""></div>
       </div>
-    </div><img src="@/assets/fortune.jpg" alt="" class="image-5">
+    </div><img :src="myClass.img" alt="" class="image-5">
     <div class="card-module _50">
       <div class="flex-space-around">
         <div class="left-align"><img src="@/assets/students.svg" width="20" height="20" alt="">
@@ -19,7 +19,7 @@
         <div class="left-align"><img src="@/assets/Group-5402.svg" width="20" height="20" alt="">
           <div class="text-block-7">4.2k</div>
         </div>
-        <div class="left-align"><img src="@/assets/qurstions.svg" width="20" height="20" alt="">
+        <div class="left-align"><img src="@/assets/questions.svg" width="20" height="20" alt="">
           <div class="text-block-7">4.2k</div>
         </div>
         <div class="left-align"><img src="@/assets/reviews.svg" width="20" height="20" alt="">

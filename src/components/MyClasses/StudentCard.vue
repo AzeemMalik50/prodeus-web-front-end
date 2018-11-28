@@ -10,7 +10,7 @@
         </div>
         <div class="div-block-117"><img src="@/assets/Menu.svg" width="4" alt=""></div>
       </div>
-    </div><img src="@/assets/fortune.jpg" alt="" class="image-5">
+    </div><img :src="myClass.img" alt="" class="image-5">
     <div class="card-module _60"><img src="@/assets/Announcement.svg" height="21" alt="">
       <div class="progress-wrapper">
         <div class="progress-bar-wrapper">

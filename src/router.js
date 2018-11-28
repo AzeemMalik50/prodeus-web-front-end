@@ -8,6 +8,8 @@ import CreatePost from '@/views/CreatePost.vue';
 import Login from '@/views/Login.vue';
 import SignUp from '@/views/SignUp.vue';
 import MyClasses from '@/views/MyClasses.vue';
+import Portfolio from '@/views/Portfolio.vue';
+
 import store from './store'
 Vue.use(Router)
 
@@ -18,7 +20,8 @@ const router = new Router({
     {
       path: '/',
       name: 'home',
-      component: Home,
+      // component: Home,
+      component: () => import(/* webpackChunkName: "home" */ './views/Home.vue'),
       children: [
         { path: '', component: Feeds },
         {
@@ -42,7 +45,8 @@ const router = new Router({
             store.dispatch("classes/getMyClasses", { id: to.params.id, type: 'student' });
             next();
           }
-        }
+        },
+        { path: 'profile', name:'profile', component: Portfolio },        
       ]
     },
     {
