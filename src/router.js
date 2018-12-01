@@ -9,7 +9,7 @@ import Login from '@/views/Login.vue';
 import SignUp from '@/views/SignUp.vue';
 import MyClasses from '@/views/MyClasses.vue';
 import Portfolio from '@/views/Portfolio.vue';
-
+import ClassRoom from '@/views/ClassRoom.vue';
 import store from './store'
 Vue.use(Router)
 
@@ -46,7 +46,8 @@ const router = new Router({
             next();
           }
         },
-        { path: 'profile', name:'profile', component: Portfolio },        
+        { path: 'profile', name:'profile', component: Portfolio },
+        { path: 'class-room/:id', name:'classRoom', component: ClassRoom, props: true },
       ]
     },
     {
@@ -78,7 +79,7 @@ router.beforeEach((to, from, next) => {
   const authRequired = !publicPages.includes(to.path);
   const loggedIn = localStorage.getItem('user');
 
-  if (!authRequired && loggedIn) {
+  if (!authRequired) {
     return next(/** from.path **/);
   } else if (authRequired && !loggedIn) {
     return next('/login');

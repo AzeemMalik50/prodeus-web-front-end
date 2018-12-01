@@ -1,6 +1,6 @@
 <template>
   <div class="card nopadding">
-    <div class="_30px-padding class-desc">
+    <div class="_30px-top-bottom-20-side-padding class-desc">
       <div class="div-block-116">
         <div class="div-block-118">
           <div class="_20px-bottom-margin">

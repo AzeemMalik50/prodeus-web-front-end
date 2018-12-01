@@ -4,9 +4,9 @@
       <a @click="toggleDetail();">
       <img src="../../assets/expand.svg" height="14" :class="{hide: lesson.expanded}" class="expand" />
       </a>
-      <a @click="toggleDetail();">      
+      <a @click="toggleDetail();">
       <img src="../../assets/hide.svg" height="2" :class="{hide: !lesson.expanded}" class="expanded" />
-      </a>    
+      </a>
       <div class="div-block-7">
         <div class="_5px-bottom-margin">
           <h2 class="heading-6">Lesson {{lesson.lessonNumber}}</h2>
@@ -15,7 +15,7 @@
       </div>
     </div>
     <div class="div-block-8">
-      <div class="text-block">2:15</div>
+      <div class="text-block">{{lesson.secondsDuration | duration}}</div>
       <img src="@/assets/Assignment.svg" height="20" class="image-2" />
     </div>
   </div>

@@ -19,7 +19,7 @@
             </div>
           </div>
         </div>
-  
+
         <div class="trailer">
           <div class="div-block-5">
             <h1 class="heading-8 overlay">Advanced</h1>
@@ -28,14 +28,14 @@
             <ProdeusPlayer v-if="videoUrl" :poster="poster" :videoUrl="videoUrl" />
           </div>
         </div>
-  
+
         <div class="card">
           <div class="_120px-wrapper">
             <div class="classpage-title">
               <h1 class="heading-2">Class Info</h1>
             </div>
             <div class="_20-30-margin w-hidden-tiny">
-              <h2 class="heading-7">24,786 Students Enrolled  | {{currentClass.lessons ? currentClass.lessons.length : 0}} Lessons {{duration(currentClass.totalDuration)}}
+              <h2 class="heading-7">24,786 Students Enrolled  | {{currentClass.lessons ? currentClass.lessons.length : 0}} Lessons {{currentClass.totalDuration | duration }}
               </h2>
             </div>
             <!-- <h2 class="heading-11">24,786 Students Enrolled<br>10 Lessons 1:03:44</h2> -->
@@ -49,7 +49,7 @@
                 <div class="tag-text">{{skill}}</div>
                 <img src="../assets/x.svg" class="image-23 cross" />
               </div>
-  
+
             </div>
           </div>
         </div>
@@ -95,124 +95,122 @@
 </template>
 
 <script>
-  import {
-    mapGetters
-  } from "vuex";
-  
-  import ClassRatingReview from "@/components/Class/ClassRatingReview.vue";
-  import StudentReview from "@/components/Class/StudentReview.vue";
-  import LessonBlock from "@/components/Class/LessonBlock.vue";
-  import InstructorInfo from "@/components/Class/InstructorInfo.vue";
-  import LessonDetail from "@/components/Class/LessonDetail.vue";
-  import ProdeusPlayer from "@/components/Video/ProdeusPlayer.vue";
-  import Loading from "vue-loading-overlay";
-  
-  export default {
-    name: "ClassPage",
-    props: ["id"],
-    components: {
-      ClassRatingReview,
-      StudentReview,
-      LessonBlock,
-      InstructorInfo,
-      LessonDetail,
-      ProdeusPlayer,
-      Loading
+import { mapGetters } from "vuex";
+
+import ClassRatingReview from "@/components/Class/ClassRatingReview.vue";
+import StudentReview from "@/components/Class/StudentReview.vue";
+import LessonBlock from "@/components/Class/LessonBlock.vue";
+import InstructorInfo from "@/components/Class/InstructorInfo.vue";
+import LessonDetail from "@/components/Class/LessonDetail.vue";
+import ProdeusPlayer from "@/components/Video/ProdeusPlayer.vue";
+import Loading from "vue-loading-overlay";
+
+export default {
+  name: "ClassPage",
+  props: ["id"],
+  components: {
+    ClassRatingReview,
+    StudentReview,
+    LessonBlock,
+    InstructorInfo,
+    LessonDetail,
+    ProdeusPlayer,
+    Loading
+  },
+  data() {
+    return {};
+  },
+  computed: {
+    background() {
+      return {
+        "background-image": `url(${this.currentClass.img})`
+      };
     },
-    data() {
-      return {};
+    poster() {
+      return this.currentClass.img;
     },
-    computed: {
-      background() {
-        return {
-          "background-image": `url(${this.currentClass.img})`
-        };
-      },
-      poster() {
-        return this.currentClass.img;
-      },
-      videoUrl() {
-        if (this.currentClass && this.currentClass.trailer) {
-          return (
-            process.env.VUE_APP_API_BASE_URL +
-            "/media/" +
-            this.currentClass.trailer.media
-          );
-        } else {
-          return null;
-        }
-      },
-      currentUserId() {
-        return this.$store.state.authentication.user._id;
-      },
-      isEnrolled() {
-        const enrollIndex = this.currentClass.enrolledStudents.findIndex(
-          x => x === this.currentUserId
+    videoUrl() {
+      if (this.currentClass && this.currentClass.trailer) {
+        return (
+          process.env.VUE_APP_API_BASE_URL +
+          "/media/" +
+          this.currentClass.trailer.media
         );
-        return enrollIndex > -1 ? true : false;
-      },
-      ...mapGetters({
-        currentClass: "classes/currentClass"
-      })
-    },
-    methods: {
-      duration(totalSeconds) {
-        const hours = Math.floor(totalSeconds / 3600);
-        totalSeconds %= 3600;
-        const minutes = Math.floor(totalSeconds / 60);
-        const seconds = totalSeconds % 60;
-        return hours + ":" + minutes + ":" + seconds;
-      },
-      enrollClass() {
-        this.$store
-          .dispatch("classes/enrollClass", {
-            classId: this.id,
-            studentId: this.currentUserId
-          })
-          .then(
-            response => {
-              console.log(response.data);
-              this.currentClass.enrolledStudents = response.data.enrolledStudents;
-            },
-            err => {
-              console.error(err);
-            }
-          );
+      } else {
+        return null;
       }
+    },
+    currentUserId() {
+      return this.$store.state.authentication.user._id;
+    },
+    isEnrolled() {
+      const enrollIndex = this.currentClass.enrolledStudents.findIndex(
+        x => x === this.currentUserId
+      );
+      return enrollIndex > -1 ? true : false;
+    },
+    ...mapGetters({
+      currentClass: "classes/currentClass"
+    })
+  },
+  methods: {
+    duration(totalSeconds) {
+      const hours = Math.floor(totalSeconds / 3600);
+      totalSeconds %= 3600;
+      const minutes = Math.floor(totalSeconds / 60);
+      const seconds = totalSeconds % 60;
+      return hours + ":" + minutes + ":" + seconds;
+    },
+    enrollClass() {
+      this.$store
+        .dispatch("classes/enrollClass", {
+          classId: this.id,
+          studentId: this.currentUserId
+        })
+        .then(
+          response => {
+            console.log(response.data);
+            this.currentClass.enrolledStudents = response.data.enrolledStudents;
+          },
+          err => {
+            console.error(err);
+          }
+        );
     }
-  };
+  }
+};
 </script>
 
 <style lang="scss" scoped>
-  .play-btn {
-    width: 16px;
-    .cls-1 {
-      fill: #fff;
-    }
+.play-btn {
+  width: 16px;
+  .cls-1 {
+    fill: #fff;
   }
-  
-  .left-arrow {
-    height: 16px;
-    .cls-1 {
-      fill: #bcbcbc;
-    }
+}
+
+.left-arrow {
+  height: 16px;
+  .cls-1 {
+    fill: #bcbcbc;
   }
-  
-  .cross {
-    height: 20px;
-    .cls-1,
-    .cls-3 {
-      fill: none;
-    }
-    .cls-1 {
-      stroke: #fff;
-    }
-    .cls-2 {
-      stroke: none;
-    }
+}
+
+.cross {
+  height: 20px;
+  .cls-1,
+  .cls-3 {
+    fill: none;
   }
-  
-  .flex-space-evently {
-    justify-content: space-evenly !important;
+  .cls-1 {
+    stroke: #fff;
   }
+  .cls-2 {
+    stroke: none;
+  }
+}
+
+.flex-space-evently {
+  justify-content: space-evenly !important;
+}
 </style>

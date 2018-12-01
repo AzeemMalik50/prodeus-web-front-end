@@ -31,7 +31,6 @@ export const authentication = {
         },
         facebookAuth: ({ commit }, payload) => {
             userService.facebookAuth(payload).then(res => {
-                console.log(res.data);
                 localStorage.setItem('user', JSON.stringify(res.data.user));
                 commit('loginSuccess', res.data.user);
             }, err => {
@@ -40,7 +39,6 @@ export const authentication = {
         },
         googleAuth: ({ commit }, payload) => {
             userService.googleAuth(payload).then(res => {
-                console.log(res.data);
                 localStorage.setItem('user', JSON.stringify(res.data.user));
                 commit('loginSuccess', res.data.user);
             }, err => {

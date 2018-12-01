@@ -4,7 +4,6 @@ import VueCookies from 'vue-cookies'
 import VueVideoPlayer from 'vue-video-player'
 import VueMoment from 'vue-moment';
 import moment from 'moment-timezone';
-
 const HelloJs = require('hellojs/dist/hello.all.min.js');
 const VueHello = require('vue-hellojs');
 // require videojs style
@@ -50,3 +49,10 @@ new Vue({
   store,
   render: h => h(App)
 }).$mount('#app')
+Vue.filter('duration', (totalSeconds) => {
+  const hours = Math.ceil(Math.floor(totalSeconds / 3600));
+  totalSeconds %= 3600;
+  const minutes = Math.ceil(Math.floor(totalSeconds / 60));
+  const seconds = Math.ceil(totalSeconds % 60);
+  return hours + ":" + minutes + ":" + seconds;
+});

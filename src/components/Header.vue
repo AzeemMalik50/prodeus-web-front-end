@@ -12,7 +12,7 @@
             <img src="@/assets/Search.svg" class="image-4" />
             <input type="search" class="search-input w-input" maxlength="256" name="query" placeholder="Search prodeus" id="search" required="">
             <input type="submit" value="Search" class="search-button w-button"></form>
-          <a href="#" class="w-inline-block cursor-pointer"  @click="toggelePanel('isAdd')">
+          <a class="w-inline-block cursor-pointer"  @click.prevent="toggelePanel('isAdd')">
             <img src="@/assets/Add-Post.svg" class="add-post" />
           </a>
         </div>
@@ -23,10 +23,10 @@
           <a href="#" class="link-block w-inline-block">
             <img src="@/assets/MessagesInactive.svg" class="width-20" />
           </a>
-          <a  class="link-block w-inline-block cursor-pointer" cursor-pointer @click="toggelePanel('isNotify')">
+          <a  class="link-block w-inline-block cursor-pointer" cursor-pointer @click.prevent="toggelePanel('isNotify')">
             <img src="@/assets/NotificationsInactive.svg" class="height-20" />
           </a>
-          <a  class="link-block w-inline-block cursor-pointer cursor-pointer" @click="toggelePanel('isUser')">
+          <a  class="link-block w-inline-block cursor-pointer cursor-pointer" @click.prevent="toggelePanel('isUser')">
             <img :src="profilePic" v-if="profilePic" class="width-20 profile-pic" />
             <img src="@/assets/Profile.svg" v-else class="width-20" />
           </a>

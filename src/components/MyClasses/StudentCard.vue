@@ -1,6 +1,6 @@
 <template>
-  <div class="card nopadding">
-    <div class="_30px-padding class-desc">
+  <div class="card nopadding" @click="gotoClassRoom()">
+    <div class="_30px-top-bottom-20-side-padding class-desc">
       <div class="div-block-116">
          <div class="div-block-118">
           <div class="_20px-bottom-margin">
@@ -25,8 +25,14 @@
   </div>
 </template>
 <script> export default {
-  props:['myClass']
+  props:['myClass'],
+  methods:{
+    gotoClassRoom(){
+      console.log('go to.,....')
+      this.$router.push({name:'classRoom', params:{id: this.myClass._id}})
+    }
   }
+}
 </script>
 <style lang="scss" scoped>
 .class-desc {
