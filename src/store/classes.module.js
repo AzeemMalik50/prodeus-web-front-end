@@ -12,10 +12,9 @@ export const classes = {
     myClasses: {
       type: '',
       instructor: [],
-      student:[]
+      student: []
     },
-
-
+    watchedLessons: {}
   },
   actions: {
     createClass({ commit }, payload) {
@@ -69,6 +68,13 @@ export const classes = {
           error => commit('failure', error)
         );
     },
+    getWatchedLessons({ commit }) {
+      authService.get(`/classes/student/${JSON.parse(localStorage.getItem('user'))._id}/watched`)
+        .then(
+          response => commit('setWatchedLessobns', response.data),
+          error => commit('failure', error)
+        );
+    },
     uploadVideo({ commit }, payload) {
       return authService.fileUpload('/uploads/video', payload);
     },
@@ -86,6 +92,9 @@ export const classes = {
     }
   },
   mutations: {
+    setWatchedLessobns(state, lessons) {
+      state.watchedLessons = lessons;
+    },
     setCurrentClass(state, cClass) {
       state.currentClass = cClass;
     },

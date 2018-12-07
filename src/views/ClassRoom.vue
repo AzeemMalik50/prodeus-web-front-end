@@ -418,11 +418,11 @@
 </div>
 </template>
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapState } from "vuex";
 import Loading from "vue-loading-overlay";
 import ProdeusPlayer from "@/components/Video/ProdeusPlayer.vue";
 export default {
-  name:'ClassRoom',
+  name: "ClassRoom",
   props: ["id"],
   components: {
     Loading,
@@ -435,13 +435,14 @@ export default {
   },
   created() {
     this.$store.dispatch("classes/getClass", this.id);
+    this.$store.dispatch("classes/getWatchedLessons");
   },
 
   computed: {
     currentLesson() {
       return this.currentClass.lessons[this.currentLessonIndex];
     },
-      videoUrl() {
+    videoUrl() {
       const id = this.currentLesson.media;
       return process.env.VUE_APP_API_BASE_URL + "/media/" + id;
     },
@@ -468,6 +469,9 @@ export default {
     },
     ...mapGetters({
       currentClass: "classes/currentClass"
+    }),
+    ...mapState({
+      watchedLessons: state => state.classes.watchedLessons
     })
   },
   methods: {
@@ -481,15 +485,25 @@ export default {
     url(id) {
       return process.env.VUE_APP_API_BASE_URL + "/media/" + id;
     },
-    videoEnded(){
-      console.log('vide has ebnded .....');
-    this.$store.dispatch("classes/watchedLesson", {classId: this.id, lessonId:this.currentLesson._id})
-    .then(res =>{
-      console.log(res);
-    }, err=>{
-      console.error(err);
-    })
-
+    videoEnded() {
+      console.log("vide has ebnded .....");
+      let lessonIndex = this.watchedLessons.findIndex(x=>x.classId === this.id);
+      let lessonData = lessonIndex > -1 ? this.watchedLessons[lessonIndex].watchedLessons : lessonIndex;
+      if (lessonIndex > -1 && lessonsData.indexOf(this.currentLesson._id) > -1) {
+        this.$store
+          .dispatch("classes/watchedLesson", {
+            classId: this.id,
+            lessonId: this.currentLesson._id
+          })
+          .then(
+            res => {
+              console.log(res);
+            },
+            err => {
+              console.error(err);
+            }
+          );
+      }
     }
   }
 };

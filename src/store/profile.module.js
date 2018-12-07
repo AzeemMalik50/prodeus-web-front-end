@@ -10,7 +10,6 @@ export const profile = {
   actions: {
     getProfile({ commit }) {
       commit('resetProfile');
-      console.log(JSON.parse(localStorage.getItem('user')))
       const UserId = JSON.parse(localStorage.getItem('user'))._id;
       authService.get(`/user/profile/${UserId}`)
         .then(response => {
