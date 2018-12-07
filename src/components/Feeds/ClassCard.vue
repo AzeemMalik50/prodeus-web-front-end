@@ -87,7 +87,8 @@ export default {
       this.$store
         .dispatch("classes/enrollClass", {
           classId: this.feedClass._id,
-          studentId: this.currentUserId
+          studentId: this.currentUserId,
+          type:'enroll'
         })
         .then(
           response => {

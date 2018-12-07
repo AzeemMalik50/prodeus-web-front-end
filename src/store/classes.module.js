@@ -11,8 +11,8 @@ export const classes = {
     feeds: [],
     myClasses: {
       type: '',
-      instructor: [],
-      student: []
+      instructor: null,
+      student: null
     },
     watchedLessons: {}
   },
@@ -85,7 +85,7 @@ export const classes = {
       return authService.getMedia(`/images/${mediaId}`);
     },
     enrollClass({ commit }, payload) {
-      return authService.put(`/classes/instructor/${payload.classId}/enroll`, payload);
+      return authService.put(`/classes/instructor/${payload.classId}/${payload.type}`, payload);
     },
     watchedLesson({ commit }, payload) {
       return authService.put(`/classes/lesson/${payload.classId}/watched`, payload);

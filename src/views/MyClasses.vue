@@ -75,12 +75,7 @@ export default {
       return this.type === "instructor";
     },
     isLoader() {
-      return !(
-        this.myClasses.student &&
-        this.myClasses.student.length &&
-        this.myClasses.instructor &&
-        this.myClasses.instructor.length
-      );
+      return !(this.myClasses.student && this.myClasses.instructor);
     },
     ...mapGetters({ myClasses: "classes/myClasses" })
   }

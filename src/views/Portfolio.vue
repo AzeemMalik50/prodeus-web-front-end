@@ -7,9 +7,9 @@
       <a data-w-tab="Tab 2" class="tab-page w-inline-block w-tab-link" :class="{'w--current': isFeed}" @click="changeTab('feed')">
         <div>Feed</div>
       </a>
-      <a data-w-tab="Tab 3" class="tab-page w-inline-block w-tab-link" :class="{'w--current': isShowCase}" @click="changeTab('showCase')">
+      <!-- <a data-w-tab="Tab 3" class="tab-page w-inline-block w-tab-link" :class="{'w--current': isShowCase}" @click="changeTab('showCase')">
         <div>Showcase</div>
-      </a>
+      </a> -->
       <a data-w-tab="Tab 4" class="tab-page w-inline-block w-tab-link" :class="{'w--current': isProDegree}" @click="changeTab('proDegrees')">
         <div>ProDegrees</div>
       </a>

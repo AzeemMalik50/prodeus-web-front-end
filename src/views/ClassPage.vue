@@ -10,8 +10,7 @@
             <div class="_20px-margin">
               <h2 class="heading-6 center">{{currentClass.category}}</h2>
             </div>
-            <a v-if="!isEnrolled" href="#" @click.prevent="enrollClass()" class="link">Enroll</a>
-            <a v-if="isEnrolled" href="#" class="link">Enrolled</a>
+            <a  href="#" @click.prevent="enrollClass()" class="link">{{isEnrolled ? 'Enrolled': 'Enroll'}}</a>
             <div class="div-block-84">
               <div class="back-wrap" @click="$router.push('/')">
                 <img src="../assets/left-arrow.svg" class="image-13 left-arrow" />
@@ -149,6 +148,9 @@ export default {
       );
       return enrollIndex > -1 ? true : false;
     },
+    toggeledEnroll(){
+      return this.isEnrolled ? 'unenroll' :'enroll';
+    },
     ...mapGetters({
       currentClass: "classes/currentClass"
     })
@@ -165,11 +167,11 @@ export default {
       this.$store
         .dispatch("classes/enrollClass", {
           classId: this.id,
-          studentId: this.currentUserId
+          studentId: this.currentUserId,
+          type: this.toggeledEnroll
         })
         .then(
           response => {
-            console.log(response.data);
             this.currentClass.enrolledStudents = response.data.enrolledStudents;
           },
           err => {
