@@ -63,7 +63,7 @@
             <div class="lesson-wrapper" v-for="lesson in currentClass.lessons" :key="lesson.lessonNumber">
               <LessonBlock :lesson="lesson" :key="lesson.lessonNumber" />
               <transition name="fade" mode="out-in" :duration="{ enter: 500, leave: 250 }">
-                <LessonDetail :lesson="lesson" v-show="lesson.expanded" />
+                <LessonDetail :lesson="lesson" :classId="currentClass._id" v-show="lesson.expanded" />
               </transition>
             </div>
           </div>

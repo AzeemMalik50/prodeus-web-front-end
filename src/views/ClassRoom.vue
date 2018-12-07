@@ -36,7 +36,7 @@
         <div class="trailer">
           <div class="play">
             <img src="../assets/play.svg" width="16" alt="">
-            <ProdeusPlayer v-if="videoUrl"  :videoUrl="videoUrl(currentClass.lessons[currentLessonIndex].media)" />
+            <ProdeusPlayer :videoUrl="videoUrl" :ended="videoEnded" />
             </div>
         </div>
         <div class="_20px-bottom-margin">
@@ -336,7 +336,7 @@
                 </div>
               </div>
               <div class="div-block-8">
-                <div class="text-block" :class="{white: index === currentLessonIndex}">2:15</div>
+                <div class="text-block" :class="{white: index === currentLessonIndex}">{{lesson.secondsDuration | duration }}</div>
                 <img v-if="index === currentLessonIndex" src="../assets/assignment_required_active.svg" height="16" alt="" class="image-2">
                 <img v-else src="../assets/Assignment.svg" height="16" alt="" class="image-2">
                 </div>
@@ -383,7 +383,9 @@
               </div>
             </div>
           </div>
-          <div class="div-block-126"><a href="#" class="link">Submit Assignment</a></div>
+          <div class="div-block-126">
+            <a href="#" class="link">Submit Assignment</a>
+          </div>
         </div>
         <div class="card"><img src="../assets/fortune.jpg" alt="" class="image-31">
           <div class="_20px-pad-wrapper">
@@ -420,6 +422,7 @@ import { mapGetters } from "vuex";
 import Loading from "vue-loading-overlay";
 import ProdeusPlayer from "@/components/Video/ProdeusPlayer.vue";
 export default {
+  name:'ClassRoom',
   props: ["id"],
   components: {
     Loading,
@@ -437,6 +440,10 @@ export default {
   computed: {
     currentLesson() {
       return this.currentClass.lessons[this.currentLessonIndex];
+    },
+      videoUrl() {
+      const id = this.currentLesson.media;
+      return process.env.VUE_APP_API_BASE_URL + "/media/" + id;
     },
     profilePic() {
       if (this.currentClass.instructor.img) {
@@ -464,19 +471,25 @@ export default {
     })
   },
   methods: {
-    videoUrl(id) {
-      return process.env.VUE_APP_API_BASE_URL + "/media/" + id;
-    },
     downloadFile(file) {
       let link = document.createElement("a");
       link.href =
         process.env.VUE_APP_API_BASE_URL + "/media/" + file.originalName;
       link.setAttribute("download", file.originalName);
-      // link.download = file.originalName;
       link.click();
     },
     url(id) {
       return process.env.VUE_APP_API_BASE_URL + "/media/" + id;
+    },
+    videoEnded(){
+      console.log('vide has ebnded .....');
+    this.$store.dispatch("classes/watchedLesson", {classId: this.id, lessonId:this.currentLesson._id})
+    .then(res =>{
+      console.log(res);
+    }, err=>{
+      console.error(err);
+    })
+
     }
   }
 };

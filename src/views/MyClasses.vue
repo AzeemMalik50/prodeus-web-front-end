@@ -14,45 +14,73 @@
       </div>
     </div>
     <div class="page-section"></div>
-    <div class="flex-row">
-      <div class="flexcolumn" v-if="isInstructor" v-for="myClass in myClasses.data" :key="myClass._id">
+    <div class="flex-row" v-if="!isLoader">
+      <div class="flexcolumn" v-show="isInstructor" v-for="myClass in myClasses.instructor" :key="myClass._id + 'instructor'">
        <instructor-card :myClass="myClass" />
       </div>
-      <div class="flexcolumn" v-if="isStudent" v-for="myClass in myClasses.data" :key="myClass._id">
+      <div class="flexcolumn" v-show="isStudent" v-for="myClass in myClasses.student" :key="myClass._id">
        <student-card :myClass="myClass" />
       </div>
     </div>
+    <Loading :color="'#8446e8'" :active.sync="isLoader" :is-full-page="true"></Loading>
+
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
+import Loading from "vue-loading-overlay";
 import StudentCard from "../components/MyClasses/StudentCard.vue";
 import instructorCard from "../components/MyClasses/InstructorCard.vue";
 
 export default {
   props: ["id"],
+  data() {
+    return {
+      type: "instructor"
+    };
+  },
   components: {
     StudentCard,
-    instructorCard
+    instructorCard,
+    Loading
+  },
+  created() {
+    this.$store.dispatch("classes/getMyClasses", {
+      id: this.id,
+      type: "student"
+    });
+    this.$store.dispatch("classes/getMyClasses", {
+      id: this.id,
+      type: "instructor"
+    });
   },
   methods: {
     toggleMyClasses() {
-      let toName = "";
-      if (this.isInstructor) {
-        toName = "studentClasses";
-      } else {
-        toName = "instructorClasses";
-      }
-      this.$router.push({ name: toName, params: { id: this.id } });
+      // let toName = "";
+      // if (this.isInstructor) {
+      //   toName = "studentClasses";
+      // } else {
+      //   toName = "instructorClasses";
+      // }
+      // this.$router.push({ name: toName, params: { id: this.id } });
+      this.type = this.type === "instructor" ? "student" : "instructor";
     }
   },
   computed: {
     isStudent() {
-      return this.myClasses.type === "student";
+      return this.type === "student";
     },
     isInstructor() {
-      return this.myClasses.type === "instructor";
+      return this.type === "instructor";
+    },
+    isLoader() {
+      return !(
+        this.myClasses.student &&
+        this.myClasses.student.length &&
+        this.myClasses.instructor &&
+        this.myClasses.instructor.length
+      );
     },
     ...mapGetters({ myClasses: "classes/myClasses" })
   }

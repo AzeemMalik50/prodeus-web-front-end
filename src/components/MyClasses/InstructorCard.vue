@@ -10,7 +10,7 @@
         </div>
         <div class="div-block-117"><img src="@/assets/Menu.svg" width="4" alt=""></div>
       </div>
-    </div><img :src="myClass.img" alt="" class="image-5">
+    </div><img :src="image" alt="" class="image-5">
     <div class="card-module _50">
       <div class="flex-space-around">
         <div class="left-align"><img src="@/assets/students.svg" width="20" height="20" alt="">
@@ -33,7 +33,22 @@
 
 <script>
   export default {
-  props:['myClass']
+  props:['myClass'],
+   data(){
+    return {
+      image:''
+    }
+  },
+  created(){
+    this.$store.dispatch("classes/getMedia", this.myClass.img).then(
+        response => {
+          this.image = response.data;
+        },
+        err => {
+          console.error(err);
+        }
+      );
+  }
   }
 </script>
 <style lang="scss" scoped>

@@ -7,7 +7,8 @@ import moment from 'moment-timezone';
 const HelloJs = require('hellojs/dist/hello.all.min.js');
 const VueHello = require('vue-hellojs');
 // require videojs style
-import 'video.js/dist/video-js.css'
+import 'video.js/dist/video-js.css';
+import './_services/interceptor';
 //loaing component
 import "vue-loading-overlay/dist/vue-loading.css";
 

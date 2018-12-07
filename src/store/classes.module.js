@@ -11,8 +11,11 @@ export const classes = {
     feeds: [],
     myClasses: {
       type: '',
-      data: []
-    }
+      instructor: [],
+      student:[]
+    },
+
+
   },
   actions: {
     createClass({ commit }, payload) {
@@ -24,17 +27,19 @@ export const classes = {
         );
     },
     getMyClasses({ commit }, payload) {
+      commit('resetMyClasses');
       authService.get(`/classes/${payload.type}/${payload.id}`)
         .then(response => {
-          axios.all(response.data.map((mClass) => {
-            return authService.getMedia(`/images/${mClass.img._id}`)
-              .then(function (img) {
-                mClass.img = img.data;
-                return mClass;
-              });
-          })).then((finalClasses) => {
-            commit('setMyClasses', { type: payload.type, data: finalClasses });
-          });
+          // axios.all(response.data.map((mClass) => {
+          //   return authService.getMedia(`/images/${mClass.img._id}`)
+          //     .then(function (img) {
+          //       mClass.img = img.data;
+          //       return mClass;
+          //     });
+          // })).then((finalClasses) => {
+          //   commit('setMyClasses', { type: payload.type, data: finalClasses });
+          // });
+          commit('setMyClasses', { type: payload.type, data: response.data });
         },
           error => commit('failure', error));
     },
@@ -75,6 +80,9 @@ export const classes = {
     },
     enrollClass({ commit }, payload) {
       return authService.put(`/classes/instructor/${payload.classId}/enroll`, payload);
+    },
+    watchedLesson({ commit }, payload) {
+      return authService.put(`/classes/lesson/${payload.classId}/watched`, payload);
     }
   },
   mutations: {
@@ -86,7 +94,12 @@ export const classes = {
     },
     setMyClasses(state, myClasses) {
       state.myClasses.type = myClasses.type;
-      state.myClasses.data = myClasses.data;
+      state.myClasses[myClasses.type] = myClasses.data;
+    },
+    resetMyClasses(state) {
+      state.myClasses.instructor = [];
+      state.myClasses.student = [];
+      state.myClasses.type = '';
     },
     failure(state, error) {
       state.error = { error };

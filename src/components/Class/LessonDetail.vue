@@ -6,7 +6,7 @@
       </div>
       <div class="_20px-bottom-margin" v-html="lesson.description">
       </div>
-     
+
       <div v-if="lesson.teacherAssignment">
          <div class="_10px-botttom-margin">
         <h1 class="heading-31">Assignement Guidelines</h1>
@@ -29,9 +29,9 @@
         <div v-else class="_10px-botttom-margin">
         <h1 class="heading-31">No assignements!</h1>
       </div>
-  
+
     </div>
-    <div class="div-block-79" :style="background">
+    <div class="div-block-79" :style="background" @click="gotoClassRoom()">
       <img height="40" src="@/assets/Play-White.svg" class="play" />
     </div>
   </div>
@@ -39,7 +39,7 @@
 
 <script>
 export default {
-  props: ["lesson"],
+  props: ["lesson", "classId"],
   data() {
     return {
       backImage: ""
@@ -66,6 +66,9 @@ export default {
     },
     url(id) {
       return process.env.VUE_APP_API_BASE_URL + "/media/" + id;
+    },
+    gotoClassRoom(){
+      this.$router.push({name:'classRoom', params:{id: this.classId}})
     }
   },
 

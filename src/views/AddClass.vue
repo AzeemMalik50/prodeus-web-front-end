@@ -27,7 +27,7 @@
           </a>
         </div>
         <div class="w-tab-content">
-            <transition name="fade" mode="out-in" :duration="{ enter: 500, leave: 250 }">                    
+            <transition name="fade" mode="out-in" :duration="{ enter: 500, leave: 250 }">
           <div data-w-tab="Tab 1" class="w-tab-pane" v-if="selectedTab=='1'" :key="selectedTab"
           :class="{'w--tab-active': selectedTab=='1'}">
             <div class="add-class-block">
@@ -54,17 +54,17 @@
                         <option v-for="catg in allCategories" :key="catg.id" :value="catg.name">
                           {{catg.name}}</option>
                         </select>
-                   
+
                         </div>
                     <div class="_30px-bottom-margin form-text chip-field">
-                     
+
                  <div class="div-block-102 chip" v-for="(skill, index) in newClass.skillTags" :key="skill">
                 <div class="tag-text">{{skill}}</div>
                 <span @click="removeSkill(index)" class="image-23" >
-                <img src="../assets/x.svg" class="cross"/>                
+                <img src="../assets/x.svg" class="cross"/>
                 </span>
                 </div>
-                
+
                       <input type="text" @keyup.enter.prevent="addSkill();" v-model="skill" class="chip-input w-input" maxlength="256" name="skills-2" data-name="Skills 2" placeholder="Topics" id="skills-2" required="">
                       </div>
                       <!-- <input type="submit" value="Submit" data-wait="Please wait..." class="submit-button w-button"> -->
@@ -98,57 +98,63 @@
           <div data-w-tab="Tab 2" class="w-tab-pane" v-if="selectedTab=='2'" :key="selectedTab"
           :class="{'w--tab-active': selectedTab=='2'}">
             <div class="add-class-block">
-            
+
               <div class="_40-side-padding">
                 <div class="_30-px-top-bottom">
                   <h1 class="heading-4">Curriculum</h1>
                 </div>
               </div>
               <div class="curriculum-block">
-                <div class="div-block-46">
-                  <div class="lesson-container">
+                <div class="div-block-46" >
+                  <div class="lesson-container" @click="toTrailer()">
                     <h1 class="heading-22" :class="{'complete': newClass.trailer.completed}">Trailer</h1>
                     <img src="../assets/check-line.svg" class="image-8 check" v-if="newClass.trailer.completed" />
                     </div>
-                  <div class="lesson-container" v-for="(lesson, index) in newClass.lessons" :key="index">
+                  <div class="lesson-container" v-for="(lesson, index) in newClass.lessons" :key="index" @click="toLesson(index)">
                     <h1 class="heading-22" :class="{'complete':lesson.completed}">Lesson {{index + 1}}</h1>
-                    <img src="../assets/check-line.svg" class="image-8 check" v-if="lesson.completed" />                    
+                    <img src="../assets/check-line.svg" class="image-8 check" v-if="lesson.completed" />
                     </div>
                      <div class="lesson-container cursor-pointer" @click="addLesson();">
                     <h1 class="heading-22 add-lesson">+ Add Lesson</h1>
                   </div>
                 </div>
                 <!-- lesson component-->
-                <lesson-form v-if="!newClass.trailer.completed" :lesson="newClass.trailer" :lessonHeading="lessonHeading" :isVideoSelected="isVideoSelected" :allowAssigment="False"/>
+                <lesson-form v-if="isTrailer" :lesson="newClass.trailer" :lessonHeading="lessonHeading" :isVideoSelected="isVideoSelected" :allowAssigment="False"/>
                 <lesson-form v-else :lesson="newClass.lessons[lessonIndex]" :lessonHeading="lessonHeading" :isVideoSelected="isVideoSelected" :allowAssigment="True"/>
               </div>
-              <div class="_40-side-padding" v-if="lessonIndex !== newClass.lessons.length -1">
+              <div class="_40-side-padding" v-if="lessonIndex !== newClass.lessons.length -1 || currentLesson().toUpload.isUploading">
                 <div class="_20-px-top-bottom-padding">
                   <div class="align-right">
-                    <div class="button outline" @click="completeLesson()">
-                      <h1 class="form-button outline"> {{newClass.trailer.isUploading ? 'Uploading...' : 'Next Lesson'}}</h1>
+                    <div class="button outline inactive" v-if="currentLesson().toUpload.isUploading">
+                      <h1 class="form-button outline"> Uploading Video...</h1>
+                    </div>
+                     <div v-else class="button outline" @click="completeLesson()">
+                      <h1 class="form-button outline">Next Lesson</h1>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
             <div class="align-right">
-              <div  @click="changeTab('3', true)" class="button" :class="{inactive: lessonIndex !== newClass.lessons.length -1}">
-                <h1 class="form-button"> {{newClass.trailer.isUploading ? 'Uploading...' : 'Next'}}</h1>
+               <div class="button inactive" v-if="!isAllLessonsReady">
+                <h1 class="form-button"> Next </h1>
+              </div>
+              <div  v-else @click="changeTab('3', true)" class="button">
+                <h1 class="form-button"> Next</h1>
               </div>
             </div>
           </div>
           <div data-w-tab="Tab 3" class="w-tab-pane" v-if="selectedTab=='3'" :key="selectedTab"
           :class="{'w--tab-active': selectedTab=='3'}">
             <div class="add-class-block">
-          
+
               <div class="_40-side-padding">
                 <div class="_30-px-top-bottom">
                   <h1 class="heading-4">Final Project</h1>
                 </div>
               </div>
                 <div class="_20px-pad-wrapper">
-              
+
               <div class="_40-side-padding" >
                 <div class="assignment w-form">
                       <form id="email-form-2" name="email-form-2" data-name="Email Form 2" class="form-3 border-none">
@@ -169,7 +175,7 @@
                 </div>
             </div>
             <div class="_40px-bottom-margin">
-              <div class="button" @click="closeAddClass()" :class="{inactive: !isFinalProjectReady}">
+              <div class="button" @click="closeAddClass()" :class="{inactive: !isClassReady}">
                 <h1 class="form-button">Preview &amp; Publish</h1>
               </div>
             </div>
@@ -179,7 +185,7 @@
       </div>
     </div>
   </div>
-   <loading :color="'#8446e8'" :active.sync="isUploading" 
+   <loading :color="'#8446e8'" :active.sync="isUploading"
         :is-full-page="true"></loading>
   </div>
 </template>
@@ -196,14 +202,17 @@ const teacherAssignment = {
   guidelines: "",
   isrequired: false,
   media: [],
-  files: {}
+  files: {},
+  isUploading: false
 };
 const newLesson = {
   title: "",
   description: "",
+  lessonThumbnail: "",
   toUpload: {
     video: "",
-    thumbnail: ""
+    thumbnail: "",
+    isUploading: false
   },
   media: "",
   img: "",
@@ -225,6 +234,7 @@ export default {
   data() {
     return {
       skill: "",
+      currentLessonType: "trailer",
       isVideoSelected: false,
       selectedTab: "1",
       hasAssignment: false,
@@ -256,9 +266,11 @@ export default {
         trailer: {
           title: "",
           description: "",
+          lessonThumbnail: "",
           toUpload: {
             video: "",
-            thumbnail: ""
+            thumbnail: "",
+            isUploading: false
           },
           secondsDuration: 0,
           completed: false,
@@ -291,26 +303,34 @@ export default {
         if (lastIndex > -1) {
           this.lessonIndex = lastIndex;
         }
-        let isTeachAssign = this.newClass.lessons[this.lessonIndex];
-        const lastLessonIndex = this.newClass.lessons.length - 1;
-        const lastLesson = this.newClass.lessons[lastLessonIndex];
       },
       deep: true
     }
   },
   methods: {
-    addAssignment(){
-       if (
-          this.newClass.lessons[this.lessonIndex].hasAssignment &&
-          !this.newClass.lessons[this.lessonIndex].teacherAssignment
-        ) {
-          this.newClass.lessons[this.lessonIndex][
-            "teacherAssignment"
-          ] = JSON.parse(JSON.stringify(teacherAssignment));
-        } else {
-          let lesson = this.newClass.lessons[this.lessonIndex];
-          delete lesson.teacherAssignment;
-        }
+    toLesson(index) {
+      this.currentLessonType = "lessons";
+      if (this.newClass.lessons[index].completed) {
+        this.lessonIndex = index;
+      }
+    },
+    toTrailer() {
+      if (this.newClass.trailer.completed) {
+        this.currentLessonType = "trailer";
+      }
+    },
+    addAssignment() {
+      if (
+        this.newClass.lessons[this.lessonIndex].hasAssignment &&
+        !this.newClass.lessons[this.lessonIndex].teacherAssignment
+      ) {
+        this.newClass.lessons[this.lessonIndex][
+          "teacherAssignment"
+        ] = JSON.parse(JSON.stringify(teacherAssignment));
+      } else {
+        let lesson = this.newClass.lessons[this.lessonIndex];
+        delete lesson.teacherAssignment;
+      }
     },
     addSkill() {
       if (this.skill && this.newClass.skillTags.indexOf(this.skill) === -1) {
@@ -342,9 +362,21 @@ export default {
     setDifficulty(dif) {
       this.newClass.difficulty = dif;
     },
+    clearLessonThumbnails() {
+      for (let i = 0; i < this.newClass.lessons.length; i++) {
+        this.newClass.lessons[i].lessonThumbnail = null;
+        this.newClass.lessons[i].toUpload.thumbnail = null;
+        this.newClass.lessons[i].toUpload.video = null;
+      }
+      this.newClass.trailer.lessonThumbnail = null;
+      this.newClass.trailer.toUpload.video = null;
+      this.newClass.trailer.toUpload.thumbnail = null;
+
+    },
     closeAddClass() {
       /*  final project submittion and call create-classs api */
-      if (this.isFinalProjectReady) {
+      if (this.isClassReady) {
+        this.clearLessonThumbnails();
         this.$store.dispatch("classes/createClass", this.newClass);
         /*  action to close create-class-form */
 
@@ -360,22 +392,38 @@ export default {
         }
       }
     },
+    handelLessonChanges() {
+      const refData = this.currentLesson();
+    },
     completeLesson(lastTab) {
       /*  video upload form data */
       if (document.getElementById("videoFile")) {
         document.getElementById("videoFile").value = "";
       }
+      if (document.getElementById("attachFiles")) {
+        document.getElementById("attachFiles").value = "";
+      }
       const refData = this.currentLesson();
       if (
         refData.title &&
         refData.description &&
-        refData.toUpload.video &&
+        refData.lessonThumbnail &&
         refData.toUpload.thumbnail
       ) {
-        this.isUploading = true;
-        let formData = new FormData();
-        formData.append("thumbnail", refData.toUpload.thumbnail);
-        formData.append("video", refData.toUpload.video);
+        // this.isUploading = true;
+        if (this.isTrailer) {
+          this.currentLessonType = "lessons";
+          this.lessonIndex = 0;
+        } else if (this.lessonIndex < this.newClass.lessons.length - 1) {
+          this.lessonIndex += 1;
+        }
+        refData.completed = true;
+        if (lastTab) {
+          this.selectedTab = lastTab;
+        }
+        // let formData = new FormData();
+        // formData.append("thumbnail", refData.toUpload.thumbnail);
+        // formData.append("video", refData.toUpload.video);
 
         /*testing purpose */
         // refData.media = "5bef63cf6c632510682052a6";
@@ -389,59 +437,65 @@ export default {
         // }
 
         /* Assignment files  */
-        let requests = [this.$store.dispatch("classes/uploadVideo", formData)];
-        if (
-          refData.teacherAssignment &&
-          refData.teacherAssignment.files &&
-          refData.teacherAssignment.files.length
-        ) {
-          let assignment = new FormData();
-          for (let i = 0; i < refData.teacherAssignment.files.length; i++) {
-            assignment.append(
-              "prodeusFiles",
-              refData.teacherAssignment.files[i]
-            );
-          }
-          requests.push(
-            this.$store.dispatch("classes/uploadFiles", assignment)
-          );
-        }
-        axios.all(requests).then(
-          axios.spread((videos, assigns) => {
-            refData.media = videos.data.video._id;
-            refData.img = videos.data.thumbnail._id;
-            if (assigns) {
-              refData.teacherAssignment.media = assigns.data;
-            }
-            refData.completed = true;
-            this.isUploading = false;
-            this.isVideoSelected = false;
-            refData.isUploading = false;
-            if (document.getElementById("attachFiles")) {
-              document.getElementById("attachFiles").value = "";
-            }
-            if (lastTab) {
-              this.selectedTab = lastTab;
-            }
-          })
-        );
+        // let requests = [this.$store.dispatch("classes/uploadVideo", formData)];
+        // if (
+        //   refData.teacherAssignment &&
+        //   refData.teacherAssignment.files &&
+        //   refData.teacherAssignment.files.length
+        // ) {
+        //   let assignment = new FormData();
+        //   for (let i = 0; i < refData.teacherAssignment.files.length; i++) {
+        //     assignment.append(
+        //       "prodeusFiles",
+        //       refData.teacherAssignment.files[i]
+        //     );
+        //   }
+        //   requests.push(
+        //     this.$store.dispatch("classes/uploadFiles", assignment)
+        //   );
+        // }
+        // axios.all(requests).then(
+        //   axios.spread((videos, assigns) => {
+        //     refData.media = videos.data.video._id;
+        //     refData.img = videos.data.thumbnail._id;
+        //     if (assigns) {
+        //       refData.teacherAssignment.media = assigns.data;
+        //     }
+        //     refData.completed = true;
+        //     this.isUploading = false;
+        //     this.isVideoSelected = false;
+        //     refData.isUploading = false;
+        //     if (document.getElementById("attachFiles")) {
+        //       document.getElementById("attachFiles").value = "";
+        //     }
+        //     if (lastTab) {
+        //       this.selectedTab = lastTab;
+        //     }
+        //   })
+        // );
       } else {
         refData.isError = true;
       }
     },
     currentLesson() {
-      if (!this.newClass.trailer.completed) {
+      if (this.isTrailer) {
         return this.newClass.trailer;
       } else {
         return this.newClass.lessons[this.currentLessonIndex()];
       }
     },
     currentLessonIndex() {
-      return this.newClass.lessons.findIndex(lesson => !lesson.completed);
+      return this.lessonIndex;
+      // return this.newClass.lessons.findIndex(lesson => !lesson.completed);
     },
     addLesson() {
       newLesson.lessonNumber = newLesson.lessonNumber + 1;
       this.newClass.lessons.push(JSON.parse(JSON.stringify(newLesson)));
+    },
+    checkIsLessonReady(refData) {
+      return (
+        refData.title && refData.description && refData.media && refData.img
+      );
     }
   },
   computed: {
@@ -467,12 +521,36 @@ export default {
       );
     },
     lessonHeading() {
-      if (!this.newClass.trailer.completed) {
+      if (this.isTrailer) {
         return "Trailer";
       } else {
         const index = this.currentLessonIndex() + 1;
         return `Lesson ${index}`;
       }
+    },
+    isTrailer() {
+      return this.currentLessonType === "trailer";
+    },
+    isLesson() {
+      return this.currentLessonType === "lessons";
+    },
+    isAllLessonsReady() {
+      let lessonsState = true;
+      for (let i = 0; i < this.newClass.lessons.length; i++) {
+        if (!this.checkIsLessonReady(this.newClass.lessons[i])) {
+          lessonsState = false;
+          return;
+        }
+      }
+      let trailerState = this.checkIsLessonReady(this.newClass.trailer);
+      return trailerState && lessonsState;
+    },
+    isClassReady() {
+      return (
+        this.isClassInfoReady &&
+        this.isAllLessonsReady &&
+        this.isFinalProjectReady
+      );
     }
   }
 };
@@ -569,5 +647,8 @@ export default {
   .cls-2 {
     stroke: none;
   }
+}
+.complete {
+  cursor: pointer;
 }
 </style>

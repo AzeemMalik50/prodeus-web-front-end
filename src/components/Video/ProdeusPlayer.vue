@@ -15,7 +15,7 @@
                          @ready="playerReadied"
                          @statechanged="playerStateChanged($event)">
           </video-player>
-       
+
 </template>
 
 <script>
@@ -23,7 +23,13 @@
 import "./player-theme.scss";
 
 export default {
-  props: ["poster", "videoUrl"],
+  props: ["poster", "videoUrl", "ended"],
+      watch: {
+      	videoUrl: function(newVal, oldVal) { // watch it
+          this.playerOptions.sources[0].src = newVal;
+        },
+
+      },
   data() {
     return {
       // videojs options
@@ -76,6 +82,9 @@ export default {
       // console.log('player pause!', player)
     },
     onPlayerEnded(player) {
+      if(this.ended){
+        this.ended();
+      }
       // console.log('player ended!', player)
     },
     onPlayerLoadeddata(player) {

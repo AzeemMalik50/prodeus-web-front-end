@@ -1,7 +1,7 @@
 <template>
-    <div class="_30px-padding">
+    <div class="_30px-top-bottom-20-side-padding">
         <div class="_20px-bottom-margin">
-            <div class="profile-picture"></div>
+            <div class="profile-picture center"></div>
         </div>
         <div class="_20px-bottom-margin">
             <h1 class="paragraph-3 center">@willcairns</h1>

@@ -14,9 +14,10 @@
         <h1 class="heading-4">{{lesson.title}}</h1>
       </div>
     </div>
-    <div class="div-block-8">
+    <div class="div-block-8" v-if="lesson.teacherAssignment">
       <div class="text-block">{{lesson.secondsDuration | duration}}</div>
-      <img src="@/assets/Assignment.svg" height="20" class="image-2" />
+      <img v-if="lesson.teacherAssignment.isrequired" src="@/assets/Assignment.svg" height="20" class="image-2" />
+      <img v-else src="@/assets/assignment_optional.svg" height="20" class="image-2" />
     </div>
   </div>
 </template>

@@ -2,7 +2,7 @@
   <div class="card">
     <div class="_20px-pad-wrapper">
       <div class="_20px-bottom-margin">
-        <div class="profile-picture">
+        <div class="profile-picture center">
           <img :src="profilePic" class="link-block-3 w-inline-block profile-pic" />
         </div>
       </div>

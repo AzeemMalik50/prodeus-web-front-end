@@ -17,12 +17,12 @@
           </a>
         </div>
         <nav role="navigation" class="nav-menu w-nav-menu">
-          <router-link :to="{ name: 'instructorClasses', params: { id: loggedInUser._id} }" class="link-block w-inline-block">
+          <router-link :to="{ name: 'myClasses', params: { id: loggedInUser._id} }" class="link-block w-inline-block">
             <img src="@/assets/ClassroomInactive.svg" class="height-20" />
           </router-link>
-          <a href="#" class="link-block w-inline-block">
+          <!-- <a href="#" class="link-block w-inline-block">
             <img src="@/assets/MessagesInactive.svg" class="width-20" />
-          </a>
+          </a> -->
           <a  class="link-block w-inline-block cursor-pointer" cursor-pointer @click.prevent="toggelePanel('isNotify')">
             <img src="@/assets/NotificationsInactive.svg" class="height-20" />
           </a>

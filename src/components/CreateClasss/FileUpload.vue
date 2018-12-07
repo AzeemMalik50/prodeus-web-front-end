@@ -32,10 +32,28 @@ export default {
       fileList = this.toArray(this.attachedFiles).concat(
         this.toArray(fileList)
       );
+      this.attachObject.isUploading = true;
       this.attachedFiles = fileList;
       this.attachObject.files = this.attachedFiles;
+      this.attachObject.isUploaded = false;
+      let assignment = new FormData();
+      for (let i = 0; i < this.attachObject.files.length; i++) {
+        assignment.append("prodeusFiles", this.attachObject.files[i]);
+      }
+      this.$store.dispatch("classes/uploadFiles", assignment).then(
+        assigns => {
+          if (assigns) {
+            this.attachObject.media = assigns.data;
+          }
+          this.attachObject.isUploading = false;
+        },
+        err => {
+          console.error(err);
+        }
+      );
     },
     removeAttachItem(index) {
+      this.attachObject.isModified = true;
       this.attachedFiles = Array.from(this.attachedFiles, x => x);
       // for (let i = 0; i < this.files.length; i++) {
       this.attachedFiles.splice(index, 1);

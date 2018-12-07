@@ -5,13 +5,13 @@
         <div class="flex-space-between">
           <h1 class="heading-4">{{lessonHeading}}</h1>
          <video v-show="isVideoSelected" id="video" controls height="150" width="180" hidden />
-        <input type="file" accept="video/mp4,video/x-m4v,video/*" id="videoFile" @change="fileSelect($event.target.name, $event.target.files);" class="input-file" hidden>            
+        <input type="file" accept="video/mp4,video/x-m4v,video/*" id="videoFile" @change="fileSelect($event.target.name, $event.target.files);" class="input-file" hidden>
          <div class="video-upload">
           <div class="button top-padding cursor-pointer" @click="chooseFiles()">
             <h1 class="form-button"> {{lesson.toUpload.video ? lesson.toUpload.video.name.substring(0,20) :'Upload Video'}}</h1>
           </div>
           <div class="image-container" v-if="lesson.toUpload.video" @click="removeSelectedFile()" >
-          <img class="thumbnail"  :src="videoThumbnail"/>
+          <img class="thumbnail"  :src="lesson.lessonThumbnail"/>
            <div class="after">
              <img src="@/assets/x.svg" class="cross" />
            </div>
@@ -98,6 +98,7 @@ export default {
   },
   methods: {
     chooseFiles() {
+      this.lesson.toUpload.isUploaded = false;
       document.getElementById("videoFile").click();
     },
     removeSelectedFile() {
@@ -105,13 +106,32 @@ export default {
         document.getElementById("videoFile").value = "";
       }
       this.videoThumbnail = null;
+      this.lesson.lessonThumbnail = null;
       this.lesson.toUpload.video = null;
       this.lesson.toUpload.thumbnail = null;
-      
+      this.lesson.toUpload.isUploaded = true;
+      this.lesson.media = "";
+      this.lesson.img = "";
     },
     toggleAssignment() {
       this.lesson.hasAssignment = !this.lesson.hasAssignment;
       this.$parent.addAssignment();
+    },
+    uploadVideo() {
+      this.lesson.toUpload.isUploading = true;
+      let formData = new FormData();
+      formData.append("thumbnail", this.lesson.toUpload.thumbnail);
+      formData.append("video", this.lesson.toUpload.video);
+      this.$store.dispatch("classes/uploadVideo", formData).then(
+        videos => {
+          this.lesson.media = videos.data.video._id;
+          this.lesson.img = videos.data.thumbnail._id;
+          this.lesson.toUpload.isUploading = false;
+        },
+        err => {
+          console.error(err);
+        }
+      );
     },
     fileSelect(fieldName, fileList) {
       if (!fileList.length) return;
@@ -150,12 +170,13 @@ export default {
           var image = canvas.toDataURL();
           // console.log(image);
           this.videoThumbnail = image;
+          this.lesson.lessonThumbnail = image;
           this.lesson.toUpload.thumbnail = new File(
             [image],
             `lesson${this.lesson.lessonNumber}.png`
           );
           // uploading video......
-          // this.uploadVideo();
+          this.uploadVideo();
           var success = image.length > 100000;
           if (success) {
             URL.revokeObjectURL(url);

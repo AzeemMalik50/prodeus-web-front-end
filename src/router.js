@@ -32,19 +32,9 @@ const router = new Router({
           }
         },
         { path: 'class-dashboard', name: 'classDashboard', component: ClassDashBoard },
+        {path: 'classes/my/:id', name: 'myClasses', component: MyClasses, props: true},
         {
-          path: 'classes/instructor/:id', name: 'instructorClasses', component: MyClasses, props: true,
-          beforeEnter(to, from, next) {
-            store.dispatch("classes/getMyClasses", { id: to.params.id, type: 'instructor' });
-            next();
-          }
-        },
-        {
-          path: 'classes/student/:id', name: 'studentClasses', component: MyClasses, props: true,
-          beforeEnter(to, from, next) {
-            store.dispatch("classes/getMyClasses", { id: to.params.id, type: 'student' });
-            next();
-          }
+          path: 'classes/student/:id', name: 'studentClasses', component: MyClasses, props: true
         },
         { path: 'profile', name:'profile', component: Portfolio },
         { path: 'class-room/:id', name:'classRoom', component: ClassRoom, props: true },
