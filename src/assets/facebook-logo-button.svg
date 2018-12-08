@@ -1,0 +1,12 @@
+<svg id="facebook-logo-button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 49.652 49.652">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #bcbcbc;
+      }
+    </style>
+  </defs>
+  <g id="Group_6545" data-name="Group 6545">
+    <path id="Path_13675" data-name="Path 13675" class="cls-1" d="M24.826,0A24.826,24.826,0,1,0,49.652,24.826,24.854,24.854,0,0,0,24.826,0ZM31,25.7H26.961V40.1H20.976V25.7H18.131V20.612h2.845V17.321c0-2.357,1.12-6.04,6.04-6.04l4.435.017v4.939H28.232a1.219,1.219,0,0,0-1.269,1.386v2.99h4.56Z"/>
+  </g>
+</svg>
