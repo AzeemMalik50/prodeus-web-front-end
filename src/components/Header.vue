@@ -24,7 +24,8 @@
             <img src="@/assets/MessagesInactive.svg" class="width-20" />
           </a> -->
           <a  class="link-block w-inline-block cursor-pointer" cursor-pointer @click.prevent="toggelePanel('isNotify')">
-            <img src="@/assets/NotificationsInactive.svg" class="height-20" />
+            <img src="@/assets/notifications_active.svg" v-if="unreadCount > 0" class="height-20" />
+            <img src="@/assets/NotificationsInactive.svg" v-else class="height-20" />
           </a>
           <a  class="link-block w-inline-block cursor-pointer cursor-pointer" @click.prevent="toggelePanel('isUser')">
             <img :src="profilePic" v-if="profilePic" class="width-20 profile-pic" />
@@ -35,128 +36,7 @@
     </div>
       <div class="navmodal-wrap">
     <div class="navmodal-container">
-      <div class="div-block-104" v-if="isNotify">
-        <div class="div-block-105">
-          <h1 class="heading-41">Notifications</h1>
-        </div>
-        <img src="../assets/Path-13444.svg" height="26" alt="" class="image-27 notified">
-        <div class="div-block-106">
-          <div class="div-block-111">
-            <h1 class="heading-6 grey">NEW</h1>
-          </div>
-          <div class="div-block-107 unread">
-            <div class="flex-space-between">
-              <div class="div-block-109">
-                <div class="profile-picture _38px"></div>
-              </div>
-              <div class="div-block-108">
-                <div class="text-block-13"><strong>Paul Walker</strong> liked your post <strong class="bold-text">A Brief History of Typography and ...</strong></div>
-                <div class="horiz-left-align-justify-atart">
-                  <img src="../assets/like.svg" height="12" alt="" class="image-25">
-                  <h6 class="_10-side-margins">24h</h6>
-                </div>
-              </div>
-              <div class="div-block-110">
-                <img src="../assets/fortune.jpg" alt=""></div>
-            </div>
-          </div>
-          <div class="div-block-107 unread">
-            <div class="flex-space-between">
-              <div class="div-block-109">
-                <div class="profile-picture _38px"></div>
-              </div>
-              <div class="div-block-108">
-                <div class="text-block-13"><strong>Paul Walker</strong> commented on your Question &quot;What artistic period did Monet paint his masterpiece...&quot;</div>
-                <div class="horiz-left-align-justify-atart">
-                  <img src="../assets/Group-4427.svg" height="12" alt="" class="image-25">
-                  <h6 class="_10-side-margins">24h</h6>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="div-block-107 unread">
-            <div class="flex-space-between">
-              <div class="div-block-109">
-                <div class="profile-picture _38px"></div>
-              </div>
-              <div class="div-block-108">
-                <div class="text-block-13"><strong>Paul Walker</strong> enrolled in your class <strong class="bold-text">A Brief History of Typography and ...</strong></div>
-                <div class="horiz-left-align-justify-atart">
-                  <img src="../assets/student.svg" height="12" alt="" class="image-25">
-                  <h6 class="_10-side-margins">24h</h6>
-                </div>
-              </div>
-              <div class="div-block-110">
-                <img src="../assets/IMG_0479.png" srcset="images/IMG_0479-p-500.png 500w, images/IMG_0479-p-800.png 800w, images/IMG_0479.png 960w" sizes="56px" alt="" class="image-26"></div>
-            </div>
-          </div>
-          <div class="div-block-111">
-            <h1 class="heading-6 grey">EARLIER</h1>
-          </div>
-          <div class="div-block-107">
-            <div class="flex-space-between">
-              <div class="div-block-109">
-                <div class="profile-picture _38px"></div>
-              </div>
-              <div class="div-block-108">
-                <div><strong>Paul Walker</strong> liked your post <strong class="text-block-13">A Brief History of Typography and ...</strong></div>
-                <div class="horiz-left-align-justify-atart">
-                  <img src="../assets/like.svg" height="12" alt="" class="image-25">
-                  <h6 class="_10-side-margins">24h</h6>
-                </div>
-              </div>
-              <div class="div-block-110">
-                <img src="../assets/fortune.jpg" alt=""></div>
-            </div>
-          </div>
-          <div class="div-block-107">
-            <div class="flex-space-between">
-              <div class="div-block-109">
-                <div class="profile-picture _38px"></div>
-              </div>
-              <div class="div-block-108">
-                <div class="text-block-13"><strong>Paul Walker</strong> liked your post <strong class="bold-text">A Brief History of Typography and ...</strong></div>
-                <div class="horiz-left-align-justify-atart">
-                  <img src="../assets/like.svg" height="12" alt="" class="image-25">
-                  <h6 class="_10-side-margins">24h</h6>
-                </div>
-              </div>
-              <div class="div-block-110">
-                <img src="../assets/fortune.jpg" alt=""></div>
-            </div>
-          </div>
-          <div class="div-block-107">
-            <div class="flex-space-between">
-              <div class="div-block-109">
-                <div class="profile-picture _38px"></div>
-              </div>
-              <div class="div-block-108">
-                <div class="text-block-13"><strong>Paul Walker</strong> liked your post <strong class="bold-text">A Brief History of Typography and ...</strong></div>
-                <div class="horiz-left-align-justify-atart">
-                  <img src="../assets/like.svg" height="12" alt="" class="image-25">
-                  <h6 class="_10-side-margins">24h</h6>
-                </div>
-              </div>
-              <div class="div-block-110">
-                <img src="../assets/fortune.jpg" alt=""></div>
-            </div>
-          </div>
-          <div class="div-block-107">
-            <div class="flex-space-between">
-              <div class="div-block-109">
-                <div class="profile-picture _38px"></div>
-              </div>
-              <div class="div-block-108">
-                <div class="text-block-13"><strong>Paul Walker</strong> commented on your Question &quot;What artistic period did Monet paint his masterpiece...&quot;</div>
-                <div class="horiz-left-align-justify-atart">
-                  <img src="../assets/Group-4427.svg" height="12" alt="" class="image-25">
-                  <h6 class="_10-side-margins">24h</h6>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <notifications v-show="isNotify" />
       <div class="div-block-104 user" v-if="isUser">
         <div class="div-block-105">
           <h1 class="heading-41">My Account</h1>
@@ -205,7 +85,8 @@
           <img src="@/assets/ClassroomInactive.svg" class="height-24" />
         </a>
         <a href="#" class="link-block w-inline-block">
-          <img src="@/assets/MessagesInactive.svg" class="width-24" />
+          <img src="@/assets/notifications_active.svg" v-if="unreadCount > 0"  class="width-24" />
+          <img src="@/assets/MessagesInactive.svg" v-else class="width-24" />
         </a>
         <a href="#" class="link-block w-inline-block">
           <img src="@/assets/NotificationsInactive.svg" class="height-24" />
@@ -222,15 +103,16 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapState } from "vuex";
 
 import AddClass from "../views/AddClass";
 import CreatePost from "../views/CreatePost";
-
+import Notifications from './Notifications';
 export default {
   components: {
     AddClass,
-    CreatePost
+    CreatePost,
+    Notifications
   },
   data() {
     return {
@@ -246,6 +128,8 @@ export default {
       JSON.parse(localStorage.getItem("user")).accessToken,
       "1m"
     );
+    this.$store.dispatch("notification/getNotificationsCount");
+
   },
   methods: {
     toggelePanel(name) {
@@ -296,7 +180,10 @@ export default {
     loggedInUser() {
       return JSON.parse(localStorage.getItem("user"));
     },
-    ...mapGetters(["showCreateClass", "showPostForm"])
+    ...mapGetters(["showCreateClass", "showPostForm"]),
+     ...mapState({
+      unreadCount: state => state.notification.unreadCount
+    }),
   }
 };
 </script>

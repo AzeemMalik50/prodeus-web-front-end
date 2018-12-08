@@ -57,3 +57,6 @@ Vue.filter('duration', (totalSeconds) => {
   const seconds = Math.ceil(totalSeconds % 60);
   return hours + ":" + minutes + ":" + seconds;
 });
+Vue.filter('length', (value, length) => {
+  return value.length <= length ? value : value.slice(length)+ '...'
+});
