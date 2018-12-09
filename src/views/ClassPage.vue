@@ -34,7 +34,7 @@
               <h1 class="heading-2">Class Info</h1>
             </div>
             <div class="_20-30-margin w-hidden-tiny">
-              <h2 class="heading-7">24,786 Students Enrolled  | {{currentClass.lessons ? currentClass.lessons.length : 0}} Lessons {{currentClass.totalDuration | duration }}
+              <h2 class="heading-7">{{currentClass.enrolledStudents.length}} Students Enrolled  | {{currentClass.lessons ? currentClass.lessons.length : 0}} Lessons {{currentClass.totalDuration | duration }}
               </h2>
             </div>
             <!-- <h2 class="heading-11">24,786 Students Enrolled<br>10 Lessons 1:03:44</h2> -->
@@ -120,13 +120,8 @@ export default {
     return {};
   },
   computed: {
-    background() {
-      return {
-        "background-image": `url(${this.currentClass.img})`
-      };
-    },
     poster() {
-      return this.currentClass.img;
+      return this.$apiBaseUrl  + "/media/" + this.currentClass.img;
     },
     videoUrl() {
       if (this.currentClass && this.currentClass.trailer) {

@@ -46,26 +46,27 @@ export default {
     };
   },
   created() {
-    this.$store.dispatch("classes/getMedia", this.lesson.img).then(
-      response => {
-        this.backImage = response.data;
-      },
-      err => {
-        console.error(err);
-      }
-    );
+  this.backImage = this.url(this.lesson.img);
+    // this.$store.dispatch("classes/getMedia", this.lesson.img).then(
+    //   response => {
+    //     this.backImage = response.data;
+    //   },
+    //   err => {
+    //     console.error(err);
+    //   }
+    // );
   },
   methods: {
     downloadFile(file) {
       let link = document.createElement("a");
       link.href =
-        process.env.VUE_APP_API_BASE_URL + "/media/" + file.originalName;
+        this.$apiBaseUrl  + "/media/" + file.originalName;
       link.setAttribute("download", file.originalName);
       // link.download = file.originalName;
       link.click();
     },
     url(id) {
-      return process.env.VUE_APP_API_BASE_URL + "/media/" + id;
+      return this.$apiBaseUrl  + "/media/" + id;
     },
     gotoClassRoom(){
       this.$router.push({name:'classRoom', params:{id: this.classId}})

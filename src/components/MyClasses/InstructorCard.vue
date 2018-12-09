@@ -40,14 +40,15 @@
     }
   },
   created(){
-    this.$store.dispatch("classes/getMedia", this.myClass.img).then(
-        response => {
-          this.image = response.data;
-        },
-        err => {
-          console.error(err);
-        }
-      );
+    this.image =  this.$apiBaseUrl  + "/media/" + this.myClass.img;
+    // this.$store.dispatch("classes/getMedia", this.myClass.img).then(
+    //     response => {
+    //       this.image = response.data;
+    //     },
+    //     err => {
+    //       console.error(err);
+    //     }
+    //   );
   }
   }
 </script>

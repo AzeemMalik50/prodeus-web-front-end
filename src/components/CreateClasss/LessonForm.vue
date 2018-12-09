@@ -133,6 +133,17 @@ export default {
         }
       );
     },
+    dataURLtoFile(dataurl, filename) {
+      let arr = dataurl.split(",");
+      let mime = arr[0].match(/:(.*?);/)[1];
+      let bstr = atob(arr[1]);
+      let n = bstr.length;
+      let u8arr = new Uint8Array(n);
+      while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+      }
+      return new File([u8arr], filename, { type: mime });
+    },
     fileSelect(fieldName, fileList) {
       if (!fileList.length) return;
       this.$parent.isVideoSelected = true;
@@ -168,17 +179,24 @@ export default {
             .getContext("2d")
             .drawImage(video, 0, 0, canvas.width, canvas.height);
           var image = canvas.toDataURL();
+          // var img_b64 = canvas.toDataURL('image/png');
           // console.log(image);
-          this.videoThumbnail = image;
-          this.lesson.lessonThumbnail = image;
-          this.lesson.toUpload.thumbnail = new File(
-            [image],
-            `lesson${this.lesson.lessonNumber}.png`
-          );
+
+          //  new File(
+          //   [image],
+          //   `lesson${this.lesson.lessonNumber}.png`
+          // );
           // uploading video......
-          this.uploadVideo();
+
           var success = image.length > 100000;
           if (success) {
+            this.videoThumbnail = image;
+            this.lesson.lessonThumbnail = image;
+            this.lesson.toUpload.thumbnail = this.dataURLtoFile(
+              image,
+              `lesson${this.lesson.lessonNumber}.png`
+            );
+            this.uploadVideo();
             URL.revokeObjectURL(url);
           }
           return success;

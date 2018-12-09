@@ -46,10 +46,10 @@ export const classes = {
       commit('setCurrentClass', {});
       authService.get(`/classes/${id}`)
         .then(response => {
-          authService.getMedia(`/images/${response.data.img}`)
-            .then(res => {
+          // authService.getMedia(`/images/${response.data.img}`)
+          //   .then(res => {
               response.data.totalDuration = 0;
-              response.data.img = res.data;
+             // response.data.img = res.data;
               response.data.lessons = response.data.lessons.map(lesson => {
                 response.data.totalDuration += lesson.secondsDuration;
                 lesson.expanded = false;
@@ -57,7 +57,7 @@ export const classes = {
               });
               response.data.totalDuration = Math.round(response.data.totalDuration);
               commit('setCurrentClass', response.data);
-            });
+           // });
         },
           error => commit('failure', error));
     },

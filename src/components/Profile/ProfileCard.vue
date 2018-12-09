@@ -66,7 +66,7 @@ export default {
     profilePic() {
       let storeUser = this.user;
       if (storeUser.local.img) {
-        return this.user.local.img;
+        return  this.$apiBaseUrl  + "/media/" + storeUser.local.img;
       } else if (storeUser.facebook && storeUser.facebook.img) {
         return storeUser.facebook.img;
       } else if (storeUser.google && storeUser.google.img) {

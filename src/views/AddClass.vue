@@ -291,7 +291,7 @@ export default {
   },
   created() {
     this.$store.dispatch("categories/getCategories");
-    this.addLessson(5);
+    this.addLessson(2);
     window.addEventListener("keyup", this.closeClassModal);
   },
   watch: {

@@ -2,7 +2,7 @@
   <div class="div-block-107" :class="{unread: !notification.read}"  @click="goToNotification()">
             <div class="flex-space-between">
               <div class="div-block-109">
-                <img :src="userImage.img || profilePic(notification.from)" class="profile-picture _38px" />
+                <img :src="userImage || profilePic(notification.from)" class="profile-picture _38px" />
               </div>
               <div class="div-block-108">
                 <div class="text-block-13"><strong>{{notification.from.fullName}}</strong>{{ " " + notification.actionMessage + " "}} <strong class="bold-text"> {{notification.referenceDoc.title | length(60)}}</strong></div>
@@ -13,7 +13,7 @@
                 </div>
               </div>
               <div class="div-block-110">
-                <img :src="classImage.img" alt=""></div>
+                <img :src="classImage" alt=""></div>
             </div>
           </div>
 </template>
@@ -23,21 +23,20 @@ export default {
   props: ["notification"],
   data() {
     return {
-      classImage: {
-        img: ''
-      },
-      userImage: {
-        img: ''
-      }
+      classImage: "",
+      userImage: ""
     };
   },
   created() {
-    this.getImage(this.notification.referenceDoc.img, this.classImage);
     if (this.notification.from.local.img) {
-      this.getImage(this.notification.from.local.img, this.userImage);
+      this.userImage =
+        this.$apiBaseUrl + "/media/" + this.notification.from.local.img;
     }
+    this.classImage =
+      this.$apiBaseUrl + "/media/" + this.notification.referenceDoc.img;
   },
   methods: {
+    imageUrl() {},
     goToNotification() {
       if (this.notification.docType === "Classes") {
         this.$router.push({
@@ -61,7 +60,7 @@ export default {
         }
       );
     },
-       profilePic(user) {
+    profilePic(user) {
       if (user.facebook && user.facebook.img) {
         return user.facebook.img;
       } else if (user.google && user.google.img) {
