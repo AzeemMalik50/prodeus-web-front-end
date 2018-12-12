@@ -42,7 +42,11 @@
                   <div>Remember me</div>
                 </div>
                 <div class="div-block-101 right">
-                  <div>Forgot password?</div>
+                  <div>
+                 <router-link class="link-4" :to="{name: 'forgot-password'}">
+                    Forgot password?
+                 </router-link>
+                    </div>
                 </div>
               </div>
             </div>
@@ -202,5 +206,9 @@ export default {
 }
 .text-field-3 {
   padding-left: 45px !important;
+}
+.link-4 {
+    color: #bcbcbc;
+    text-decoration: none;
 }
 </style>

@@ -25,6 +25,7 @@
     "@vue/cli-service": "^3.0.4",
     "node-sass": "^4.9.0",
     "sass-loader": "^7.0.1",
+    "vue-masonry-css": "^1.0.3",
     "vue-svg-loader": "^0.11.0",
     "vue-template-compiler": "^2.5.17"
   },

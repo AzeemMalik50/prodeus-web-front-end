@@ -44,7 +44,13 @@ export const authentication = {
             }, err => {
                 console.error(err);
             })
-        }
+        },
+        forgetPassword: ({ dispatch, commit }, { email }) => {
+            return userService.forgetPassword(email);
+        },
+        resetPassword: ({ dispatch, commit }, payload) => {
+            return userService.resetPassword(payload);
+        },
     },
     mutations: {
         loginSuccess: (state, user) => {

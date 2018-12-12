@@ -1,11 +1,13 @@
 <template>
     <div class="page-section">
   <div class="flex-row">
+    <masonry :cols="{default: 5, 1600: 4, 1300: 3, 900: 2, 500: 1}">
     <div class="flexcolumn" v-for="feed in feeds" :key="feed._id">
       <ClassCard :feedClass="feed" />
       <!-- <ProjectCard v-bind="projectData" /> -->
       <!-- <QuestionCard /> -->
     </div>
+    </masonry>
     <!-- <div class="flexcolumn">
       <ProjectCard v-bind="projectData" />
       <QuestionCard />

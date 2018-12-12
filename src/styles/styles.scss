@@ -35,3 +35,68 @@
   .profile-card{
     display: flex;
   }
+  ._40px-pad-wrap.stretch {
+    overflow: auto;
+    height: 100%;
+  }
+  .checkbox {
+    font-size: 18px;
+  }
+  .wordmark {
+    height: 32px;
+    .cls-1 {
+      fill: #22283a;
+    }
+
+    .cls-2 {
+      fill: #e04859;
+    }
+
+    .cls-3 {
+      fill: #ebcb4d;
+    }
+
+    .cls-4 {
+      fill: #3ea7f4;
+    }
+  }
+  .fb-icon {
+    height: 18px;
+    .cls-1 {
+      fill: #fff;
+    }
+  }
+  .google-icon {
+    height: 18px;
+    .cls-1 {
+      fill: #4285f4;
+    }
+
+    .cls-2 {
+      fill: #34a853;
+    }
+
+    .cls-3 {
+      fill: #fbbc05;
+    }
+
+    .cls-4 {
+      fill: #ea4335;
+    }
+
+    .cls-5 {
+      fill: none;
+    }
+  }
+  .pwd-icon {
+    height: 18px;
+    position: relative;
+    top: 34px;
+    padding-left: 20px;
+    &.email {
+      height: 12px;
+    }
+  }
+  .text-field-3 {
+    padding-left: 45px !important;
+  }

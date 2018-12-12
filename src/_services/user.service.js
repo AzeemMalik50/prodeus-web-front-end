@@ -5,11 +5,19 @@ export const userService = {
     logout,
     signup,
     facebookAuth,
-    googleAuth
+    googleAuth,
+    resetPassword,
+    forgetPassword
 };
 
 function login(email, password) {
     return axios.post(`/login`, { email, password });
+}
+function forgetPassword(email) {
+    return axios.post(`/forgetPassword`, { email });
+}
+function resetPassword(payload) {
+    return axios.post(`/resetPassword`, payload);
 }
 function facebookAuth(payload) {
     return axios.get(`/auth/facebook/callback?access_token=${payload}`);

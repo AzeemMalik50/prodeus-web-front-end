@@ -6,6 +6,7 @@ import VueMoment from 'vue-moment';
 import moment from 'moment-timezone';
 const HelloJs = require('hellojs/dist/hello.all.min.js');
 const VueHello = require('vue-hellojs');
+import VueMasonry from 'vue-masonry-css';
 // require videojs style
 import 'video.js/dist/video-js.css';
 import './_services/interceptor';
@@ -35,7 +36,7 @@ Vue.use(VueVideoPlayer, /* {
 Vue.use(VueMoment, {
   moment,
 });
-
+Vue.use(VueMasonry);
 HelloJs.init({
   google: process.env.VUE_APP_GOOGLE_APP_CLIENT_ID,
   facebook: process.env.VUE_APP_FACEBOOK_APP_CLIENT_ID

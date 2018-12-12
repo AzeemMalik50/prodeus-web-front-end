@@ -10,6 +10,8 @@ import SignUp from '@/views/SignUp.vue';
 import MyClasses from '@/views/MyClasses.vue';
 import Portfolio from '@/views/Portfolio.vue';
 import ClassRoom from '@/views/ClassRoom.vue';
+import ForgotPassword from '@/views/ForgotPassword.vue';
+
 import store from './store'
 Vue.use(Router)
 
@@ -50,6 +52,11 @@ const router = new Router({
       component: SignUp
     },
     {
+      path: '/forgot-password',
+      name: 'forgot-password',
+      component: ForgotPassword
+    },
+    {
       path: '/about',
       name: 'about',
       component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
@@ -65,7 +72,7 @@ const router = new Router({
 })
 router.beforeEach((to, from, next) => {
   // redirect to login page if not logged in and trying to access a restricted page
-  const publicPages = ['/login', '/sign-up'];
+  const publicPages = ['/login', '/sign-up', '/forgot-password'];
   const authRequired = !publicPages.includes(to.path);
   const loggedIn = localStorage.getItem('user');
 
