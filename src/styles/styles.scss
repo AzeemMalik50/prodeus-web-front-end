@@ -23,6 +23,12 @@
     }
 
   }
+  .w-form-done{
+    &.block {
+      display: block !important;
+    }
+
+  }
   .profile-pic{
     border-radius: 50%;
   }

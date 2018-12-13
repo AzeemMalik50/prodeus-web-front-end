@@ -48,7 +48,7 @@ export const authentication = {
         forgetPassword: ({ dispatch, commit }, { email }) => {
             return userService.forgetPassword(email);
         },
-        resetPassword: ({ dispatch, commit }, payload) => {
+        resetForgetPassword: ({ dispatch, commit }, payload) => {
             return userService.resetPassword(payload);
         },
     },
