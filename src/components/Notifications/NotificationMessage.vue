@@ -1,6 +1,6 @@
 <template>
   <div class="div-block-107" :class="{unread: !notification.read}"  @click="goToNotification()">
-            <div class="flex-space-between">
+            <div class="flex-space-between cursor-pointer">
               <div class="div-block-109">
                 <img :src="userImage || profilePic(notification.from)" class="profile-picture _38px" />
               </div>

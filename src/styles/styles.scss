@@ -1,108 +1,138 @@
 .div-block-102 {
-   margin-bottom: 10px !important;
-  padding-right: 5px !important;
-  padding-left: 5px;
-  }
-  .image-23 {
+    margin-bottom: 10px !important;
+    padding-right: 5px !important;
+    padding-left: 5px;
+}
+
+.image-23 {
     margin-right: 5px !important;
     margin-left: 10px !important;
-  }
-  img {
-      cursor: pointer;
-  }
-  .error{
+}
+
+img {
+    cursor: pointer;
+}
+
+.error {
     border: 1px solid #E04859;
-  }
-  .class-header {
+}
+
+.class-header {
     padding-right: 10px !important;
     padding-left: 10px !important;
-  }
-  .w-form-fail{
-    &.block {
-      display: block !important;
-    }
+}
 
-  }
-  .w-form-done{
+.w-form-fail {
     &.block {
-      display: block !important;
+        display: block !important;
     }
+}
 
-  }
-  .profile-pic{
+.w-form-done {
+    &.block {
+        display: block !important;
+    }
+}
+
+.profile-pic {
     border-radius: 50%;
-  }
-  .image-5 {
+}
+
+.image-5 {
     height: 170px;
-  }
-  .trailer {
+}
+
+.trailer {
     background-image: none;
-  }
-  .profile-card{
+}
+
+.profile-card {
     display: flex;
-  }
-  ._40px-pad-wrap.stretch {
+}
+
+._40px-pad-wrap.stretch {
     overflow: auto;
     height: 100%;
-  }
-  .checkbox {
+}
+
+.checkbox {
     font-size: 18px;
-  }
-  .wordmark {
+}
+
+.wordmark {
     height: 32px;
     .cls-1 {
-      fill: #22283a;
+        fill: #22283a;
     }
-
     .cls-2 {
-      fill: #e04859;
+        fill: #e04859;
     }
-
     .cls-3 {
-      fill: #ebcb4d;
+        fill: #ebcb4d;
     }
-
     .cls-4 {
-      fill: #3ea7f4;
+        fill: #3ea7f4;
     }
-  }
-  .fb-icon {
+}
+
+.fb-icon {
     height: 18px;
     .cls-1 {
-      fill: #fff;
+        fill: #fff;
     }
-  }
-  .google-icon {
+}
+
+.google-icon {
     height: 18px;
     .cls-1 {
-      fill: #4285f4;
+        fill: #4285f4;
     }
-
     .cls-2 {
-      fill: #34a853;
+        fill: #34a853;
     }
-
     .cls-3 {
-      fill: #fbbc05;
+        fill: #fbbc05;
     }
-
     .cls-4 {
-      fill: #ea4335;
+        fill: #ea4335;
     }
-
     .cls-5 {
-      fill: none;
+        fill: none;
     }
-  }
-  .pwd-icon {
+}
+
+.pwd-icon {
     height: 18px;
     position: relative;
     top: 34px;
     padding-left: 20px;
     &.email {
-      height: 12px;
+        height: 12px;
     }
-  }
-  .text-field-3 {
+}
+
+.text-field-3 {
     padding-left: 45px !important;
-  }
+}
+
+.masonary {
+    @media (max-width: 479px) {
+        max-width: auto;
+        min-width: 100%;
+    }
+    // @media (max-width: 767px) {
+    //   max-width: 280px;
+    //   min-width: 240px;
+    // }
+    // @media (max-width: 991px) {
+    // max-width: 300px;
+    // min-width: 280px;
+    // }
+}
+.link-4:hover {
+  color: #3898EC;
+}
+.link-4 {
+  color: #bcbcbc;
+  text-decoration: none;
+}

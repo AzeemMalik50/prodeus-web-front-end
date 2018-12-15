@@ -1,6 +1,6 @@
 <template>
-     <div class="modal-wrapper">
-    <div class="_100-vh center">
+     <div class="modal-wrapper" @click.self="closeDialog()">
+    <div class="_100-vh center" @click.self="closeDialog()">
       <div class="addpost-modal">
         <div class="card add">
           <div class="signifier" :class="getClass"></div>
@@ -8,7 +8,7 @@
             <div class="form-block-4 w-form">
               <form id="email-form-3" name="email-form-3" data-name="Email Form 3">
                   <input type="text" class="text-field-2 w-input" maxlength="256" name="title" data-name="title" placeholder="Write a title…" id="title">
-                   
+
                   </form>
                   <quill-editor v-model="content" :options="config" ref="myQuillEditor">
                       </quill-editor>
@@ -60,11 +60,14 @@ export default {
     closePostModal(e) {
       /*  press escape to close modal */
       if (e.keyCode === 27) {
-        if (confirm("Are you sure to close!")) {
+        this.closeDialog();
+      }
+    },
+    closeDialog() {
+      if (confirm("Are you sure to exit create class!")) {
           this.$store.dispatch("toggelPostForm", false);
         }
-      }
-    }
+    },
   },
   computed: {
     getClass() {

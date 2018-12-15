@@ -1,7 +1,7 @@
 <template>
   <div>
-  <div class="modal-wrapper">
-    <div class="_100-vh">
+  <div class="modal-wrapper" @click.self="closeDialog()">
+    <div class="_100-vh" @click.self="closeDialog()">
       <div data-duration-in="300" data-duration-out="100" class="tabs-2 w-tabs">
         <div class="class-progress-horiz w-tab-menu">
           <a data-w-tab="Tab 1" class="tab-link-tab-1 w-inline-block w-tab-link" @click="changeTab('1')"
@@ -309,8 +309,8 @@ export default {
   },
   methods: {
     toLesson(index) {
-      this.currentLessonType = "lessons";
       if (this.newClass.lessons[index].completed) {
+      this.currentLessonType = "lessons";
         this.lessonIndex = index;
       }
     },
@@ -387,10 +387,13 @@ export default {
       /*  press escape to close modal */
 
       if (e.keyCode === 27) {
-        if (confirm("Are you sure to exit create class!")) {
+       this.closeDialog();
+      }
+    },
+    closeDialog() {
+      if (confirm("Are you sure to exit create class!")) {
           this.$store.dispatch("changeCreateClass", false);
         }
-      }
     },
     handelLessonChanges() {
       const refData = this.currentLesson();

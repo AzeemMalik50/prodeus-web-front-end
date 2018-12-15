@@ -131,6 +131,11 @@ export default {
     this.$store.dispatch("notification/getNotificationsCount");
 
   },
+  watch:{
+    $route (to, from){
+        this.closeAll();
+    }
+},
   methods: {
     toggelePanel(name) {
       this[name] = !this[name];
@@ -162,6 +167,11 @@ export default {
     },
     toRoute(name){
       this.$router.push({name:name})
+    },
+    closeAll(){
+      this.isAdd = false;
+      this.isNotify = false;
+      this.isUser = false;
     }
   },
   computed: {
