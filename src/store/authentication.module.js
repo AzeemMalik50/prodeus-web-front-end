@@ -1,4 +1,5 @@
 import { userService } from '../_services';
+import { authService } from '../_services/auth.service';
 import router from '@/router';
 import axios from 'axios';
 
@@ -51,6 +52,24 @@ export const authentication = {
         resetForgetPassword: ({ dispatch, commit }, payload) => {
             return userService.resetPassword(payload);
         },
+        addConnection({commit}, connectionId){
+            authService.patch(`user/connections/${connectionId}`)
+            .then(response => {
+              commit('updateConnections', response.data. connections);
+            },
+              error => {
+                console.error(error)
+            });
+          },
+          removeConnection({commit}, connectionId) {
+            authService.patch(`user/connections/${connectionId}/remove`)
+            .then(response => {
+              commit('updateConnections', response.data.connections);
+            },
+              error => {
+                  console.error(error)
+              });
+          }
     },
     mutations: {
         loginSuccess: (state, user) => {
@@ -68,6 +87,9 @@ export const authentication = {
             state.status = {};
             state.user = null;
             router.push({ name: 'login' });
+        },
+        updateConnections(state, connections){
+            state.user.connections = connections;
         }
     }
 }

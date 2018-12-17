@@ -5,6 +5,7 @@ export const authService = {
     get,
     post,
     put,
+    patch,
     fileUpload,
     getMedia
 };
@@ -19,6 +20,10 @@ function post(URL, data) {
 
 function put(URL, data) {
     return axios.put(URL, data, { headers: authHeader() });
+}
+
+function patch(URL, data) {
+    return axios.patch(URL, data, { headers: authHeader() });
 }
 function fileUpload(URL, formData) {
     return axios.post(URL, formData, { headers: authHeader({'Content-Type': 'multipart/form-data'}) });

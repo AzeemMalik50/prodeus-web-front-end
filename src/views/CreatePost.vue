@@ -64,7 +64,7 @@ export default {
       }
     },
     closeDialog() {
-      if (confirm("Are you sure to exit create class!")) {
+      if (confirm(`Are you sure to exit create ${this.type}!`)) {
           this.$store.dispatch("toggelPostForm", false);
         }
     },

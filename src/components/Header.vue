@@ -178,7 +178,7 @@ export default {
     profilePic() {
       let storeUser = this.loggedInUser;
       if (storeUser.local.img) {
-        return process.env.VUE_APP_API_BASE_URL + "/media/" + storeUser.img.id;
+        return process.env.VUE_APP_API_BASE_URL + "/media/" + storeUser.local.img;
       } else if (storeUser.facebook && storeUser.facebook.img) {
         return storeUser.facebook.img;
       } else if (storeUser.google && storeUser.google.img) {

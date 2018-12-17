@@ -40,6 +40,7 @@ const router = new Router({
           path: 'classes/student/:id', name: 'studentClasses', component: MyClasses, props: true
         },
         { path: 'profile', name:'profile', component: Portfolio },
+        { path: 'profile/:userId', name:'userProfile', component: Portfolio, props: true },
         { path: 'class-room/:id', name:'classRoom', component: ClassRoom, props: true },
       ]
     },
