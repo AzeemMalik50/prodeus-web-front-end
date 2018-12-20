@@ -1,5 +1,5 @@
 <template>
-     <div class="flexcolumn double">
+     <div class="flexcolumn double empty">
                 <div class="card">
                   <div class="_40-side-padding">
                      <div class="_30-px-top-bottom">
@@ -109,7 +109,8 @@
                               </div>
                             </div>
                             <div class="align-right-justify-start max-80">
-                              <div class="company-pic"></div>
+                              <img v-if="work.logo" :src="companyLogo(work.logo)" class="company-pic">
+                              <div v-else class="company-pic"></div>
                             </div>
                           </div>
                           <p>{{work.description}}</p>
@@ -211,6 +212,9 @@ if(message){
       );
 
       this.$store.dispatch("profile/setProfileForm", this.PROFILE_FORMS.WORK);
+    },
+    companyLogo(logoId) {
+      return process.env.VUE_APP_API_BASE_URL + "/media/" + logoId
     }
   },
   computed: {

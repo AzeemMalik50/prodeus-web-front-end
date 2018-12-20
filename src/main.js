@@ -20,6 +20,9 @@ import './styles/normalize.css';
 import './styles/webflow.css';
 import './styles/ongoing.css';
 import './styles/styles.scss';
+// Gloabl Copmponnets
+import UserThumbnail from './components/UserThumbnail';
+import DiscussionLike from './components/ClassRoom/DiscussionLike.vue';
 
 import axios from 'axios';
 
@@ -36,6 +39,9 @@ Vue.use(VueVideoPlayer, /* {
 Vue.use(VueMoment, {
   moment,
 });
+Vue.component('user-thumbnail', UserThumbnail);
+Vue.component('disc-like', DiscussionLike);
+
 Vue.use(VueMasonry);
 HelloJs.init({
   google: process.env.VUE_APP_GOOGLE_APP_CLIENT_ID,

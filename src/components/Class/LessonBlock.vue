@@ -29,7 +29,6 @@ export default {
   props:['lesson'],
   methods:{
     toggleDetail(){
-      console.log('toggleDetail')
       this.lesson.expanded = !this.lesson.expanded;
     }
   }

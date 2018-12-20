@@ -5,6 +5,8 @@ import { categories } from './categories.module';
 import { classes } from './classes.module';
 import { profile } from './profile.module';
 import { notification } from './notification.module';
+import { discussion } from './discussion.module';
+
 
 
 Vue.use(Vuex)
@@ -53,6 +55,7 @@ export default new Vuex.Store({
     categories,
     classes,
     profile,
-    notification
+    notification,
+    discussion
   }
 })
