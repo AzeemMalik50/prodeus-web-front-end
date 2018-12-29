@@ -6,7 +6,7 @@ import { classes } from './classes.module';
 import { profile } from './profile.module';
 import { notification } from './notification.module';
 import { discussion } from './discussion.module';
-
+import { post } from './post.module';
 
 
 Vue.use(Vuex)
@@ -15,7 +15,8 @@ export default new Vuex.Store({
   state: {
     showCreateClass: false,
     showPostForm: false,
-    isProjectOpen: false
+    isProjectOpen: false,
+    showAnswerPost: false
   },
   mutations: {
     changeCreateClass: (state, payload) => {
@@ -23,6 +24,9 @@ export default new Vuex.Store({
     },
     toggelPostForm: (state, payload) => {
       state.showPostForm = payload;
+    },
+    toggelAnswerForm: (state, payload) => {
+      state.showAnswerPost = payload;
     },
     updateProjectDialog: (state, payload) => {
       state.isProjectOpen = payload;
@@ -39,6 +43,11 @@ export default new Vuex.Store({
     }, payload) => {
       commit('toggelPostForm', payload);
     },
+    toggelAnswerForm: async ({
+      commit
+    }, payload) => {
+      commit('toggelAnswerForm', payload);
+    },
     updateProjectDialog: async ({
       commit
     }, payload) => {
@@ -48,6 +57,7 @@ export default new Vuex.Store({
   getters: {
     showCreateClass: state => state.showCreateClass,
     showPostForm: state => state.showPostForm,
+    showAnswerPost: state => state.showAnswerPost,
     isProjectOpen: state => state.isProjectOpen,
   },
   modules: {
@@ -56,6 +66,7 @@ export default new Vuex.Store({
     classes,
     profile,
     notification,
-    discussion
+    discussion,
+    post
   }
 })

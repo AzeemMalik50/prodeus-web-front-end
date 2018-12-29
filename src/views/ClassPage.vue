@@ -135,7 +135,8 @@ export default {
       }
     },
     currentUserId() {
-      return this.$store.state.authentication.user._id;
+      let user = this.$store.state.authentication.user;
+      return user ? user._id: '';
     },
     isEnrolled() {
       const enrollIndex = this.currentClass.enrolledStudents.findIndex(

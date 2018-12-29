@@ -12,6 +12,10 @@ import Portfolio from '@/views/Portfolio.vue';
 import ClassRoom from '@/views/ClassRoom.vue';
 import ForgotPassword from '@/views/ForgotPassword.vue';
 import ResetForgetPassword from '@/views/ResetForgetPassword.vue';
+import QuestionDetail from '@/views/QuestionDetail.vue';
+import ProjectDetail from '@/views/ProjectDetail.vue';
+
+
 
 import store from './store'
 Vue.use(Router)
@@ -22,11 +26,11 @@ const router = new Router({
   routes: [
     {
       path: '/',
-      name: 'home',
+      // name: 'home',
       // component: Home,
       component: () => import(/* webpackChunkName: "home" */ './views/Home.vue'),
       children: [
-        { path: '', component: Feeds },
+        { path: '',name:'feed', component: Feeds },
         {
           path: 'classes/:id', name: 'classPage', component: ClassPage, props: true,
           beforeEnter(to, from, next) {
@@ -42,6 +46,8 @@ const router = new Router({
         { path: 'profile', name:'profile', component: Portfolio },
         { path: 'profile/:userId', name:'userProfile', component: Portfolio, props: true },
         { path: 'class-room/:id', name:'classRoom', component: ClassRoom, props: true },
+        { path: 'question/:postId', name:'question', component: QuestionDetail, props: true },
+        { path: 'project/:postId', name:'project', component: ProjectDetail, props: true },
       ]
     },
     {

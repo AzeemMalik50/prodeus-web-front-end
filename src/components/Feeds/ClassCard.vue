@@ -91,7 +91,8 @@ export default {
       return { "background-image": `url(${this.backImage})` };
     },
     currentUserId() {
-      return this.$store.state.authentication.user._id;
+      let user = this.$store.state.authentication.user;
+      return user ? user._id: '';
     },
     isEnrolled() {
       const enrollIndex = this.feedClass.enrolledStudents.findIndex(

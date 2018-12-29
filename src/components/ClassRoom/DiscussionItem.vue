@@ -179,7 +179,6 @@ export default {
         .then(resp=>{
           this.discussItem.replies.push(resp.data)
           this.discus.body = '';
-          console.log(resp);
         }, err=>{
         })
       }

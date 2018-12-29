@@ -52,30 +52,30 @@ export const authentication = {
         resetForgetPassword: ({ dispatch, commit }, payload) => {
             return userService.resetPassword(payload);
         },
-        addConnection({commit}, connectionId){
+        addConnection({ commit }, connectionId) {
             authService.patch(`user/connections/${connectionId}`)
-            .then(response => {
-              commit('updateConnections', response.data. connections);
-            },
-              error => {
-                console.error(error)
-            });
-          },
-          removeConnection({commit}, connectionId) {
+                .then(response => {
+                    commit('updateConnections', response.data.connections);
+                },
+                    error => {
+                        console.error(error)
+                    });
+        },
+        removeConnection({ commit }, connectionId) {
             authService.patch(`user/connections/${connectionId}/remove`)
-            .then(response => {
-              commit('updateConnections', response.data.connections);
-            },
-              error => {
-                  console.error(error)
-              });
-          }
+                .then(response => {
+                    commit('updateConnections', response.data.connections);
+                },
+                    error => {
+                        console.error(error)
+                    });
+        }
     },
     mutations: {
         loginSuccess: (state, user) => {
             state.status = { loggedIn: true };
             state.user = user;
-            router.push({path:'/'});
+            router.push({ path: '/' });
         },
         loginFailure: (state) => {
             state.status = {};
@@ -88,8 +88,11 @@ export const authentication = {
             state.user = null;
             router.push({ name: 'login' });
         },
-        updateConnections(state, connections){
+        updateConnections(state, connections) {
             state.user.connections = connections;
+            let user = JSON.parse(localStorage.getItem('user'));
+            user.connections = connections;
+            localStorage.setItem('user', JSON.stringify(user));
         }
     }
 }

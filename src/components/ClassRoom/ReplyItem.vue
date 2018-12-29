@@ -26,7 +26,7 @@
                   <h6 class="heading-18 discus-hover">Reply</h6>
                 </div>
                 <div class="_16-px-right-margin">
-                  <h6 class="heading-18">• 24h</h6>
+                  <h6 class="heading-18">• {{discussItem.createdAt | moment("from", "now", true)}}</h6>
                 </div>
               </div>
             </div>
@@ -43,7 +43,7 @@
             <div class="align-right-justify-start">
               <div class="form-block-3 w-form">
                 <form id="email-form" name="email-form" data-name="Email Form">
-                  <input type="text" ref="reply" v-on:keydown.enter.prevent='onSubmit' v-model="discus.body" class="comment-block w-input" maxlength="256" name="Comment" data-name="Comment" placeholder="Write comment here" id="Comment"></form>
+                  <input type="text" :ref="discussItem._id" v-on:keydown.enter.prevent='onSubmit' v-model="discus.body" class="comment-block w-input" maxlength="256" :name="discussItem._id" data-name="Comment" placeholder="Write comment here" :id="discussItem._id"></form>
                 <div class="w-form-done">
                   <div>Thank you! Your submission has been received!</div>
                 </div>
@@ -84,6 +84,9 @@ export default {
   methods: {
     visibleInput() {
       this.showReply = true;
+      this.$nextTick(() => {
+      this.$refs[this.discussItem._id].focus();
+      });
     },
         onSubmit(){
       if(this.discus.body && this.discus.type){

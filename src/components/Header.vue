@@ -12,9 +12,13 @@
             <img src="@/assets/Search.svg" class="image-4" />
             <input type="search" class="search-input w-input" maxlength="256" name="query" placeholder="Search prodeus" id="search" required="">
             <input type="submit" value="Search" class="search-button w-button"></form>
-          <a class="w-inline-block cursor-pointer"  @click.prevent="toggelePanel('isAdd')">
+          <!-- <a class="w-inline-block cursor-pointer"  >
             <img src="@/assets/Add-Post.svg" class="add-post" />
-          </a>
+          </a> -->
+          <a  class="link-block-4 w-inline-block cursor-pointer" @click.prevent="toggelePanel('isAdd')">
+          <div class="div-block-113"><img src="@/assets/add-white.svg" height="20" alt="" class="image-29">
+            <div class="text-block-14">Post</div>
+          </div><img src="images/Profile.svg" width="24" alt="" class="image-39"></a>
         </div>
         <nav role="navigation" class="nav-menu w-nav-menu">
           <router-link :to="{ name: 'myClasses', params: { id: loggedInUser._id} }" class="link-block w-inline-block">

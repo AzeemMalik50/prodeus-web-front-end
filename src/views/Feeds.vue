@@ -3,9 +3,9 @@
   <div class="flex-row">
     <masonry :cols="{default: 5, 1600: 4, 1300: 3, 900: 2, 500: 1}" class="masonary">
     <div class="flexcolumn" v-for="feed in feeds" :key="feed._id">
-      <ClassCard :feedClass="feed" />
-      <!-- <ProjectCard v-bind="projectData" /> -->
-      <!-- <QuestionCard /> -->
+      <ClassCard :feedClass="feed" v-if="!feed.postType" />
+      <ProjectCard v-bind="projectData" v-if="feed.postType==='Project'" :project="feed" />
+      <QuestionCard v-if="feed.postType==='Question'" :question="feed" />
     </div>
     </masonry>
     <!-- <div class="flexcolumn">

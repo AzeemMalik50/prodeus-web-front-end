@@ -80,6 +80,16 @@ export default {
     allowAssigment: Boolean,
     isVideoSelected: Boolean
   },
+   watch: {
+    lesson: {
+      handler(val) {
+       if(this.lesson.teacherAssignment){
+         this.isAssignReq = this.lesson.teacherAssignment.isrequired;
+       }
+      },
+      deep: true
+    }
+  },
   data() {
     return {
       hasAssignment: false,
@@ -96,6 +106,7 @@ export default {
       }
     };
   },
+
   methods: {
     chooseFiles() {
       this.lesson.toUpload.isUploaded = false;
@@ -212,8 +223,8 @@ export default {
       fileReader.readAsArrayBuffer(file);
     },
     assignmentRequired() {
-      this.isAssignReq = !this.lesson.teacherAssignment.isrequired;
-      this.lesson.teacherAssignment.isrequired = this.isAssignReq;
+      this.lesson.teacherAssignment.isrequired  = !this.lesson.teacherAssignment.isrequired;
+     this.isAssignReq = this.lesson.teacherAssignment.isrequired ;
     }
   }
 };
