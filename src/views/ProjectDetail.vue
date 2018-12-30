@@ -79,7 +79,7 @@
             <h1 class="heading-33">{{project.title}}</h1>
           </div>
           <div class="_20px-bottom-margin">
-            <h2 class="heading-34 project">Art &amp; Design History</h2>
+            <h2 class="heading-34 project">{{project.category}}</h2>
           </div>
         </div>
         <div class="_20px-bottom-margin">

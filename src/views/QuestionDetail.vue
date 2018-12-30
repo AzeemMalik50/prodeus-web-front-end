@@ -12,7 +12,7 @@
             <h1 class="heading-1">{{question.title}}</h1>
           </div>
           <div class="_30px-bottom-margin">
-            <h2 class="heading-32 question">Art &amp; Design History</h2>
+            <h2 class="heading-32 question">{{question.category}}</h2>
           </div><a href="#" @click.prevent="addAnswer" class="link outline question">Answer</a></div>
             <div v-for="cont in question.content" :key="cont._id" class="margin-top-10">
                 <img v-if="cont.type==='image'"  :src="getMedia(cont.media)" />
@@ -42,7 +42,7 @@
             <h1 class="heading-33">{{question.title}}</h1>
           </div>
           <div class="_20px-bottom-margin">
-            <h2 class="heading-34 question">Art &amp; Design History</h2>
+            <h2 class="heading-34 question">{{question.category}}</h2>
           </div>
         </div>
         <div class="_20px-bottom-margin">

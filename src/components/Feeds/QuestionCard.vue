@@ -6,7 +6,7 @@
             <user-thumbnail :user="question.user" :myClass="'profile-picture'" />
 
       <div class="_20px-margin">
-        <h2 class="heading-6 center question">Art &amp; Design History</h2>
+        <h2 class="heading-6 center question">{{question.category}}</h2>
       </div>
       <div class="_20px-bottom-margin">
         <h1 class="heading-4 center">
