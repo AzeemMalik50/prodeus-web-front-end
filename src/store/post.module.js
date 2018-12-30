@@ -5,6 +5,7 @@ import axios from 'axios';
 export const post = {
   namespaced: true,
   state: {
+    selectedQuestion: {},
     error: {},
   },
   actions: {
@@ -26,10 +27,16 @@ export const post = {
     votePost({ commit }, data) {
       return authService.put(`/posts/${data.postId}/vote`, data);
     },
+    setSelectedQuestion({ commit }, data) {
+      commit('setSelectedQuestion', data);
+    },
   },
   mutations: {
     failure(state, err) {
       state.error = err;
+    },
+    setSelectedQuestion(state, payload) {
+      state.selectedQuestion = payload;
     }
   }
 }

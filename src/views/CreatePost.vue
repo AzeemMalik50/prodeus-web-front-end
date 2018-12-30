@@ -117,6 +117,8 @@ export default {
     closeForm(){
         this.$store.dispatch("toggelPostForm", false);
         this.$store.dispatch("toggelAnswerForm", false);
+        this.$store.dispatch("post/setSelectedQuestion", null);
+
     },
     addText() {
       this.content.push({

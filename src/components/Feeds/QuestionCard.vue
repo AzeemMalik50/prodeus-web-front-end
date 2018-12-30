@@ -1,5 +1,6 @@
 <template>
-  <div class="card">
+<div>
+  <div class="card cursor-pointer" @click="questionDetail()">
     <div class="_20px-pad-wrapper">
     <!-- <div class="profile-picture"></div>  -->
             <user-thumbnail :user="question.user" :myClass="'profile-picture'" />
@@ -28,20 +29,72 @@
                 </p>
             </div>
             <div class="div-block-77 min-width-15">
-              <img src="@/assets/upvote.svg" />
+              <img src="@/assets/upvote-blue.svg" v-if="isUpvoted" @click.stop="vote('upVote')" />
+              <img src="@/assets/upvote.svg" v-else @click.stop="vote('upVote')" />
               <h1 class="heading-30">{{voteCount}}</h1>
-              <img src="@/assets/downvote.svg" />
+              <img src="@/assets/downvote-blue.svg" v-if="isDownVoted" @click.stop="vote('downVote')"/>
+              <img src="@/assets/downvote.svg" v-else @click.stop="vote('downVote')"/>
+
             </div>
           </div>
         </div>
-      </div><a class="link outline question">Answer</a></div>
+      </div><a class="link outline question cursor-pointer" @click.stop="addAnswer">Answer</a></div>
+  </div>
   </div>
 </template>
 
 <script>
+import { mapGetters, mapState } from "vuex";
+import CreatePost from "@/views/CreatePost";
+
 export default {
   props: ["question"],
+  components: {
+    CreatePost
+  },
+  data() {
+    return {
+      postType: "Answer"
+    };
+  },
+  methods: {
+    questionDetail() {
+      this.$router.push({
+        name: "question",
+        params: { postId: this.question._id }
+      });
+    },
+    addAnswer() {
+      this.$store.dispatch("toggelAnswerForm", true);
+      this.$store.dispatch("post/setSelectedQuestion", this.question);
+    },
+      vote(type) {
+      this.$store
+        .dispatch("post/votePost", { postId: this.answers[0]._id, voteType: type })
+        .then(
+          resp => {
+            if (type === "upVote") {
+              this.answers[0].upVotes.push(this.loggedInUser._id);
+              this.answers[0].downVotes = this.answers[0].downVotes.filter(
+                el => el !== this.loggedInUser._id
+              );
+            } else {
+              this.answers[0].downVotes.push(this.loggedInUser._id);
+              this.answers[0].upVotes = this.answers[0].upVotes.filter(
+                el => el !== this.loggedInUser._id
+              );
+            }
+          },
+          err => {}
+        );
+    }
+  },
   computed: {
+    ...mapGetters(["showAnswerPost"]),
+    ...mapState({
+      loggedInUser: state => state.authentication.user,
+      selectedQuestion: state => state.post.selectedQuestion
+    }),
     answers() {
       if (this.question.replies && this.question.replies.length) {
         return this.question.replies.sort((a, b) => {
@@ -51,8 +104,16 @@ export default {
         return [];
       }
     },
-    voteCount(){
-      return (this.answers[0].upVotes.length - this.answers[0].downVotes.length).toString();
+    voteCount() {
+      return (
+        this.answers[0].upVotes.length - this.answers[0].downVotes.length
+      ).toString();
+    },
+     isUpvoted() {
+      return this.answers[0].upVotes.indexOf(this.loggedInUser._id) > -1;
+    },
+    isDownVoted() {
+      return this.answers[0].downVotes.indexOf(this.loggedInUser._id) > -1;
     }
   }
 };
@@ -63,6 +124,6 @@ svg {
   height: 16px;
 }
 .min-width-15 {
-      min-width: 15px;
+  min-width: 15px;
 }
 </style>

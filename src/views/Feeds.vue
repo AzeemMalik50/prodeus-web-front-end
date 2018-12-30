@@ -24,27 +24,31 @@
       <QuestionCard />
     </div> -->
   </div>
+    <create-post v-if="showAnswerPost" :type="postType" :parentPost="selectedQuestion" />
     </div>
 </template>
 
 <script>
-import {mapGetters} from 'vuex';
+import {mapGetters, mapState} from 'vuex';
 import ClassCard from "@/components/Feeds/ClassCard.vue";
 import ProjectCard from "@/components/Feeds/ProjectCard.vue";
 import QuestionCard from "@/components/Feeds/QuestionCard.vue";
+import CreatePost from "@/views/CreatePost";
 
 export default {
   name: "Feeds",
   components: {
     ClassCard,
     ProjectCard,
-    QuestionCard
+    QuestionCard,
+    CreatePost
   },
   created(){
     this.$store.dispatch("classes/getFeeds");
   },
   data() {
     return {
+      postType: "Answer",
       classData: {
         _id:'5beded4c94f97f06f19c9268',
         difficulty: "Advanced",
@@ -60,7 +64,12 @@ export default {
     };
   },
   computed:{
-     ...mapGetters({feeds:'classes/feeds'})
+     ...mapGetters({feeds:'classes/feeds', showAnswerPost: "showAnswerPost"}),
+      // ...mapGetters(["showAnswerPost"]),
+    ...mapState({
+      loggedInUser: state => state.authentication.user,
+      selectedQuestion: state => state.post.selectedQuestion
+    }),
   }
 };
 </script>
