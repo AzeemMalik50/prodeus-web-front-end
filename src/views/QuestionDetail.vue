@@ -19,7 +19,7 @@
                 <video v-if="cont.type==='video'" controls :src="getMedia(cont.media)"></video>
                 <div v-if="cont.type==='text'" v-html="cont.body"></div>
             </div>
-        <answers v-for="(ans, index) in answers" :key="ans._id" :answer="ans" :index="index" />
+        <answers v-for="(ans, index) in answers" :key="ans._id" :answer="ans" :index="index" :parentId="postId" />
       </div>
       <div class="flexcolumn post">
         <div class="_40px-bottom-margin">

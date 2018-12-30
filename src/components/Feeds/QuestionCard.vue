@@ -68,25 +68,36 @@ export default {
       this.$store.dispatch("toggelAnswerForm", true);
       this.$store.dispatch("post/setSelectedQuestion", this.question);
     },
-      vote(type) {
-      this.$store
-        .dispatch("post/votePost", { postId: this.answers[0]._id, voteType: type })
-        .then(
-          resp => {
-            if (type === "upVote") {
-              this.answers[0].upVotes.push(this.loggedInUser._id);
-              this.answers[0].downVotes = this.answers[0].downVotes.filter(
-                el => el !== this.loggedInUser._id
-              );
-            } else {
-              this.answers[0].downVotes.push(this.loggedInUser._id);
-              this.answers[0].upVotes = this.answers[0].upVotes.filter(
-                el => el !== this.loggedInUser._id
-              );
-            }
-          },
-          err => {}
-        );
+    vote(type) {
+      if (
+        (type === "upVote" &&
+          this.answers[0].upVotes.indexOf(this.loggedInUser._id) === -1) ||
+        (type === "downVote" &&
+          this.answers[0].downVotes.indexOf(this.loggedInUser._id) === -1)
+      ) {
+        this.$store
+          .dispatch("post/votePost", {
+            postId: this.answers[0]._id,
+            voteType: type,
+            parentPost: this.question._id
+          })
+          .then(
+            resp => {
+              if (type === "upVote") {
+                this.answers[0].upVotes.push(this.loggedInUser._id);
+                this.answers[0].downVotes = this.answers[0].downVotes.filter(
+                  el => el !== this.loggedInUser._id
+                );
+              } else {
+                this.answers[0].downVotes.push(this.loggedInUser._id);
+                this.answers[0].upVotes = this.answers[0].upVotes.filter(
+                  el => el !== this.loggedInUser._id
+                );
+              }
+            },
+            err => {}
+          );
+      }
     }
   },
   computed: {
@@ -109,7 +120,7 @@ export default {
         this.answers[0].upVotes.length - this.answers[0].downVotes.length
       ).toString();
     },
-     isUpvoted() {
+    isUpvoted() {
       return this.answers[0].upVotes.indexOf(this.loggedInUser._id) > -1;
     },
     isDownVoted() {

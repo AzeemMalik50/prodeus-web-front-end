@@ -84,7 +84,7 @@ import { mapState } from "vuex";
 import ReplyItem from "../ClassRoom/ReplyItem";
 
 export default {
-  props: ["answer", "index"],
+  props: ["answer", "index", "parentId"],
   components: {
     ReplyItem
   },
@@ -112,7 +112,11 @@ export default {
     },
     vote(type) {
       this.$store
-        .dispatch("post/votePost", { postId: this.answer._id, voteType: type })
+        .dispatch("post/votePost", {
+          postId: this.answer._id,
+          voteType: type,
+          parentPost: this.parentId
+        })
         .then(
           resp => {
             if (type === "upVote") {

@@ -33,22 +33,28 @@ export default {
         this.$apiBaseUrl + "/media/" + this.notification.from.local.img;
     }
     this.classImage =
-      this.$apiBaseUrl + "/media/" + this.notification.referenceDoc.img;
+     this.notification.referenceDoc.img ? this.$apiBaseUrl + "/media/" + this.notification.referenceDoc.img: '';
   },
   methods: {
     imageUrl() {},
     goToNotification() {
+      this.notification.read = true;
+      this.$store.dispatch(
+        "notification/readNotification",
+        this.notification._id
+      );
       if (this.notification.docType === "Classes") {
         this.$router.push({
           name: "classPage",
           params: { id: this.notification.referenceDoc._id }
         });
       }
-      this.notification.read = true;
-      this.$store.dispatch(
-        "notification/readNotification",
-        this.notification._id
-      );
+      if (this.notification.docType === "Posts") {
+         this.$router.push({
+          name: this.notification.referenceDoc.postType.toLowerCase(),
+          params: { postId: this.notification.referenceDoc._id }
+        });
+      }
     },
     getImage(media, obj) {
       this.$store.dispatch("classes/getMedia", media).then(

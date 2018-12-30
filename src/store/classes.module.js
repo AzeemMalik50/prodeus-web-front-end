@@ -62,11 +62,11 @@ export const classes = {
           error => commit('failure', error));
     },
     getFeeds({ commit }) {
-      authService.get(`/feed`)
-        .then(
-          response => commit('setFeeds', response.data),
-          error => commit('failure', error)
-        );
+     return authService.get(`/feed`)
+        // .then(
+        //   response => commit('setFeeds', response.data),
+        //   error => commit('failure', error)
+        // );
     },
     getWatchedLessons({ commit }) {
       authService.get(`/classes/student/${JSON.parse(localStorage.getItem('user'))._id}/watched`)

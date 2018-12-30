@@ -44,10 +44,19 @@ export default {
     CreatePost
   },
   created(){
-    this.$store.dispatch("classes/getFeeds");
+    this.$store.dispatch("classes/getFeeds")
+     .then(
+          response => {
+            this.feeds = response.data;
+          },
+          error => {
+            console.error(error)
+          }
+        );
   },
   data() {
     return {
+      feeds:[],
       postType: "Answer",
       classData: {
         _id:'5beded4c94f97f06f19c9268',
@@ -64,7 +73,7 @@ export default {
     };
   },
   computed:{
-     ...mapGetters({feeds:'classes/feeds', showAnswerPost: "showAnswerPost"}),
+     ...mapGetters({/*feeds:'classes/feeds',*/ showAnswerPost: "showAnswerPost"}),
       // ...mapGetters(["showAnswerPost"]),
     ...mapState({
       loggedInUser: state => state.authentication.user,
