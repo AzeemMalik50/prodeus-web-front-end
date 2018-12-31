@@ -3,7 +3,8 @@
   <div class="card cursor-pointer" @click="questionDetail()">
     <div class="_20px-pad-wrapper">
     <!-- <div class="profile-picture"></div>  -->
-            <user-thumbnail :user="question.user" :myClass="'profile-picture'" />
+
+     <user-thumbnail :user="question.user" :myClass="'profile-picture'" />
 
       <div class="_20px-margin">
         <h2 class="heading-6 center question">{{question.category}}</h2>
@@ -17,9 +18,10 @@
       <div class="_20px-bottom-margin">
         <div class="div-block-73" v-if="answers.length">
           <div class="div-block-74">
-            <h1 class="heading-28">Best answer</h1>
+            <h1 class="heading-28" v-if="answers[0].upVotes.length">Best answer</h1>
+            <h1 class="heading-28" v-else>Answer</h1>
             <div class="text-block-5">from</div>
-            <h1 class="heading-29">{{answers[0].user.fullName}}</h1>
+            <h1 class="heading-29">{{answers[0].user.fullName.split(' ')[0]}}</h1>
           </div>
           <div class="div-block-75">
             <div class="div-block-76">
@@ -38,7 +40,9 @@
             </div>
           </div>
         </div>
-      </div><a class="link outline question cursor-pointer" @click.stop="addAnswer">Answer</a></div>
+      </div>
+      <a class="link outline question cursor-pointer">Answer</a>
+      </div>
   </div>
   </div>
 </template>
@@ -59,14 +63,16 @@ export default {
   },
   methods: {
     questionDetail() {
-      this.$router.push({
-        name: "question",
-        params: { postId: this.question._id }
-      });
+      // this.$router.push({
+      //   name: "question",
+      //   params: { postId: this.question._id }
+      // });
+      this.$store.dispatch('setCurrentPostId', this.question._id);
+      this.$store.dispatch('toggelQuestionDialog', true);
     },
     addAnswer() {
-      this.$store.dispatch("toggelAnswerForm", true);
-      this.$store.dispatch("post/setSelectedQuestion", this.question);
+      // this.$store.dispatch("toggelAnswerForm", true);
+      // this.$store.dispatch("post/setSelectedQuestion", this.question);
     },
     vote(type) {
       if (

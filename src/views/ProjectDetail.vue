@@ -13,7 +13,7 @@
             <h1 class="heading-1">{{project.title}}</h1>
           </div>
           <div class="_30px-bottom-margin">
-            <h2 class="heading-32">Art &amp; Design History</h2>
+            <h2 class="heading-32">{{project.category}}</h2>
           </div>
           <div class="div-block-86">
             <img src="../assets/Group-5402.svg" height="32" alt="">
@@ -24,11 +24,11 @@
         </div>
         <div v-for="cont in project.content" :key="cont._id" class="margin-top-10">
           <img v-if="cont.type==='image'" :src="getMedia(cont.media)" />
-          <video v-if="cont.type==='video'" controls :src="getMedia(cont.media)"></video>
+          <video v-if="cont.type==='video'" class="width-100" controls :src="getMedia(cont.media)"></video>
           <div v-if="cont.type==='text'" v-html="cont.body"></div>
         </div>
 
-        <div class="_30px-top-bottom-20-side-padding">
+        <div class="_30px-top-bottom-20-side-padding width-100">
           <div class="_40px-bottom-margin center">
             <h1 class="heading-1">Comments ({{project.discussions.length}})</h1>
           </div>
@@ -131,8 +131,9 @@ export default {
     };
   },
   created() {
-    this.discus.postId = this.postId;
-    this.$store.dispatch("post/getPost", this.postId).then(
+    window.addEventListener("keyup", this.goBack);
+    this.discus.postId = this.currentPostId;
+    this.$store.dispatch("post/getPost", this.currentPostId).then(
       post => {
         this.project = post.data;
       },
@@ -143,9 +144,11 @@ export default {
   },
   methods: {
     goBack() {
-      this.$router.push({
-        name: "feed"
-      });
+      // this.$router.push({
+      //   name: "feed"
+      // });
+      this.$store.dispatch('toggelQuestionDialog', false);
+      this.$store.dispatch('toggelProjectDialog', false);
     },
     getMedia(mediaId) {
       return this.$apiBaseUrl + "/media/" + mediaId;
@@ -174,7 +177,7 @@ export default {
       }
     },
     likeProject() {
-      this.$store.dispatch("post/likePost", this.postId).then(
+      this.$store.dispatch("post/likePost", this.currentPostId).then(
         resp => {
           this.project.likes.indexOf(this.loggedInUser._id) === -1 ?
           this.project.likes.push(this.loggedInUser._id) : '';
@@ -185,7 +188,8 @@ export default {
   },
   computed: {
     ...mapState({
-      loggedInUser: state => state.authentication.user
+      loggedInUser: state => state.authentication.user,
+      currentPostId: state => state.currentPostId
     }),
     isConnected() {
       if (

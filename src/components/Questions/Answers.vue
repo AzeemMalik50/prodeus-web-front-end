@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class="width-100">
  <div class="_100-percent-justify-start margin-top-10">
       <div class="_10px-botttom-margin">
         <div class="flex-space-between">

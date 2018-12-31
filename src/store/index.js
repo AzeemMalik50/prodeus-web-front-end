@@ -16,7 +16,9 @@ export default new Vuex.Store({
     showCreateClass: false,
     showPostForm: false,
     isProjectOpen: false,
-    showAnswerPost: false
+    isQuestionOpen: false,
+    showAnswerPost: false,
+    currentPostId: ''
   },
   mutations: {
     changeCreateClass: (state, payload) => {
@@ -28,8 +30,14 @@ export default new Vuex.Store({
     toggelAnswerForm: (state, payload) => {
       state.showAnswerPost = payload;
     },
-    updateProjectDialog: (state, payload) => {
+    toggelProjectDialog: (state, payload) => {
       state.isProjectOpen = payload;
+    },
+    toggelQuestionDialog: (state, payload) => {
+      state.isQuestionOpen = payload;
+    },
+    setCurrentPostId: (state, payload) => {
+      state.currentPostId = payload;
     },
   },
   actions: {
@@ -48,10 +56,18 @@ export default new Vuex.Store({
     }, payload) => {
       commit('toggelAnswerForm', payload);
     },
-    updateProjectDialog: async ({
+    toggelProjectDialog: async ({
       commit
     }, payload) => {
-      commit('updateProjectDialog', payload);
+      commit('toggelProjectDialog', payload);
+    },
+    toggelQuestionDialog: async ({
+      commit
+    }, payload) => {
+      commit('toggelQuestionDialog', payload);
+    },
+    setCurrentPostId({commit}, payload){
+      commit('setCurrentPostId', payload);
     }
   },
   getters: {

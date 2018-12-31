@@ -16,10 +16,10 @@
           </div><a href="#" @click.prevent="addAnswer" class="link outline question">Answer</a></div>
             <div v-for="cont in question.content" :key="cont._id" class="margin-top-10">
                 <img v-if="cont.type==='image'"  :src="getMedia(cont.media)" />
-                <video v-if="cont.type==='video'" controls :src="getMedia(cont.media)"></video>
+                <video v-if="cont.type==='video'" class="width-100" controls :src="getMedia(cont.media)"></video>
                 <div v-if="cont.type==='text'" v-html="cont.body"></div>
             </div>
-        <answers v-for="(ans, index) in answers" :key="ans._id" :answer="ans" :index="index" :parentId="postId" />
+        <answers v-for="(ans, index) in answers" :key="ans._id" :answer="ans" :index="index" :parentId="currentPostId" />
       </div>
       <div class="flexcolumn post">
         <div class="_40px-bottom-margin">
@@ -83,7 +83,8 @@ export default {
     };
   },
   created() {
-    this.$store.dispatch("post/getPost", this.postId).then(
+    window.addEventListener("keyup", this.goBack);
+    this.$store.dispatch("post/getPost", this.currentPostId).then(
       post => {
         this.question = post.data;
         // this.question.replies = this.question.replies.sort((a, b) => {
@@ -97,7 +98,9 @@ export default {
   },
   methods: {
     goBack() {
-      this.$router.push({ name: "feed" });
+      // this.$router.push({ name: "feed" });
+       this.$store.dispatch('toggelQuestionDialog', false);
+      this.$store.dispatch('toggelProjectDialog', false);
     },
     addAnswer() {
       this.$store.dispatch("toggelAnswerForm", true);
@@ -115,7 +118,8 @@ export default {
   computed: {
     ...mapGetters(["showAnswerPost"]),
      ...mapState({
-      loggedInUser: state => state.authentication.user
+      loggedInUser: state => state.authentication.user,
+      currentPostId: state => state.currentPostId
     }),
     answers() {
       if (this.question.replies && this.question.replies.length) {

@@ -25,6 +25,8 @@
     </div> -->
   </div>
     <create-post v-if="showAnswerPost" :type="postType" :parentPost="selectedQuestion" />
+    <project-detail  v-if="isProjectOpen" />
+    <question-detail  v-if="isQuestionOpen" />
     </div>
 </template>
 
@@ -34,6 +36,9 @@ import ClassCard from "@/components/Feeds/ClassCard.vue";
 import ProjectCard from "@/components/Feeds/ProjectCard.vue";
 import QuestionCard from "@/components/Feeds/QuestionCard.vue";
 import CreatePost from "@/views/CreatePost";
+import ProjectDetail from "@/views/ProjectDetail";
+import QuestionDetail from "@/views/QuestionDetail";
+
 
 export default {
   name: "Feeds",
@@ -41,7 +46,8 @@ export default {
     ClassCard,
     ProjectCard,
     QuestionCard,
-    CreatePost
+    CreatePost,
+    ProjectDetail, QuestionDetail
   },
   created(){
     this.$store.dispatch("classes/getFeeds")
@@ -58,13 +64,6 @@ export default {
     return {
       feeds:[],
       postType: "Answer",
-      classData: {
-        _id:'5beded4c94f97f06f19c9268',
-        difficulty: "Advanced",
-        category:'Art &amp; Design History',
-        title: "Art &amp; Design History",
-        description: "A Brief History of Typography &amp; Handlettering",
-      },
       projectData: {
         liked: true,
         title: "Art &amp; Design History",
@@ -77,7 +76,9 @@ export default {
       // ...mapGetters(["showAnswerPost"]),
     ...mapState({
       loggedInUser: state => state.authentication.user,
-      selectedQuestion: state => state.post.selectedQuestion
+      selectedQuestion: state => state.post.selectedQuestion,
+      isQuestionOpen: state => state.isQuestionOpen,
+      isProjectOpen: state => state.isProjectOpen
     }),
   }
 };

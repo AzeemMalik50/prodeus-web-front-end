@@ -1,11 +1,18 @@
 <template>
-<img :class="[getClass]" v-if="profilePic" :src="profilePic" />
-<div :class="[getClass]" v-else></div>
+<img :class="[getClass]" v-if="profilePic" :src="profilePic" @click="goToProfile()" />
+<div :class="[getClass]" v-else @click="goToProfile()"></div>
 
 </template>
 <script>
 export default {
   props: ["user", "myClass"],
+  methods: {
+    goToProfile(){
+      this.$router.push({name: 'userProfile', params:{
+        userId: this.user._id
+      }})
+    }
+  },
   computed: {
     profilePic() {
       if (!this.user) {

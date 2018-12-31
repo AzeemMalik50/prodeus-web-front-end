@@ -19,7 +19,7 @@
                 <img  :src="getImage(cont.media)" />
              </div>
              <div class="media-container" v-if="cont.type==='video'" >
-                <video  controls :src="getImage(cont.media)"></video>
+                <video class="post-video"  controls :src="getImage(cont.media)"></video>
              </div>
               </div>
     <Loading :color="'#8446e8'" :active.sync="uploading" :is-full-page="false"></Loading>
@@ -49,12 +49,12 @@
           </div>
           <div class="div-block-92">
             <!-- <a class="link outline" :class="getClass">Choose Category</a> -->
-             <select id="field-2" class="link outline"  name="field-2" v-model="category" required="true" data-name="Field 2">
+             <select v-if="type !== 'Answer'" id="field-2" class="link outline select" :class="getClass" name="field-2" v-model="category" required="true" data-name="Field 2">
                         <option  value="">Choose Category</option>
                         <option v-for="catg in allCategories" :key="catg.id" :value="catg.name">
                           {{catg.name}}</option>
                         </select>
-          <a class="link grey cursor-pointer" @click="submit()">Submit</a></div>
+          <a class="link cursor-pointer" :class="submitClass" @click="submit()">Submit</a></div>
         </div>
       </div>
     </div>
@@ -75,7 +75,7 @@ export default {
     return {
       uploading: false,
       title: "",
-      category:'',
+      category: "",
       content: [],
       config: {
         modules: {
@@ -114,11 +114,10 @@ export default {
         this.closeForm();
       }
     },
-    closeForm(){
-        this.$store.dispatch("toggelPostForm", false);
-        this.$store.dispatch("toggelAnswerForm", false);
-        this.$store.dispatch("post/setSelectedQuestion", null);
-
+    closeForm() {
+      this.$store.dispatch("toggelPostForm", false);
+      this.$store.dispatch("toggelAnswerForm", false);
+      this.$store.dispatch("post/setSelectedQuestion", null);
     },
     addText() {
       this.content.push({
@@ -165,7 +164,7 @@ export default {
       this.content.splice(index, 1);
     },
     submit() {
-      if (this.title && this.content.length && this.category) {
+      if (this.title && this.title.length >= 5) {
         let payload = {
           title: this.title,
           content: this.content,
@@ -182,12 +181,11 @@ export default {
             if (this.parentPost) {
               this.parentPost.replies.push(post.data);
             } else {
-           this.$router.push({
-              name: this.type,
-              params: { postId: post.data._id }
-            });
-        }
-
+              this.$router.push({
+                name: this.type,
+                params: { postId: post.data._id }
+              });
+            }
           },
           err => {
             console.error(err);
@@ -208,9 +206,18 @@ export default {
         };
       }
     },
+    submitClass() {
+      if (this.title && this.title.length >= 5) {
+        return this.getClass;
+      } else {
+        return {
+          grey: true
+        };
+      }
+    },
     ...mapState({
       allCategories: state => state.allCategories
-    }),
+    })
   }
 };
 </script>
@@ -236,4 +243,22 @@ export default {
 .media-container {
   margin-top: 10px;
 }
+.post-video {
+  width: 100%;
+}
+.project {
+  background-color: #ebcb4d;
+   &.select {
+    border: 2px solid #ebcb4d;
+    color: #ebcb4d;
+  }
+}
+.question {
+  background-color: #61cb96;
+  &.select {
+    border: 2px solid #61cb96;
+    color: #61cb96;
+  }
+}
+
 </style>

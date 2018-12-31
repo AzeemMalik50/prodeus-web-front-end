@@ -1,16 +1,29 @@
 <template>
 <div>
 <div class="card cursor-pointer" @click="projectDetail()">
-    <div class="div-block-66"><img src="../../assets/fortune.jpg" alt="" class="image-10"></div>
+    <div class="div-block-66" v-if="projectImage">
+      <img :src="projectImage" alt="" class="image-10">
+    </div>
     <div class="_20px-pad-wrapper">
       <!-- <div class="profile-picture post"></div> -->
-            <user-thumbnail :user="project.user" :myClass="'profile-picture post'" />
+            <user-thumbnail :user="project.user" :myClass="userClasses" />
 
       <div class="_20px-margin">
         <h2 class="heading-6 center project" v-html="project.category"></h2>
       </div>
       <div class="_30px-bottom-margin">
         <h1 class="heading-4 center" v-html="project.title"></h1>
+      </div>
+        <div class="_20px-bottom-margin" v-if="!projectImage && projectText">
+        <div class="div-block-73" >
+          <div class="div-block-75">
+            <div class="div-block-76">
+              <p class="paragraph-5" v-html="projectText">
+                <!-- Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique. Duis cursus, mi quis viverra ornare, eros dolor interdum nulla, ut commodo diam libero vitae erat. -->
+                </p>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="flex-space-around">
         <img src="@/assets/heart-active.svg" v-if="liked" @click.stop="unLikeProject()" height="16"/>
@@ -21,9 +34,8 @@
       </div>
     </div>
   </div>
-    <!-- <Project v-if="isProjectOpen" /> -->
 </div>
-
+    <!-- <Project v-if="isProjectOpen" /> -->
 </template>
 
 <script>
@@ -36,10 +48,12 @@ export default {
   },
   methods: {
     projectDetail() {
-      this.$router.push({
-        name: "project",
-        params: { postId: this.project._id }
-      });
+      // this.$router.push({
+      //   name: "project",
+      //   params: { postId: this.project._id }
+      // });
+      this.$store.dispatch('setCurrentPostId', this.project._id);
+      this.$store.dispatch('toggelProjectDialog', true);
     },
     likeProject() {
       this.$store.dispatch("post/likePost", this.project._id).then(
@@ -70,6 +84,25 @@ export default {
     ...mapGetters(["isProjectOpen"]),
     liked() {
       return this.project.likes.indexOf(this.loggedInUser._id) > -1;
+    },
+    projectImage() {
+      let imageContent = this.project.content.find(c => c.type === "image");
+      let imageUrl = "";
+      if (imageContent) {
+        imageUrl = this.$apiBaseUrl + "/media/" + imageContent.media;
+      }
+      return imageUrl;
+    },
+     projectText() {
+      let textContent = this.project.content.find(c => c.type === "text");
+      return textContent ? textContent.body.substring(0, 100) : null;
+    },
+    userClasses() {
+      let userClass = "profile-picture";
+      if (this.projectImage) {
+        userClass += " post";
+      }
+      return userClass
     }
   }
 };
