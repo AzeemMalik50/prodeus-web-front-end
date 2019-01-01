@@ -31,14 +31,13 @@
 </template>
 
 <script>
-import {mapGetters, mapState} from 'vuex';
+import { mapGetters, mapState } from "vuex";
 import ClassCard from "@/components/Feeds/ClassCard.vue";
 import ProjectCard from "@/components/Feeds/ProjectCard.vue";
 import QuestionCard from "@/components/Feeds/QuestionCard.vue";
 import CreatePost from "@/views/CreatePost";
 import ProjectDetail from "@/views/ProjectDetail";
 import QuestionDetail from "@/views/QuestionDetail";
-
 
 export default {
   name: "Feeds",
@@ -47,22 +46,30 @@ export default {
     ProjectCard,
     QuestionCard,
     CreatePost,
-    ProjectDetail, QuestionDetail
+    ProjectDetail,
+    QuestionDetail
   },
-  created(){
-    this.$store.dispatch("classes/getFeeds")
-     .then(
-          response => {
-            this.feeds = response.data;
-          },
-          error => {
-            console.error(error)
-          }
-        );
+  created() {
+    this.$store.dispatch("classes/getFeeds").then(
+      response => {
+        this.feeds = response.data;
+      },
+      error => {
+        console.error(error);
+      }
+    );
+    console.log(this.$route.query.question);
+    if (this.$route.query.question) {
+      this.$store.dispatch("setCurrentPostId", this.$route.query.question);
+      this.$store.dispatch("toggelQuestionDialog", true);
+    } else if (this.$route.query.project) {
+      this.$store.dispatch("setCurrentPostId", this.$route.query.project);
+      this.$store.dispatch("toggelProjectDialog", true);
+    }
   },
   data() {
     return {
-      feeds:[],
+      feeds: [],
       postType: "Answer",
       projectData: {
         liked: true,
@@ -71,15 +78,17 @@ export default {
       }
     };
   },
-  computed:{
-     ...mapGetters({/*feeds:'classes/feeds',*/ showAnswerPost: "showAnswerPost"}),
-      // ...mapGetters(["showAnswerPost"]),
+  computed: {
+    ...mapGetters({
+      /*feeds:'classes/feeds',*/ showAnswerPost: "showAnswerPost"
+    }),
+    // ...mapGetters(["showAnswerPost"]),
     ...mapState({
       loggedInUser: state => state.authentication.user,
       selectedQuestion: state => state.post.selectedQuestion,
       isQuestionOpen: state => state.isQuestionOpen,
       isProjectOpen: state => state.isProjectOpen
-    }),
+    })
   }
 };
 </script>

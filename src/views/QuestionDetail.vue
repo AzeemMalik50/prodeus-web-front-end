@@ -1,7 +1,7 @@
 <template>
    <div class="modalwrapper" v-if="question">
     <div class="post-wrapper">
-      <div class="post-content-wrap">
+      <div class="post-content-wrap" id="question">
         <div class="div-block-84">
           <div class="back-wrap cursor-pointer" @click="goBack()">
             <img src="../assets/left-arrow.svg" height="16" alt="" class="image-13">
@@ -19,6 +19,27 @@
                 <video v-if="cont.type==='video'" class="width-100" controls :src="getMedia(cont.media)"></video>
                 <div v-if="cont.type==='text'" v-html="cont.body"></div>
             </div>
+             <div class="_20px-bottom-margin margin-top-40 ">
+      <div class="flex-space-between">
+        <div class="_20-right">
+          <div class="horiz-left-align-justify-atart">
+            <!-- <div class="profile-picture _30"></div> -->
+            <user-thumbnail :user="loggedInUser"  />
+          </div>
+        </div>
+        <div class="align-right-justify-start">
+          <div class="form-block-3 w-form">
+              <input type="text" ref="answer" v-on:keydown.enter.prevent='onSubmit' v-model="answer.title" class="comment-block w-input" maxlength="256" name="answer" data-name="answer" placeholder="Write answer" id="answer">
+            <div class="w-form-done">
+              <div>Thank you! Your submission has been received!</div>
+            </div>
+            <div class="w-form-fail">
+              <div>Oops! Something went wrong while submitting the form.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
         <answers v-for="(ans, index) in answers" :key="ans._id" :answer="ans" :index="index" :parentId="currentPostId" />
       </div>
       <div class="flexcolumn post">
@@ -59,16 +80,41 @@
             <div class="text-block-7">4.2k</div>
           </div>
         </div>
-        <div class="social-share-wrap"><img src="../assets/Group-6199.svg" alt=""><img src="../assets/Group-6200.svg" alt=""><img src="../assets/Group-6201.svg" alt=""><img src="../assets/Group-6202.svg" alt=""></div>
+        <!-- <div class="social-share-wrap">
+          <img src="../assets/Group-6199.svg" alt="">
+          <img src="../assets/Group-6200.svg" alt="">
+          <img src="../assets/Group-6201.svg" alt="">
+          <img src="../assets/Group-6202.svg" alt="">
+          </div> -->
+          <social-sharing :url="socialData.url"
+                      :title="question.title"
+                      :description="questionText"
+                      :quote="question.title"
+                      hashtags="prodeus"
+                      :twitter-user="loggedInUser.fullName"
+                      inline-template>
+                            <div class="social-share-wrap">
+      <network network="facebook">
+        <facebook />
+
+          <!-- <img src="../assets/Group-6199.svg" alt=""> -->
+      </network>
+       <network network="twitter">
+         <twitter />
+          <!-- <img src="../assets/Group-6200.svg" alt=""> -->
+       </network>
+          </div>
+</social-sharing>
       </div>
     </div>
-    <create-post v-if="showAnswerPost" :type="postType" :parentPost="question" />
+    <!-- <create-post v-if="showAnswerPost" :type="postType" :parentPost="question" /> -->
   </div>
 </template>
 <script>
 import { mapGetters, mapState } from "vuex";
 import CreatePost from "@/views/CreatePost";
 import Answers from "../components/Questions/Answers";
+const VueScrollTo = require("vue-scrollto");
 export default {
   props: ["postId"],
   components: {
@@ -77,19 +123,47 @@ export default {
   },
   data() {
     return {
+      socialData:{
+        url : '',
+      },
+      answer: {
+        title: "",
+        postType: "Answer",
+        parent: ""
+      },
       question: {},
       bestAnswer: false,
-      postType: "Answer"
+      postType: "Answer",
+      options: {
+        container: "#question",
+        easing: "ease-in",
+        offset: -60,
+        force: true,
+        cancelable: true,
+        onStart: function(element) {
+          // scrolling started
+        },
+        onDone: function(element) {
+          // scrolling is done
+        },
+        onCancel: function() {
+          // scrolling has been interrupted
+        },
+        x: false,
+        y: true
+      }
     };
   },
   created() {
-    window.addEventListener("keyup", this.goBack);
+    this.socialData.url = window.location.origin+ '?question='+this.currentPostId;
+    this.answer.parent = this.currentPostId;
+    window.addEventListener("keyup", this.pressEscape);
     this.$store.dispatch("post/getPost", this.currentPostId).then(
       post => {
         this.question = post.data;
-        // this.question.replies = this.question.replies.sort((a, b) => {
-        //   return b.upVotes.length - a.upVotes.length;
-        // });
+        if(this.goToAnswer){
+          this.addAnswer();
+        }
       },
       err => {
         console.error(err);
@@ -97,29 +171,56 @@ export default {
     );
   },
   methods: {
+    pressEscape(e) {
+      if (e.keyCode === 27) {
+        this.goBack();
+      }
+    },
     goBack() {
       // this.$router.push({ name: "feed" });
-       this.$store.dispatch('toggelQuestionDialog', false);
-      this.$store.dispatch('toggelProjectDialog', false);
+      this.$store.dispatch("toggelQuestionDialog", false);
+      this.$store.dispatch("toggelProjectDialog", false);
     },
     addAnswer() {
-      this.$store.dispatch("toggelAnswerForm", true);
+      var cancelScroll = VueScrollTo.scrollTo("#answer", 300, this.options);
+      this.$nextTick(() => {
+        this.$refs.answer.focus();
+        this.$store.dispatch("setGoToAnswer", false);
+      });
     },
     getMedia(mediaId) {
       return this.$apiBaseUrl + "/media/" + mediaId;
     },
     disConnect() {
-      this.$store.dispatch("authentication/removeConnection", this.question.user._id);
+      this.$store.dispatch(
+        "authentication/removeConnection",
+        this.question.user._id
+      );
     },
     connect() {
-      this.$store.dispatch("authentication/addConnection", this.question.user._id);
+      this.$store.dispatch(
+        "authentication/addConnection",
+        this.question.user._id
+      );
+    },
+    onSubmit() {
+      this.$store.dispatch("post/addPost", this.answer).then(
+        post => {
+          this.question.replies.push(post.data);
+          this.answer.title = "";
+        },
+        err => {
+          console.error(err);
+        }
+      );
     }
   },
   computed: {
     ...mapGetters(["showAnswerPost"]),
-     ...mapState({
+    ...mapState({
       loggedInUser: state => state.authentication.user,
-      currentPostId: state => state.currentPostId
+      currentPostId: state => state.currentPostId,
+      goToAnswer: state => state.goToAnswer
     }),
     answers() {
       if (this.question.replies && this.question.replies.length) {
@@ -130,12 +231,22 @@ export default {
         return [];
       }
     },
-      isConnected() {
-      if(this.question.user && this.loggedInUser.connections && this.loggedInUser.connections.length > -1){
-        return this.loggedInUser.connections.indexOf(this.question.user._id) > -1;
+    isConnected() {
+      if (
+        this.question.user &&
+        this.loggedInUser.connections &&
+        this.loggedInUser.connections.length > -1
+      ) {
+        return (
+          this.loggedInUser.connections.indexOf(this.question.user._id) > -1
+        );
       } else {
         return false;
       }
+    },
+     questionText() {
+      let textContent = this.question.content.find(c => c.type === "text");
+      return textContent ? textContent.body.substring(0, 100) : '';
     },
   }
 };
@@ -143,5 +254,8 @@ export default {
 <style lang="scss" scoped>
 .margin-top-10 {
   margin-top: 10px;
+}
+.margin-top-40 {
+  margin-top: 40px;
 }
 </style>

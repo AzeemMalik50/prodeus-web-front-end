@@ -18,9 +18,13 @@ export default new Vuex.Store({
     isProjectOpen: false,
     isQuestionOpen: false,
     showAnswerPost: false,
-    currentPostId: ''
+    currentPostId: '',
+    goToAnswer: false,
   },
   mutations: {
+    setGoToAnswer: (state, payload) => {
+      state.goToAnswer = payload;
+    },
     changeCreateClass: (state, payload) => {
       state.showCreateClass = payload;
     },
@@ -68,6 +72,9 @@ export default new Vuex.Store({
     },
     setCurrentPostId({commit}, payload){
       commit('setCurrentPostId', payload);
+    },
+    setGoToAnswer({commit}, payload){
+      commit('setGoToAnswer', payload);
     }
   },
   getters: {

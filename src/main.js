@@ -7,6 +7,9 @@ import moment from 'moment-timezone';
 const HelloJs = require('hellojs/dist/hello.all.min.js');
 const VueHello = require('vue-hellojs');
 import VueMasonry from 'vue-masonry-css';
+
+const VueScrollTo = require('vue-scrollto');
+const SocialSharing = require('vue-social-sharing');
 // require videojs style
 import 'video.js/dist/video-js.css';
 import './_services/interceptor';
@@ -23,6 +26,8 @@ import './styles/styles.scss';
 // Gloabl Copmponnets
 import UserThumbnail from './components/UserThumbnail';
 import DiscussionLike from './components/ClassRoom/DiscussionLike.vue';
+import Facebook from './components/Icons/Facebook.vue';
+import Twitter from './components/Icons/Twitter.vue';
 
 import axios from 'axios';
 
@@ -41,7 +46,11 @@ Vue.use(VueMoment, {
 });
 Vue.component('user-thumbnail', UserThumbnail);
 Vue.component('disc-like', DiscussionLike);
+Vue.component('facebook', Facebook);
+Vue.component('twitter', Twitter);
 
+Vue.use(VueScrollTo);
+Vue.use(SocialSharing);
 Vue.use(VueMasonry);
 HelloJs.init({
   google: process.env.VUE_APP_GOOGLE_APP_CLIENT_ID,

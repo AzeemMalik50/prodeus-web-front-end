@@ -100,7 +100,30 @@
             <div class="text-block-7">4.2k</div>
           </div>
         </div>
-        <div class="social-share-wrap"><img src="../assets/Group-6199.svg" alt=""><img src="../assets/Group-6200.svg" alt=""><img src="../assets/Group-6201.svg" alt=""><img src="../assets/Group-6202.svg" alt=""></div>
+               <social-sharing :url="socialData.url"
+                      :title="project.title"
+                      :description="questionText"
+                      :quote="project.title"
+                      hashtags="prodeus"
+                      :twitter-user="loggedInUser.fullName"
+                      inline-template>
+                            <div class="social-share-wrap">
+      <network network="facebook">
+        <facebook />
+
+          <!-- <img src="../assets/Group-6199.svg" alt=""> -->
+      </network>
+       <network network="twitter">
+         <twitter />
+          <!-- <img src="../assets/Group-6200.svg" alt=""> -->
+       </network>
+          </div>
+</social-sharing>
+        <!-- <div class="social-share-wrap">
+          <img src="../assets/Group-6199.svg" alt="">
+          <img src="../assets/Group-6200.svg" alt="">
+          <img src="../assets/Group-6201.svg" alt="">
+          <img src="../assets/Group-6202.svg" alt=""></div> -->
       </div>
     </div>
   </div>
@@ -121,6 +144,9 @@ export default {
   },
   data() {
     return {
+      socialData:{
+        url : '',
+      },
       project: {},
       bestAnswer: false,
       discus: {
@@ -131,7 +157,8 @@ export default {
     };
   },
   created() {
-    window.addEventListener("keyup", this.goBack);
+    window.addEventListener("keyup", this.pressEscape);
+    this.socialData.url = window.location.origin+ '?question='+this.currentPostId;
     this.discus.postId = this.currentPostId;
     this.$store.dispatch("post/getPost", this.currentPostId).then(
       post => {
@@ -143,6 +170,11 @@ export default {
     );
   },
   methods: {
+     pressEscape(e){
+      if (e.keyCode === 27) {
+        this.goBack();
+      }
+    },
     goBack() {
       // this.$router.push({
       //   name: "feed"
@@ -203,7 +235,11 @@ export default {
       } else {
         return false;
       }
-    }
+    },
+     questionText() {
+      let textContent = this.project.content.find(c => c.type === "text");
+      return textContent ? textContent.body.substring(0, 100) : '';
+    },
   }
 };
 </script>

@@ -15,6 +15,9 @@
             </div>
         </div>
       </div>
+      <p>
+        {{answer.title}}
+      </p>
         <div v-for="cont in answer.content" :key="cont._id" class="margin-top-10 _10px-botttom-margin">
                 <img v-if="cont.type==='image'"  :src="getMedia(cont.media)" />
                 <video v-if="cont.type==='video'" controls :src="getMedia(cont.media)"></video>

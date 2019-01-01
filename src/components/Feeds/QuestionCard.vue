@@ -41,7 +41,7 @@
           </div>
         </div>
       </div>
-      <a class="link outline question cursor-pointer">Answer</a>
+      <a class="link outline question cursor-pointer" @click.stop="questionDetail(true)">Answer</a>
       </div>
   </div>
   </div>
@@ -62,13 +62,16 @@ export default {
     };
   },
   methods: {
-    questionDetail() {
+    questionDetail(goToAnswer) {
       // this.$router.push({
       //   name: "question",
       //   params: { postId: this.question._id }
       // });
-      this.$store.dispatch('setCurrentPostId', this.question._id);
-      this.$store.dispatch('toggelQuestionDialog', true);
+      if (goToAnswer) {
+        this.$store.dispatch("setGoToAnswer", true);
+      }
+      this.$store.dispatch("setCurrentPostId", this.question._id);
+      this.$store.dispatch("toggelQuestionDialog", true);
     },
     addAnswer() {
       // this.$store.dispatch("toggelAnswerForm", true);
