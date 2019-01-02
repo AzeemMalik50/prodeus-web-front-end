@@ -181,9 +181,11 @@ export default {
             if (this.parentPost) {
               this.parentPost.replies.push(post.data);
             } else {
+              let query ={};
+              query[this.type] = post.data._id;
               this.$router.push({
-                name: this.type,
-                params: { postId: post.data._id }
+                name: 'feed',
+                query: query
               });
             }
           },

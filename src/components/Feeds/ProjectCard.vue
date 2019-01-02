@@ -29,7 +29,7 @@
         <img src="@/assets/heart-active.svg" v-if="liked" @click.stop="unLikeProject()" height="16"/>
         <img src="@/assets/heart.svg" v-else @click.stop="likeProject()" height="16"/>
         <img src="@/assets/reblog.svg" height="20" class="reblog-active" />
-        <img src="@/assets/comment.svg" height="16" class="comment-active"/>
+        <img src="@/assets/comment.svg" height="16" @click.self="projectDetail(true)" class="comment-active"/>
         <img src="@/assets/share.svg" height="16" class="share-active" />
       </div>
     </div>
@@ -47,11 +47,14 @@ export default {
     Project
   },
   methods: {
-    projectDetail() {
-      // this.$router.push({
-      //   name: "project",
-      //   params: { postId: this.project._id }
-      // });
+    projectDetail(goToComment) {
+       if (goToComment) {
+        this.$store.dispatch("setGoToPostComment", true);
+      }
+      this.$router.push({
+                name: 'feed',
+                query: {project: this.project._id}
+              });
       this.$store.dispatch('setCurrentPostId', this.project._id);
       this.$store.dispatch('toggelProjectDialog', true);
     },

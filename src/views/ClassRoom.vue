@@ -24,7 +24,9 @@
             <div class="div-block-127">
               <!-- <div class="profile-picture _50"></div> -->
               <div class="profile-picture _50">
-          <img :src="profilePic" class="link-block-3 w-inline-block profile-pic" />
+            <user-thumbnail :user="currentClass.instructor" :myClass="'link-block-3 w-inline-block profile-pic'" />
+
+          <!-- <img :src="profilePic" class="link-block-3 w-inline-block profile-pic" /> -->
         </div>
             </div>
           </div>

@@ -63,13 +63,13 @@ export default {
   },
   methods: {
     questionDetail(goToAnswer) {
-      // this.$router.push({
-      //   name: "question",
-      //   params: { postId: this.question._id }
-      // });
       if (goToAnswer) {
         this.$store.dispatch("setGoToAnswer", true);
       }
+       this.$router.push({
+                name: 'feed',
+                query: {question: this.question._id}
+              });
       this.$store.dispatch("setCurrentPostId", this.question._id);
       this.$store.dispatch("toggelQuestionDialog", true);
     },

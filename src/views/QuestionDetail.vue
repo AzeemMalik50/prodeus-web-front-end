@@ -1,7 +1,7 @@
 <template>
-   <div class="modalwrapper" v-if="question">
+   <div class="modalwrapper" v-if="question" @click.self="goBack()">
     <div class="post-wrapper">
-      <div class="post-content-wrap" id="question">
+      <div class="post-content-wrap width-100 " id="question" @click.self="doNothing()">
         <div class="div-block-84">
           <div class="back-wrap cursor-pointer" @click="goBack()">
             <img src="../assets/left-arrow.svg" height="16" alt="" class="image-13">
@@ -42,7 +42,7 @@
     </div>
         <answers v-for="(ans, index) in answers" :key="ans._id" :answer="ans" :index="index" :parentId="currentPostId" />
       </div>
-      <div class="flexcolumn post">
+      <div class="flexcolumn post" @click.self="doNothing()">
         <div class="_40px-bottom-margin">
           <div class="space-between">
             <div class="vert-justify-start-align-left">
@@ -71,7 +71,7 @@
         </div>
         <div class="flex-space-around">
           <div class="left-align"><img src="../assets/Group-5403.svg" width="20" height="20" alt="">
-            <div class="text-block-7">4.2k</div>
+            <div class="text-block-7">{{question.views}}</div>
           </div>
           <div class="left-align"><img src="../assets/Answer.svg" width="20" height="20" alt="">
             <div class="text-block-7">{{(question.replies && question.replies.length) ? question.replies.length : 0}}</div>
@@ -123,8 +123,8 @@ export default {
   },
   data() {
     return {
-      socialData:{
-        url : '',
+      socialData: {
+        url: ""
       },
       answer: {
         title: "",
@@ -140,28 +140,21 @@ export default {
         offset: -60,
         force: true,
         cancelable: true,
-        onStart: function(element) {
-          // scrolling started
-        },
-        onDone: function(element) {
-          // scrolling is done
-        },
-        onCancel: function() {
-          // scrolling has been interrupted
-        },
         x: false,
         y: true
       }
     };
   },
   created() {
-    this.socialData.url = window.location.origin+ '?question='+this.currentPostId;
+    this.socialData.url =
+      window.location.origin + "?question=" + this.currentPostId;
     this.answer.parent = this.currentPostId;
     window.addEventListener("keyup", this.pressEscape);
     this.$store.dispatch("post/getPost", this.currentPostId).then(
       post => {
         this.question = post.data;
-        if(this.goToAnswer){
+        this.viewPost();
+        if (this.goToAnswer) {
           this.addAnswer();
         }
       },
@@ -176,8 +169,22 @@ export default {
         this.goBack();
       }
     },
+      viewPost() {
+      this.$store.dispatch("post/viewPost", this.currentPostId).then(
+        resp => {
+          if (!this.question.views) {
+            this.question.views = 1;
+          } else {
+            this.question.views += 1;
+          }
+        },
+        err => {}
+      );
+    },
     goBack() {
-      // this.$router.push({ name: "feed" });
+      let query = Object.assign({}, this.$route.query);
+      delete query.question;
+      this.$router.replace({ query });
       this.$store.dispatch("toggelQuestionDialog", false);
       this.$store.dispatch("toggelProjectDialog", false);
     },
@@ -213,7 +220,8 @@ export default {
           console.error(err);
         }
       );
-    }
+    },
+    doNothing() {}
   },
   computed: {
     ...mapGetters(["showAnswerPost"]),
@@ -244,10 +252,12 @@ export default {
         return false;
       }
     },
-     questionText() {
-      let textContent = this.question.content.find(c => c.type === "text");
-      return textContent ? textContent.body.substring(0, 100) : '';
-    },
+    questionText() {
+      let textContent = this.question.content
+        ? this.question.content.find(c => c.type === "text")
+        : "";
+      return textContent ? textContent.body.substring(0, 100) : "";
+    }
   }
 };
 </script>

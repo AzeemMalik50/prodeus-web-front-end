@@ -8,7 +8,9 @@
     </div>
     <div class="class-image" @click="goClass()" :style="getBackImage(backImage)"></div>
     <div class="_20px-pad-wrapper">
-      <div class="profile-picture post" :style="getBackImage(userImage)"></div>
+            <user-thumbnail :user="feedClass.instructor" :myClass="'profile-picture post'" />
+
+      <!-- <div class="profile-picture post" :style="getBackImage(userImage)"></div> -->
       <div class="_20px-margin">
         <h2 class="heading-6 center" v-html="feedClass.category"></h2>
       </div>

@@ -1,16 +1,20 @@
 <template>
-<img :class="[getClass]" v-if="profilePic" :src="profilePic" @click="goToProfile()" />
-<div :class="[getClass]" v-else @click="goToProfile()"></div>
+<!-- <img :class="[getClass]" v-if="profilePic" :src="profilePic" @click="goToProfile()" /> -->
+      <div :class="[getClass]" class="cursor-pointer" v-if="profilePic" :style="backImage" @click="goToProfile()"></div>
+<div :class="[getClass]" class="cursor-pointer" v-else @click="goToProfile()"></div>
 
 </template>
 <script>
 export default {
   props: ["user", "myClass"],
   methods: {
-    goToProfile(){
-      this.$router.push({name: 'userProfile', params:{
-        userId: this.user._id
-      }})
+    goToProfile() {
+      this.$router.push({
+        name: "userProfile",
+        params: {
+          userId: this.user._id
+        }
+      });
     }
   },
   computed: {
@@ -30,14 +34,16 @@ export default {
         return null;
       }
     },
-      getClass() {
-    if (this.myClass) {
-      return this.myClass;
-    } else {
-      return "profile-picture _30";
+    getClass() {
+      if (this.myClass) {
+        return this.myClass;
+      } else {
+        return "profile-picture _30";
+      }
+    },
+    backImage() {
+      return { backgroundImage: `url(${this.profilePic})` };
     }
   }
-  },
-
 };
 </script>

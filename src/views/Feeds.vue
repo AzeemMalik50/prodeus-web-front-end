@@ -49,6 +49,14 @@ export default {
     ProjectDetail,
     QuestionDetail
   },
+  watch: {
+    $route(to, from) {
+      if (this.$route.query.question) {
+        this.$store.dispatch("setCurrentPostId", this.$route.query.question);
+        this.$store.dispatch("toggelQuestionDialog", true);
+      }
+    }
+  },
   created() {
     this.$store.dispatch("classes/getFeeds").then(
       response => {
@@ -58,7 +66,6 @@ export default {
         console.error(error);
       }
     );
-    console.log(this.$route.query.question);
     if (this.$route.query.question) {
       this.$store.dispatch("setCurrentPostId", this.$route.query.question);
       this.$store.dispatch("toggelQuestionDialog", true);

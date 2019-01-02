@@ -32,7 +32,10 @@
             </div>
           </div>
         </div>
-        <div class="_20px-bottom-margin" v-show="showReply">
+
+<reply-item v-for="disc in discussItem.replies" :key="disc._id" :discussItem="disc"  >
+</reply-item>
+ <div class="_20px-bottom-margin" v-show="showReply">
           <div class="flex-space-between">
             <div class="_20-right">
               <div class="horiz-left-align-justify-atart">
@@ -54,8 +57,6 @@
             </div>
           </div>
         </div>
-<reply-item v-for="disc in discussItem.replies" :key="disc._id" :discussItem="disc"  >
-</reply-item>
         <!-- <slot> </slot> -->
       </div>
     </div>

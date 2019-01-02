@@ -30,6 +30,9 @@ export const post = {
     setSelectedQuestion({ commit }, data) {
       commit('setSelectedQuestion', data);
     },
+    viewPost({ commit }, id) {
+      return authService.put(`/posts/${id}/view`, {})
+    },
   },
   mutations: {
     failure(state, err) {

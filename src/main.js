@@ -28,6 +28,10 @@ import UserThumbnail from './components/UserThumbnail';
 import DiscussionLike from './components/ClassRoom/DiscussionLike.vue';
 import Facebook from './components/Icons/Facebook.vue';
 import Twitter from './components/Icons/Twitter.vue';
+import Heart from './components/Icons/Heart.vue';
+import Comm from './components/Icons/Comment.vue';
+import Reblog from './components/Icons/Reblog.vue';
+import Share from './components/Icons/Share.vue';
 
 import axios from 'axios';
 
@@ -48,6 +52,11 @@ Vue.component('user-thumbnail', UserThumbnail);
 Vue.component('disc-like', DiscussionLike);
 Vue.component('facebook', Facebook);
 Vue.component('twitter', Twitter);
+Vue.component('share', Share);
+Vue.component('heart', Heart);
+Vue.component('comment', Comm);
+Vue.component('reblog', Reblog);
+
 
 Vue.use(VueScrollTo);
 Vue.use(SocialSharing);

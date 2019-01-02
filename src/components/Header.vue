@@ -65,7 +65,7 @@
           <div class="_10px-botttom-margin cursor-pointer">
             <div class="div-block-113 project" @click="openPostForm('project')">
               <img src="../assets/add-white.svg" height="20" alt="" class="image-29">
-              <div class="text-block-14">Add a project</div>
+              <div class="text-block-14">Share your work</div>
             </div>
           </div>
           <div class="_10px-botttom-margin cursor-pointer">

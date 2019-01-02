@@ -20,8 +20,12 @@ export default new Vuex.Store({
     showAnswerPost: false,
     currentPostId: '',
     goToAnswer: false,
+    goToPostComment: false,
   },
   mutations: {
+    setGoToPostComment: (state, payload) => {
+      state.goToPostComment = payload;
+    },
     setGoToAnswer: (state, payload) => {
       state.goToAnswer = payload;
     },
@@ -75,6 +79,9 @@ export default new Vuex.Store({
     },
     setGoToAnswer({commit}, payload){
       commit('setGoToAnswer', payload);
+    },
+    setGoToPostComment({commit}, payload){
+      commit('setGoToPostComment', payload);
     }
   },
   getters: {

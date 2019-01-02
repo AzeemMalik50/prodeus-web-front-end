@@ -113,30 +113,61 @@ export default {
         );
       }
     },
-    vote(type) {
-      this.$store
-        .dispatch("post/votePost", {
-          postId: this.answer._id,
-          voteType: type,
-          parentPost: this.parentId
-        })
-        .then(
-          resp => {
-            if (type === "upVote") {
-              this.answer.upVotes.push(this.currentUser._id);
-              this.answer.downVotes = this.answer.downVotes.filter(
-                el => el !== this.currentUser._id
-              );
-            } else {
-              this.answer.downVotes.push(this.currentUser._id);
-              this.answer.upVotes = this.answer.upVotes.filter(
-                el => el !== this.currentUser._id
-              );
-            }
-          },
-          err => {}
-        );
-    }
+     vote(type) {
+      if (
+        (type === "upVote" &&
+          this.answer.upVotes.indexOf(this.currentUser._id) === -1) ||
+        (type === "downVote" &&
+          this.answer.downVotes.indexOf(this.currentUser._id) === -1)
+      ) {
+        this.$store
+          .dispatch("post/votePost", {
+            postId: this.answer._id,
+            voteType: type,
+            parentPost: this.parentId
+          })
+          .then(
+            resp => {
+              if (type === "upVote") {
+                this.answer.upVotes.push(this.currentUser._id);
+                this.answer.downVotes = this.answer.downVotes.filter(
+                  el => el !== this.currentUser._id
+                );
+              } else {
+                this.answer.downVotes.push(this.currentUser._id);
+                this.answer.upVotes = this.answer.upVotes.filter(
+                  el => el !== this.currentUser._id
+                );
+              }
+            },
+            err => {}
+          );
+      }
+    },
+    // vote(type) {
+    //   this.$store
+    //     .dispatch("post/votePost", {
+    //       postId: this.answer._id,
+    //       voteType: type,
+    //       parentPost: this.parentId
+    //     })
+    //     .then(
+    //       resp => {
+    //         if (type === "upVote") {
+    //           this.answer.upVotes.push(this.currentUser._id);
+    //           this.answer.downVotes = this.answer.downVotes.filter(
+    //             el => el !== this.currentUser._id
+    //           );
+    //         } else {
+    //           this.answer.downVotes.push(this.currentUser._id);
+    //           this.answer.upVotes = this.answer.upVotes.filter(
+    //             el => el !== this.currentUser._id
+    //           );
+    //         }
+    //       },
+    //       err => {}
+    //     );
+    // }
   },
   computed: {
     ...mapState({
