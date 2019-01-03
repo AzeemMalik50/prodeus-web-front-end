@@ -54,7 +54,7 @@
                   </div>
                 </div>
               </div>
-<reply-item v-for="disc in discussItem.replies" :key="disc._id" :discussItem="disc"  >
+<reply-item v-for="disc in discussItem.replies" :key="disc._id" :discussItem="disc" :level="currentLevel" >
   <!-- <reply-item >
     <reply-item />
   </reply-item> -->
@@ -147,47 +147,49 @@
           <!-- </div> -->
 </template>
 <script>
-import {mapState} from 'vuex';
-import ReplyItem from './ReplyItem';
+import { mapState } from "vuex";
+import ReplyItem from "./ReplyItem";
 
 export default {
   components: {
     ReplyItem
   },
-  props:['discussItem'],
+  props: ["discussItem"],
   data() {
     return {
-       discus: {
+      currentLevel: "1",
+      discus: {
         body: "",
         type: "",
         parent: ""
       },
       showReply: false
-    }
+    };
   },
   created() {
     this.discus.parent = this.discussItem._id;
     this.discus.type = this.discussItem.type;
   },
   methods: {
-     visibleInput() {
+    visibleInput() {
       this.showReply = true;
     },
-       onSubmit(){
-      if(this.discus.body && this.discus.type){
-        this.$store.dispatch('discussion/createDiscussion', this.discus)
-        .then(resp=>{
-          this.discussItem.replies.push(resp.data)
-          this.discus.body = '';
-        }, err=>{
-        })
+    onSubmit() {
+      if (this.discus.body && this.discus.type) {
+        this.$store.dispatch("discussion/createDiscussion", this.discus).then(
+          resp => {
+            this.discussItem.replies.push(resp.data);
+            this.discus.body = "";
+          },
+          err => {}
+        );
       }
     }
   },
   computed: {
-      ...mapState({
+    ...mapState({
       currentUser: state => state.authentication.user
-    }),
+    })
   }
-}
+};
 </script>

@@ -28,7 +28,9 @@
       <div class="flex-space-around">
         <img src="@/assets/heart-active.svg" v-if="liked" @click.stop="unLikeProject()" height="16"/>
         <img src="@/assets/heart.svg" v-else @click.stop="likeProject()" height="16"/>
-        <img src="@/assets/reblog.svg" height="20" class="reblog-active" />
+            <re-share height="20" @click.native.stop="reblogProject" :active="reblogged"/>
+
+        <!-- <img src="@/assets/reblog.svg" height="20" class="reblog-active" /> -->
         <img src="@/assets/comment.svg" height="16" @click.self="projectDetail(true)" class="comment-active"/>
         <img src="@/assets/share.svg" height="16" class="share-active" />
       </div>
@@ -48,15 +50,15 @@ export default {
   },
   methods: {
     projectDetail(goToComment) {
-       if (goToComment) {
+      if (goToComment) {
         this.$store.dispatch("setGoToPostComment", true);
       }
       this.$router.push({
-                name: 'feed',
-                query: {project: this.project._id}
-              });
-      this.$store.dispatch('setCurrentPostId', this.project._id);
-      this.$store.dispatch('toggelProjectDialog', true);
+        name: "feed",
+        query: { project: this.project._id }
+      });
+      this.$store.dispatch("setCurrentPostId", this.project._id);
+      this.$store.dispatch("toggelProjectDialog", true);
     },
     likeProject() {
       this.$store.dispatch("post/likePost", this.project._id).then(
@@ -67,6 +69,18 @@ export default {
         },
         err => {}
       );
+    },
+    reblogProject() {
+      if (!this.reblogged) {
+        this.$store.dispatch("post/reblogPost", this.project._id).then(
+          resp => {
+            this.project.likes.indexOf(this.loggedInUser._id) === -1
+              ? this.project.reBlogs.push(this.loggedInUser._id)
+              : "";
+          },
+          err => {}
+        );
+      }
     },
     unLikeProject() {
       this.$store.dispatch("post/removeLikePost", this.project._id).then(
@@ -88,6 +102,9 @@ export default {
     liked() {
       return this.project.likes.indexOf(this.loggedInUser._id) > -1;
     },
+    reblogged() {
+      return this.project.reBlogs.indexOf(this.loggedInUser._id) > -1;
+    },
     projectImage() {
       let imageContent = this.project.content.find(c => c.type === "image");
       let imageUrl = "";
@@ -96,7 +113,7 @@ export default {
       }
       return imageUrl;
     },
-     projectText() {
+    projectText() {
       let textContent = this.project.content.find(c => c.type === "text");
       return textContent ? textContent.body.substring(0, 100) : null;
     },
@@ -105,7 +122,7 @@ export default {
       if (this.projectImage) {
         userClass += " post";
       }
-      return userClass
+      return userClass;
     }
   }
 };

@@ -21,6 +21,9 @@ export const post = {
     likePost({ commit }, id) {
       return authService.put(`/posts/${id}/like`, {})
     },
+    reblogPost({ commit }, id) {
+      return authService.put(`/posts/${id}/reblog`, {})
+    },
     removeLikePost({ commit }, id) {
       return authService.put(`/posts/${id}/unlike`, {})
     },

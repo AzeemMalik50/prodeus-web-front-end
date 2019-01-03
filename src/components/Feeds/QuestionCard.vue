@@ -66,10 +66,10 @@ export default {
       if (goToAnswer) {
         this.$store.dispatch("setGoToAnswer", true);
       }
-       this.$router.push({
-                name: 'feed',
-                query: {question: this.question._id}
-              });
+      this.$router.push({
+        name: "feed",
+        query: { question: this.question._id }
+      });
       this.$store.dispatch("setCurrentPostId", this.question._id);
       this.$store.dispatch("toggelQuestionDialog", true);
     },
@@ -118,7 +118,7 @@ export default {
     answers() {
       if (this.question.replies && this.question.replies.length) {
         return this.question.replies.sort((a, b) => {
-          return b.upVotes.length - a.upVotes.length;
+          return (b.upVotes.length - b.downVotes.length) - (a.upVotes.length - a.downVotes.length);
         });
       } else {
         return [];

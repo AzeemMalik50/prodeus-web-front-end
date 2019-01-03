@@ -32,6 +32,8 @@ import Heart from './components/Icons/Heart.vue';
 import Comm from './components/Icons/Comment.vue';
 import Reblog from './components/Icons/Reblog.vue';
 import Share from './components/Icons/Share.vue';
+import ReShare from './components/Icons/ReShare.vue';
+
 
 import axios from 'axios';
 
@@ -56,6 +58,8 @@ Vue.component('share', Share);
 Vue.component('heart', Heart);
 Vue.component('comment', Comm);
 Vue.component('reblog', Reblog);
+Vue.component('re-share', ReShare);
+
 
 
 Vue.use(VueScrollTo);

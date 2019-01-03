@@ -18,7 +18,7 @@
           <div class="div-block-86">
             <comment @click.native="addComment()" height="32"  :active="comm"/>
             <heart @click.native="likeProject()" height="32" :active="liked" />
-            <reblog height="32"  :active="reblog"/>
+            <reblog height="32" @click.native.stop="reblogProject" :active="reblogged"/>
             <share height="32" :active="share" />
           </div>
         </div>
@@ -97,7 +97,7 @@
             <div class="text-block-7">{{project.discussions.length}}</div>
           </div>
           <div class="left-align"><img src="../assets/Group-5400.svg" width="20" height="20" alt="">
-            <div class="text-block-7">4.2k</div>
+            <div class="text-block-7">{{project.reBlogs.length}}</div>
           </div>
         </div>
                <social-sharing :url="socialData.url"
@@ -239,6 +239,18 @@ export default {
         err => {}
       );
     },
+    reblogProject() {
+      if (!this.reblogged) {
+        this.$store.dispatch("post/reblogPost", this.project._id).then(
+          resp => {
+            this.project.likes.indexOf(this.loggedInUser._id) === -1
+              ? this.project.reBlogs.push(this.loggedInUser._id)
+              : "";
+          },
+          err => {}
+        );
+      }
+    },
     likeProject() {
       if (this.liked) {
         this.unLikeProject();
@@ -298,6 +310,9 @@ export default {
     },
     liked() {
       return this.project.likes.indexOf(this.loggedInUser._id) > -1;
+    },
+    reblogged() {
+      return this.project.reBlogs.indexOf(this.loggedInUser._id) > -1;
     },
     questionText() {
       let textContent = this.project.content

@@ -22,7 +22,7 @@
                   <disc-like :discussItem="discussItem" />
                   <!-- <h6 class="heading-18 discus-hover">Like</h6> -->
                 </div>
-                <div class="_16-px-right-margin cursor-pointer discus-hover" @click="visibleInput()">
+                <div class="_16-px-right-margin cursor-pointer discus-hover" @click="visibleInput()" v-if="deepLevel < 3">
                   <h6 class="heading-18 discus-hover">Reply</h6>
                 </div>
                 <div class="_16-px-right-margin">
@@ -33,7 +33,7 @@
           </div>
         </div>
 
-<reply-item v-for="disc in discussItem.replies" :key="disc._id" :discussItem="disc"  >
+<reply-item v-for="disc in discussItem.replies" :key="disc._id" :discussItem="disc" :limitReached="true" :level="currentLevel">
 </reply-item>
  <div class="_20px-bottom-margin" v-show="showReply">
           <div class="flex-space-between">
@@ -64,12 +64,13 @@
 </template>
 
 <script>
-import {mapState} from 'vuex';
+import { mapState } from "vuex";
 export default {
-  name:'reply-item',
-  props: ["discussItem"],
+  name: "reply-item",
+  props: ["discussItem", "level"],
   data() {
     return {
+      currentLevel: "1",
       discus: {
         body: "",
         type: "",
@@ -78,7 +79,12 @@ export default {
       showReply: false
     };
   },
-   created() {
+  created() {
+    let level = this.level;
+    if (!level) {
+      level = "0";
+    }
+    this.currentLevel = (parseInt(level) + 1).toString();
     this.discus.parent = this.discussItem._id;
     this.discus.type = this.discussItem.type;
   },
@@ -86,24 +92,29 @@ export default {
     visibleInput() {
       this.showReply = true;
       this.$nextTick(() => {
-      this.$refs[this.discussItem._id].focus();
+        this.$refs[this.discussItem._id].focus();
       });
     },
-        onSubmit(){
-      if(this.discus.body && this.discus.type){
-        this.$store.dispatch('discussion/createDiscussion', this.discus)
-        .then(resp=>{
-          this.discussItem.replies.push(resp.data)
-          this.discus.body = '';
-        }, err=>{
-        })
+    onSubmit() {
+      if (this.discus.body && this.discus.type) {
+        this.$store.dispatch("discussion/createDiscussion", this.discus).then(
+          resp => {
+            this.discussItem.replies.push(resp.data);
+            this.discus.body = "";
+            this.showReply = false;
+          },
+          err => {}
+        );
       }
     }
   },
   computed: {
-      ...mapState({
+    ...mapState({
       currentUser: state => state.authentication.user
     }),
+    deepLevel() {
+      return parseInt(this.currentLevel);
+    }
   }
 };
 </script>
