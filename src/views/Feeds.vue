@@ -4,25 +4,10 @@
     <masonry :cols="{default: 5, 1600: 4, 1300: 3, 900: 2, 500: 1}" class="masonary">
     <div class="flexcolumn" v-for="feed in feeds" :key="feed._id">
       <ClassCard :feedClass="feed" v-if="!feed.postType" />
-      <ProjectCard v-bind="projectData" v-if="feed.postType==='Project'" :project="feed" />
+      <ProjectCard v-if="feed.postType==='Project'" :project="feed" />
       <QuestionCard v-if="feed.postType==='Question'" :question="feed" />
     </div>
     </masonry>
-    <!-- <div class="flexcolumn">
-      <ProjectCard v-bind="projectData" />
-      <QuestionCard />
-      <ClassCard :feedClass="classData" />
-    </div>
-    <div class="flexcolumn">
-      <QuestionCard />
-      <ClassCard :feedClass="classData" />
-      <ProjectCard v-bind="projectData" />
-    </div>
-     <div class="flexcolumn">
-      <ClassCard :feedClass="classData" />
-      <ProjectCard v-bind="projectData" />
-      <QuestionCard />
-    </div> -->
   </div>
     <create-post v-if="showAnswerPost" :type="postType" :parentPost="selectedQuestion" />
     <project-detail  v-if="isProjectOpen" />
@@ -51,9 +36,26 @@ export default {
   },
   watch: {
     $route(to, from) {
+      let postId = from.query.question || from.query.project;
       if (this.$route.query.question) {
         this.$store.dispatch("setCurrentPostId", this.$route.query.question);
         this.$store.dispatch("toggelQuestionDialog", true);
+      }
+      if (this.$route.query.project) {
+        this.$store.dispatch("setCurrentPostId", this.$route.query.project);
+        this.$store.dispatch("toggelProjectDialog", true);
+      } else if (postId) {
+        this.$store.dispatch("post/getPost", postId).then(
+          post => {
+            const index = this.feeds.findIndex(feed => feed._id === postId);
+            if (index > -1) {
+              this.$set(this.feeds, index, post.data);
+            }
+          },
+          err => {
+            console.error(err);
+          }
+        );
       }
     }
   },
@@ -78,11 +80,7 @@ export default {
     return {
       feeds: [],
       postType: "Answer",
-      projectData: {
-        liked: true,
-        title: "Art &amp; Design History",
-        description: "A Brief History of Typography &amp; Handlettering"
-      }
+      projectData:{},
     };
   },
   computed: {

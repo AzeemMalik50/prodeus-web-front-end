@@ -1,18 +1,23 @@
 <template>
-<social-sharing url="https://vuejs.org/"
-                      title="The Progressive JavaScript Framework"
-                      description="Intuitive, Fast and Composable MVVM for building interactive interfaces."
-                      quote="Vue is a progressive framework for building user interfaces."
-                      hashtags="vuejs,javascript,framework"
-                      twitter-user="vuejs"
+           <social-sharing :url="socialData.url"
+                      :title="project.title"
+                      :description="questionText"
+                      :quote="project.title"
+                      hashtags="prodeus"
+                      :twitter-user="loggedInUser.fullName"
                       inline-template>
                             <div class="social-share-wrap">
       <network network="facebook">
-          <img src="../assets/Group-6199.svg" alt="">
+        <facebook />
       </network>
        <network network="twitter">
-          <img src="../assets/Group-6200.svg" alt="">
+         <twitter />
        </network>
           </div>
 </social-sharing>
 </template>
+<script>
+export default {
+    props:['title', 'description', 'quote', 'url']
+}
+</script>

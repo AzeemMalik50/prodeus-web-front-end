@@ -16,9 +16,9 @@
             <h2 class="heading-32">{{project.category}}</h2>
           </div>
           <div class="div-block-86">
-            <comment @click.native="addComment()" height="32"  :active="comm"/>
+            <comment @click.native="addComment()" height="32" :active="comm" />
             <heart @click.native="likeProject()" height="32" :active="liked" />
-            <reblog height="32" @click.native.stop="reblogProject" :active="reblogged"/>
+            <reblog height="32" @click.native.stop="reblogProject" :active="reblogged" />
             <share height="32" :active="share" />
           </div>
         </div>
@@ -33,27 +33,8 @@
             <h1 class="heading-1">Comments ({{project.discussions.length}})</h1>
           </div>
           <div class="_20px-bottom-margin">
-            <div class="flex-space-between">
-              <div class="_20-right">
-                <div class="horiz-left-align-justify-atart">
-                  <!-- <div class="profile-picture _30"></div> -->
-            <user-thumbnail :user="loggedInUser"  />
+          <comment-input :ref="'postComment'" :discId="'postComment'+project._id" :discItem="discus" :onSubmit="onSubmit" />
 
-                </div>
-              </div>
-              <div class="align-right-justify-start">
-                <div class="form-block-3 w-form">
-                  <form id="email-form" name="email-form" data-name="Email Form">
-                    <input type="text" ref="postComment" v-on:keydown.enter.prevent='onSubmit' v-model="discus.body" class="comment-block w-input" maxlength="256" name="Comment-2" data-name="Comment 2" placeholder="Write comment here" id="postComment"></form>
-                  <div class="w-form-done">
-                    <div>Thank you! Your submission has been received!</div>
-                  </div>
-                  <div class="w-form-fail">
-                    <div>Oops! Something went wrong while submitting the form.</div>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
           <div class="_20px-bottom-margin"></div>
           <reply-item v-for="disc in project.discussions" :key="disc._id" :discussItem="disc">
@@ -67,7 +48,7 @@
               <div class="_10px-botttom-margin">
                 <h1 v-if="project.user" class="heading-10">{{project.user.fullName}}</h1>
               </div>
-              <a href="#" v-if="isConnected" @click.prevent="disConnect()" class="tag outline">Connected</a>
+              <a href="#" v-if="isConnected" @click.prevent="disConnect()" class="tag blue">Connected</a>
               <a href="#" v-else @click.prevent="connect()" class="tag outline"> Connect </a>
 
             </div>
@@ -86,44 +67,38 @@
           <div class="text-block-6">Published on {{project.createdAt | moment("MMMM Do, YYYY")}}</div>
         </div>
         <div class="flex-space-around">
-          <div class="left-align"><img src="../assets/Group-5403.svg" width="20" height="20" alt="">
+          <div class="left-align"><img src="../assets/Group-5403.svg" class="cursor-auto" width="20" height="20" alt="">
             <div class="text-block-7">{{project.views}}</div>
           </div>
-          <div class="left-align"><img src="../assets/Group-5401.svg" width="20" height="20" alt="">
+          <div class="left-align"><img src="../assets/Group-5401.svg" class="cursor-auto" width="20" height="20" alt="">
             <div class="text-block-7">{{project.likes.length}}</div>
           </div>
           <div class="left-align">
-            <img src="../assets/Group-5402.svg" width="20" height="20" alt="">
+            <img src="../assets/Group-5402.svg" width="20" class="cursor-auto" height="20" alt="">
             <div class="text-block-7">{{project.discussions.length}}</div>
           </div>
-          <div class="left-align"><img src="../assets/Group-5400.svg" width="20" height="20" alt="">
+          <div class="left-align"><img src="../assets/Group-5400.svg" class="cursor-auto" width="20" height="20" alt="">
             <div class="text-block-7">{{project.reBlogs.length}}</div>
           </div>
         </div>
-               <social-sharing :url="socialData.url"
-                      :title="project.title"
-                      :description="questionText"
-                      :quote="project.title"
-                      hashtags="prodeus"
-                      :twitter-user="loggedInUser.fullName"
-                      inline-template>
-                            <div class="social-share-wrap">
-      <network network="facebook">
-        <facebook />
+        <social-sharing :url="socialData.url" :title="project.title" :description="questionText" :quote="project.title" hashtags="prodeus" :twitter-user="loggedInUser.fullName" inline-template>
+          <div class="social-share-wrap">
+            <network network="facebook">
+              <facebook />
 
-          <!-- <img src="../assets/Group-6199.svg" alt=""> -->
-      </network>
-       <network network="twitter">
-         <twitter />
-          <!-- <img src="../assets/Group-6200.svg" alt=""> -->
-       </network>
+              <!-- <img src="../assets/Group-6199.svg" alt=""> -->
+            </network>
+            <network network="twitter">
+              <twitter />
+              <!-- <img src="../assets/Group-6200.svg" alt=""> -->
+            </network>
           </div>
-</social-sharing>
+        </social-sharing>
         <!-- <div class="social-share-wrap">
-          <img src="../assets/Group-6199.svg" alt="">
-          <img src="../assets/Group-6200.svg" alt="">
-          <img src="../assets/Group-6201.svg" alt="">
-          <img src="../assets/Group-6202.svg" alt=""></div> -->
+            <img src="../assets/Group-6199.svg" alt="">
+            <img src="../assets/Group-6200.svg" alt="">
+            <img src="../assets/Group-6201.svg" alt="">
+            <img src="../assets/Group-6202.svg" alt=""></div> -->
       </div>
     </div>
   </div>
@@ -166,7 +141,15 @@ export default {
       discus: {
         body: "",
         type: "Comment",
-        postId: ""
+        postId: "",
+        media: {
+          mediaId: "",
+          type: ""
+        },
+        selectedMedia: {
+          mediaType: "",
+          file: null
+        }
       }
     };
   },
@@ -180,7 +163,9 @@ export default {
         this.project = post.data;
         this.viewPost();
         if (this.goToPostComment) {
-          this.addComment();
+          setTimeout(() => {
+            this.addComment();
+          }, 1000);
         }
       },
       err => {
@@ -197,7 +182,9 @@ export default {
     goBack() {
       let query = Object.assign({}, this.$route.query);
       delete query.project;
-      this.$router.replace({ query });
+      this.$router.replace({
+        query
+      });
       this.$store.dispatch("toggelQuestionDialog", false);
       this.$store.dispatch("toggelProjectDialog", false);
     },
@@ -218,10 +205,15 @@ export default {
     },
     onSubmit() {
       if (this.discus.body && this.discus.type) {
-        this.$store.dispatch("post/addPostComment", this.discus).then(
+        let disc = JSON.parse(JSON.stringify(this.discus));
+        if(!disc.media.mediaId){
+          delete disc.media;
+        }
+        this.$store.dispatch("post/addPostComment", disc).then(
           resp => {
             this.project.discussions.push(resp.data);
             this.discus.body = "";
+            this.discus.media.mediaId = "";
           },
           err => {}
         );
@@ -243,7 +235,7 @@ export default {
       if (!this.reblogged) {
         this.$store.dispatch("post/reblogPost", this.project._id).then(
           resp => {
-            this.project.likes.indexOf(this.loggedInUser._id) === -1
+            this.project.reBlogs.indexOf(this.loggedInUser._id) === -1
               ? this.project.reBlogs.push(this.loggedInUser._id)
               : "";
           },
@@ -277,13 +269,13 @@ export default {
       );
     },
     addComment() {
-      var cancelScroll = VueScrollTo.scrollTo(
-        "#postComment",
-        300,
-        this.options
-      );
       this.$nextTick(() => {
-        this.$refs.postComment.focus();
+        var cancelScroll = VueScrollTo.scrollTo(
+          "#postComment" + this.project._id,
+          300,
+          this.options
+        );
+        this.$refs.postComment.setFocus();
         this.$store.dispatch("setGoToPostComment", false);
       });
     },

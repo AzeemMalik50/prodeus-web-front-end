@@ -15,26 +15,8 @@
         </div>
         <div class="card" v-show="isQuestion || isComment">
           <div class="_10px-pad-wrapper">
-            <div class="flex-space-between">
-              <div class="_20-right">
-                <div class="horiz-left-align-justify-atart">
-                  <div class="profile-picture _30"></div>
-                </div>
-              </div>
-              <div class="align-right-justify-start" >
-                <div class="form-block-3 w-form">
-                  <form id="email-form" name="email-form" data-name="Email Form">
-                    <input type="text" ref="comment" v-on:keydown.enter.prevent='onSubmit' v-model="discus.body" class="comment-block w-input" maxlength="256" name="Comment-2" data-name="Comment 2" :placeholder="placeholderValue"  id="Comment-2">
-                  </form>
-                  <div class="w-form-done">
-                    <div>Thank you! Your submission has been received!</div>
-                  </div>
-                  <div class="w-form-fail">
-                    <div>Oops! Something went wrong while submitting the form.</div>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <comment-input :ref="'classComment'" :discId="'classComment'+classId" :discItem="discus" :onSubmit="onSubmit" />
+
           </div>
         </div>
         <div data-duration-in="500" data-duration-out="250" data-easing="ease-in-out" class="tabs-3 w-tabs">
@@ -86,7 +68,15 @@ export default {
       currentTab: "all",
       discus: {
         body: "",
-        type: ""
+        type: "",
+          media: {
+            mediaId: "",
+            type: ""
+          },
+          selectedMedia: {
+            mediaType: "",
+            file: null
+          }
       },
       lessonDiscussions: {comments:[], questions: []},
       currentLessonId: ""

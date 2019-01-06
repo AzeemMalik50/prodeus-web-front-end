@@ -40,9 +40,8 @@
             </div>
           </div>
           <div class="_20-right">
-            <div class="horiz-left-align-justify-atart">
-              <img src="../../assets/Group-4427.svg" height="16" alt="" class="image-15" v-if="answer.discussions.length">
-              <img src="../../assets/comment.svg" height="16" alt="" class="image-15" v-else>
+            <div class="horiz-left-align-justify-atart" @click="visibleInput">
+            <comment class="image-15"  height="16" :active="answer.discussions.length" />
 
               <h6 class="heading-18">{{answer.discussions.length}}</h6>
             </div>
@@ -55,28 +54,12 @@
         </div>
       </div>
     </div>
-    <div class="_20px-bottom-margin">
-      <div class="flex-space-between">
-        <div class="_20-right">
-          <div class="horiz-left-align-justify-atart">
-            <!-- <div class="profile-picture _30"></div> -->
-            <user-thumbnail :user="currentUser"  />
-          </div>
+
+
+ <div class="_20px-bottom-margin" v-if="showReply">
+          <comment-input :ref="'comment' + answer._id" :discId="answer._id" :discItem="discus" :onSubmit="onSubmit" />
         </div>
-        <div class="align-right-justify-start">
-          <div class="form-block-3 w-form">
-            <form id="email-form" name="email-form" data-name="Email Form">
-              <input type="text" ref="answerComment" v-on:keydown.enter.prevent='onSubmit' v-model="discus.body" class="comment-block w-input" maxlength="256" name="Comment" data-name="Comment" placeholder="Write comment here" id="Comment"></form>
-            <div class="w-form-done">
-              <div>Thank you! Your submission has been received!</div>
-            </div>
-            <div class="w-form-fail">
-              <div>Oops! Something went wrong while submitting the form.</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+
     <reply-item v-for="disc in answer.discussions" :key="disc._id" :discussItem="disc">
     </reply-item>
 </div>
@@ -94,26 +77,50 @@ export default {
   data() {
     return {
       bestAnswer: false,
+      showReply: false,
       discus: {
         body: "",
         type: "Comment",
-        postId: this.answer._id
+        postId: this.answer._id,
+        media: {
+          mediaId: "",
+          type: ""
+        },
+        selectedMedia: {
+          mediaType: "",
+          file: null
+        }
       }
     };
   },
   methods: {
+    visibleInput() {
+      this.showReply = true;
+      this.$nextTick(() => {
+        this.$refs["comment" + this.answer._id].setFocus();
+      });
+    },
+    getMedia(mediaId) {
+      return this.$apiBaseUrl + "/media/" + mediaId;
+    },
     onSubmit() {
       if (this.discus.body && this.discus.type) {
-        this.$store.dispatch("post/addPostComment", this.discus).then(
+        let disc = JSON.parse(JSON.stringify(this.discus));
+        if (!disc.media.mediaId) {
+          delete disc.media;
+        }
+        this.$store.dispatch("post/addPostComment", disc).then(
           resp => {
             this.answer.discussions.push(resp.data);
+            this.showReply = false;
             this.discus.body = "";
+            this.discus.media.mediaId = "";
           },
           err => {}
         );
       }
     },
-     vote(type) {
+    vote(type) {
       if (
         (type === "upVote" &&
           this.answer.upVotes.indexOf(this.currentUser._id) === -1) ||
@@ -143,7 +150,7 @@ export default {
             err => {}
           );
       }
-    },
+    }
     // vote(type) {
     //   this.$store
     //     .dispatch("post/votePost", {

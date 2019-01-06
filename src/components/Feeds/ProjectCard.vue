@@ -74,7 +74,7 @@ export default {
       if (!this.reblogged) {
         this.$store.dispatch("post/reblogPost", this.project._id).then(
           resp => {
-            this.project.likes.indexOf(this.loggedInUser._id) === -1
+            this.project.reBlogs.indexOf(this.loggedInUser._id) === -1
               ? this.project.reBlogs.push(this.loggedInUser._id)
               : "";
           },

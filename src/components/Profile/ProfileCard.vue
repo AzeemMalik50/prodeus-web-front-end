@@ -32,8 +32,10 @@ x<template>
       </div>
       <div class="_60px-block" v-if="loggedInUser._id !== user._id">
         <div class="_30px-side-padding">
-          <div class="flex-space-around" v-if="isConnected"><a href="#" @click.prevent="disConnect()" class="tag blue">Connected</a></div>
-          <div class="flex-space-around" v-else><a href="#" @click.prevent="connect()" class="tag blue">Connect</a></div>
+          <div class="flex-space-around" v-if="isConnected">
+            <a href="#" @click.prevent="disConnect()" class="tag blue">Connected</a></div>
+          <div class="flex-space-around" v-else>
+            <a href="#" @click.prevent="connect()" class="tag outline">Connect</a></div>
         </div>
       </div>
     </div>

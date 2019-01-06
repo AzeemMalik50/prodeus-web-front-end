@@ -1,11 +1,11 @@
 <template>
-   <div class="modalwrapper" v-if="question" @click.self="goBack()">
+  <div class="modalwrapper" v-if="question" @click.self="goBack()">
     <div class="post-wrapper">
       <div class="post-content-wrap width-100 " id="question" @click.self="doNothing()">
         <div class="div-block-84">
           <div class="back-wrap cursor-pointer" @click="goBack()">
             <img src="../assets/left-arrow.svg" height="16" alt="" class="image-13">
-            <a  class="link-3">Back</a></div>
+            <a class="link-3">Back</a></div>
         </div>
         <div class="post-head">
           <div class="_20px-bottom-margin">
@@ -14,32 +14,14 @@
           <div class="_30px-bottom-margin">
             <h2 class="heading-32 question">{{question.category}}</h2>
           </div><a href="#" @click.prevent="addAnswer" class="link outline question">Answer</a></div>
-            <div v-for="cont in question.content" :key="cont._id" class="margin-top-10">
-                <img v-if="cont.type==='image'"  :src="getMedia(cont.media)" />
-                <video v-if="cont.type==='video'" class="width-100" controls :src="getMedia(cont.media)"></video>
-                <div v-if="cont.type==='text'" v-html="cont.body"></div>
-            </div>
-             <div class="_20px-bottom-margin margin-top-40 ">
-      <div class="flex-space-between">
-        <div class="_20-right">
-          <div class="horiz-left-align-justify-atart">
-            <!-- <div class="profile-picture _30"></div> -->
-            <user-thumbnail :user="loggedInUser"  />
-          </div>
+        <div v-for="cont in question.content" :key="cont._id" class="margin-top-10">
+          <img v-if="cont.type==='image'" :src="getMedia(cont.media)" />
+          <video v-if="cont.type==='video'" class="width-100" controls :src="getMedia(cont.media)"></video>
+          <div v-if="cont.type==='text'" v-html="cont.body"></div>
         </div>
-        <div class="align-right-justify-start">
-          <div class="form-block-3 w-form">
-              <input type="text" ref="answer" v-on:keydown.enter.prevent='onSubmit' v-model="answer.title" class="comment-block w-input" maxlength="256" name="answer" data-name="answer" placeholder="Write answer" id="answer">
-            <div class="w-form-done">
-              <div>Thank you! Your submission has been received!</div>
-            </div>
-            <div class="w-form-fail">
-              <div>Oops! Something went wrong while submitting the form.</div>
-            </div>
-          </div>
+        <div class="_20px-bottom-margin margin-top-40 ">
+          <comment-input :ref="'answerComment'" placeholdertext="Write answer" :discId="'answerComment'+question._id" :discItem="discus" :onSubmit="onSubmit" />
         </div>
-      </div>
-    </div>
         <answers v-for="(ans, index) in answers" :key="ans._id" :answer="ans" :index="index" :parentId="currentPostId" />
       </div>
       <div class="flexcolumn post" @click.self="doNothing()">
@@ -49,12 +31,11 @@
               <div class="_10px-botttom-margin">
                 <h1 v-if="question.user" class="heading-10">{{question.user.fullName}}</h1>
               </div>
-
-              <a href="#" v-if="isConnected"  @click.prevent="disConnect()" class="tag outline">Connected</a>
-              <a href="#" v-else  @click.prevent="connect()" class="tag outline"> Connect </a>
-              </div>
+              <a href="#" v-if="isConnected" @click.prevent="disConnect()" class="tag outline">Connected</a>
+              <a href="#" v-else @click.prevent="connect()" class="tag outline"> Connect </a>
+            </div>
             <!-- <div class="profile-picture _50"></div> -->
-                     <user-thumbnail :user="question.user" :myClass="'profile-picture _50'" />
+            <user-thumbnail :user="question.user" :myClass="'profile-picture _50'" />
 
           </div>
         </div>
@@ -70,46 +51,41 @@
           <div class="text-block-6">Published on {{question.createdAt | moment("MMMM Do, YYYY")}}</div>
         </div>
         <div class="flex-space-around">
-          <div class="left-align"><img src="../assets/Group-5403.svg" width="20" height="20" alt="">
+          <div class="left-align"><img src="../assets/Group-5403.svg" class="cursor-auto" width="20" height="20" alt="">
             <div class="text-block-7">{{question.views}}</div>
           </div>
-          <div class="left-align"><img src="../assets/Answer.svg" width="20" height="20" alt="">
+          <div class="left-align"><img src="../assets/Answer.svg" class="cursor-auto" width="20" height="20" alt="">
             <div class="text-block-7">{{(question.replies && question.replies.length) ? question.replies.length : 0}}</div>
           </div>
-          <div class="left-align"><img src="../assets/Group-5400.svg" width="20" height="20" alt="">
+          <div class="left-align"><img src="../assets/Group-5400.svg" class="cursor-auto" width="20" height="20" alt="">
             <div class="text-block-7">4.2k</div>
           </div>
         </div>
         <!-- <div class="social-share-wrap">
-          <img src="../assets/Group-6199.svg" alt="">
-          <img src="../assets/Group-6200.svg" alt="">
-          <img src="../assets/Group-6201.svg" alt="">
-          <img src="../assets/Group-6202.svg" alt="">
-          </div> -->
-          <social-sharing :url="socialData.url"
-                      :title="question.title"
-                      :description="questionText"
-                      :quote="question.title"
-                      hashtags="prodeus"
-                      :twitter-user="loggedInUser.fullName"
-                      inline-template>
-                            <div class="social-share-wrap">
-      <network network="facebook">
-        <facebook />
+            <img src="../assets/Group-6199.svg" alt="">
+            <img src="../assets/Group-6200.svg" alt="">
+            <img src="../assets/Group-6201.svg" alt="">
+            <img src="../assets/Group-6202.svg" alt="">
+            </div> -->
+        <social-sharing :url="socialData.url" :title="question.title" :description="questionText" :quote="question.title" hashtags="prodeus" :twitter-user="loggedInUser.fullName" inline-template>
+          <div class="social-share-wrap">
+            <network network="facebook">
+              <facebook />
 
-          <!-- <img src="../assets/Group-6199.svg" alt=""> -->
-      </network>
-       <network network="twitter">
-         <twitter />
-          <!-- <img src="../assets/Group-6200.svg" alt=""> -->
-       </network>
+              <!-- <img src="../assets/Group-6199.svg" alt=""> -->
+            </network>
+            <network network="twitter">
+              <twitter />
+              <!-- <img src="../assets/Group-6200.svg" alt=""> -->
+            </network>
           </div>
-</social-sharing>
+        </social-sharing>
       </div>
     </div>
     <!-- <create-post v-if="showAnswerPost" :type="postType" :parentPost="question" /> -->
   </div>
 </template>
+
 <script>
 import { mapGetters, mapState } from "vuex";
 import CreatePost from "@/views/CreatePost";
@@ -125,6 +101,17 @@ export default {
     return {
       socialData: {
         url: ""
+      },
+      discus: {
+        body: "",
+        media: {
+          mediaId: "",
+          type: ""
+        },
+        selectedMedia: {
+          mediaType: "",
+          file: null
+        }
       },
       answer: {
         title: "",
@@ -155,7 +142,9 @@ export default {
         this.question = post.data;
         this.viewPost();
         if (this.goToAnswer) {
-          this.addAnswer();
+          setTimeout(() => {
+            this.addAnswer();
+          }, 1000);
         }
       },
       err => {
@@ -169,7 +158,7 @@ export default {
         this.goBack();
       }
     },
-      viewPost() {
+    viewPost() {
       this.$store.dispatch("post/viewPost", this.currentPostId).then(
         resp => {
           if (!this.question.views) {
@@ -184,14 +173,20 @@ export default {
     goBack() {
       let query = Object.assign({}, this.$route.query);
       delete query.question;
-      this.$router.replace({ query });
+      this.$router.replace({
+        query
+      });
       this.$store.dispatch("toggelQuestionDialog", false);
       this.$store.dispatch("toggelProjectDialog", false);
     },
     addAnswer() {
-      var cancelScroll = VueScrollTo.scrollTo("#answer", 300, this.options);
       this.$nextTick(() => {
-        this.$refs.answer.focus();
+        var cancelScroll = VueScrollTo.scrollTo(
+          "answerComment" + this.question._id,
+          300,
+          this.options
+        );
+        this.$refs.answerComment.setFocus();
         this.$store.dispatch("setGoToAnswer", false);
       });
     },
@@ -211,10 +206,22 @@ export default {
       );
     },
     onSubmit() {
-      this.$store.dispatch("post/addPost", this.answer).then(
+      this.answer.title = this.discus.body;
+      let answer = JSON.parse(JSON.stringify(this.answer));
+      if (this.discus.media && this.discus.media.mediaId) {
+        let content = {
+          type: this.discus.media.type,
+          media: this.discus.media.mediaId
+        };
+        answer.content = [content];
+      }
+
+      this.$store.dispatch("post/addPost", answer).then(
         post => {
           this.question.replies.push(post.data);
           this.answer.title = "";
+          this.discus.body = "";
+          this.discus.media.mediaId = "";
         },
         err => {
           console.error(err);
@@ -233,7 +240,11 @@ export default {
     answers() {
       if (this.question.replies && this.question.replies.length) {
         return this.question.replies.sort((a, b) => {
-          return (b.upVotes.length - b.downVotes.length) - (a.upVotes.length - a.downVotes.length);
+          return (
+            b.upVotes.length -
+            b.downVotes.length -
+            (a.upVotes.length - a.downVotes.length)
+          );
         });
       } else {
         return [];
@@ -261,10 +272,12 @@ export default {
   }
 };
 </script>
+
 <style lang="scss" scoped>
 .margin-top-10 {
   margin-top: 10px;
 }
+
 .margin-top-40 {
   margin-top: 40px;
 }

@@ -25,6 +25,8 @@ import './styles/ongoing.css';
 import './styles/styles.scss';
 // Gloabl Copmponnets
 import UserThumbnail from './components/UserThumbnail';
+import CommentInput from './components/ClassDasboard/CommentInput.vue';
+
 import DiscussionLike from './components/ClassRoom/DiscussionLike.vue';
 import Facebook from './components/Icons/Facebook.vue';
 import Twitter from './components/Icons/Twitter.vue';
@@ -33,6 +35,7 @@ import Comm from './components/Icons/Comment.vue';
 import Reblog from './components/Icons/Reblog.vue';
 import Share from './components/Icons/Share.vue';
 import ReShare from './components/Icons/ReShare.vue';
+
 
 
 import axios from 'axios';
@@ -59,6 +62,7 @@ Vue.component('heart', Heart);
 Vue.component('comment', Comm);
 Vue.component('reblog', Reblog);
 Vue.component('re-share', ReShare);
+Vue.component('comment-input', CommentInput);
 
 
 

@@ -33,26 +33,8 @@
                 </div>
               </div>
               <div class="_20px-bottom-margin">
-                <div class="flex-space-between">
-                  <div class="_20-right">
-                    <div class="horiz-left-align-justify-atart">
-                      <!-- <div class="profile-picture _30"></div> -->
-                     <user-thumbnail :user="currentUser" />
-                    </div>
-                  </div>
-                  <div class="align-right-justify-start">
-                    <div class="form-block-3 w-form">
-                      <form id="email-form" name="email-form" data-name="Email Form">
-                        <input type="text" ref="comment1" v-on:keydown.enter.prevent='onSubmit' v-model="discus.body" class="comment-block w-input" maxlength="256" name="Comment" data-name="Comment" placeholder="Write comment here" id="Comment"></form>
-                      <div class="w-form-done">
-                        <div>Thank you! Your submission has been received!</div>
-                      </div>
-                      <div class="w-form-fail">
-                        <div>Oops! Something went wrong while submitting the form.</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+          <comment-input :ref="'comment' + discussItem._id" :discId="discussItem._id" :discItem="discus" :onSubmit="onSubmit" />
+
               </div>
 <reply-item v-for="disc in discussItem.replies" :key="disc._id" :discussItem="disc" :level="currentLevel" >
   <!-- <reply-item >
@@ -161,7 +143,15 @@ export default {
       discus: {
         body: "",
         type: "",
-        parent: ""
+        parent: "",
+         media: {
+            mediaId: "",
+            type: ""
+          },
+          selectedMedia: {
+            mediaType: "",
+            file: null
+          }
       },
       showReply: false
     };
@@ -176,10 +166,15 @@ export default {
     },
     onSubmit() {
       if (this.discus.body && this.discus.type) {
-        this.$store.dispatch("discussion/createDiscussion", this.discus).then(
+         let disc = JSON.parse(JSON.stringify(this.discus));
+        if(!disc.media.mediaId){
+          delete disc.media;
+        }
+        this.$store.dispatch("discussion/createDiscussion", disc).then(
           resp => {
             this.discussItem.replies.push(resp.data);
             this.discus.body = "";
+            this.discus.media.mediaId = "";
           },
           err => {}
         );

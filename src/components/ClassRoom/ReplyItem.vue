@@ -4,17 +4,21 @@
       <div class="_10px-botttom-margin">
         <div class="reply-wrap">
           <!-- <div class="profile-picture _28"></div> -->
-                     <user-thumbnail :user="discussItem.user" />
+          <user-thumbnail :user="discussItem.user" />
           <div class="message-content-wrap">
             <div class="_10px-botttom-margin">
               <div class="left-align">
                 <h6 class="heading-17">{{discussItem.user.fullName}}</h6>
               </div>
             </div>
-            <div class="_10px-botttom-margin">
+            <div class="_10px-botttom-margin  reply" :class="{'paragraph-4':hasMedia, 'reply': hasMedia }">
+              <div v-if="hasMedia">
+                <img v-if="discussItem.media.type==='image'" :src="getMedia(discussItem.media.mediaId)" />
+                <video v-if="discussItem.media.type==='video'" class="width-100" controls :src="getMedia(discussItem.media.mediaId)"></video>
+              </div>
               <p class="paragraph-4 reply">
-                    {{discussItem.body}}
-                </p>
+                {{discussItem.body}}
+              </p>
             </div>
             <div class="_10px-botttom-margin">
               <div class="left-align">
@@ -33,29 +37,10 @@
           </div>
         </div>
 
-<reply-item v-for="disc in discussItem.replies" :key="disc._id" :discussItem="disc" :limitReached="true" :level="currentLevel">
-</reply-item>
- <div class="_20px-bottom-margin" v-show="showReply">
-          <div class="flex-space-between">
-            <div class="_20-right">
-              <div class="horiz-left-align-justify-atart">
-                     <user-thumbnail :user="currentUser" />
-                <!-- <div class="profile-picture _30"></div> -->
-              </div>
-            </div>
-            <div class="align-right-justify-start">
-              <div class="form-block-3 w-form">
-                <form id="email-form" name="email-form" data-name="Email Form">
-                  <input type="text" :ref="discussItem._id" v-on:keydown.enter.prevent='onSubmit' v-model="discus.body" class="comment-block w-input" maxlength="256" :name="discussItem._id" data-name="Comment" placeholder="Write comment here" :id="discussItem._id"></form>
-                <div class="w-form-done">
-                  <div>Thank you! Your submission has been received!</div>
-                </div>
-                <div class="w-form-fail">
-                  <div>Oops! Something went wrong while submitting the form.</div>
-                </div>
-              </div>
-            </div>
-          </div>
+        <reply-item v-for="disc in discussItem.replies" :key="disc._id" :discussItem="disc" :limitReached="true" :level="currentLevel">
+        </reply-item>
+        <div class="_20px-bottom-margin" v-if="showReply">
+          <comment-input :ref="'comment' + discussItem._id" :discId="discussItem._id" :discItem="discus" :onSubmit="onSubmit" />
         </div>
         <!-- <slot> </slot> -->
       </div>
@@ -74,7 +59,15 @@ export default {
       discus: {
         body: "",
         type: "",
-        parent: ""
+        parent: "",
+        media: {
+          mediaId: "",
+          type: ""
+        },
+        selectedMedia: {
+          mediaType: "",
+          file: null
+        }
       },
       showReply: false
     };
@@ -92,20 +85,31 @@ export default {
     visibleInput() {
       this.showReply = true;
       this.$nextTick(() => {
-        this.$refs[this.discussItem._id].focus();
+        this.$refs["comment" + this.discussItem._id].setFocus();
       });
+      // this.$nextTick(() => {
+      //   this.$refs[this.discussItem._id].focus();
+      // });
     },
     onSubmit() {
       if (this.discus.body && this.discus.type) {
-        this.$store.dispatch("discussion/createDiscussion", this.discus).then(
+         let disc = JSON.parse(JSON.stringify(this.discus));
+        if(!disc.media.mediaId){
+          delete disc.media;
+        }
+        this.$store.dispatch("discussion/createDiscussion", disc).then(
           resp => {
             this.discussItem.replies.push(resp.data);
             this.discus.body = "";
+            this.discus.media.mediaId = "";
             this.showReply = false;
           },
           err => {}
         );
       }
+    },
+    getMedia(mediaId) {
+      return this.$apiBaseUrl + "/media/" + mediaId;
     }
   },
   computed: {
@@ -114,6 +118,9 @@ export default {
     }),
     deepLevel() {
       return parseInt(this.currentLevel);
+    },
+    hasMedia() {
+      return this.discussItem.media && this.discussItem.media.mediaId;
     }
   }
 };
