@@ -21,8 +21,20 @@ export default new Vuex.Store({
     currentPostId: '',
     goToAnswer: false,
     goToPostComment: false,
+    showSocailShare: false,
+    socailShareData: {
+      url:'',
+      title:'',
+      text:''
+    }
   },
   mutations: {
+    setSocailShareModalData: (state, payload) => {
+      state.socailShareData = payload;
+    },
+    setSocailShareModal: (state, payload) => {
+      state.showSocailShare = payload;
+    },
     setGoToPostComment: (state, payload) => {
       state.goToPostComment = payload;
     },
@@ -74,15 +86,21 @@ export default new Vuex.Store({
     }, payload) => {
       commit('toggelQuestionDialog', payload);
     },
-    setCurrentPostId({commit}, payload){
+    setCurrentPostId({ commit }, payload) {
       commit('setCurrentPostId', payload);
     },
-    setGoToAnswer({commit}, payload){
+    setGoToAnswer({ commit }, payload) {
       commit('setGoToAnswer', payload);
     },
-    setGoToPostComment({commit}, payload){
+    setGoToPostComment({ commit }, payload) {
       commit('setGoToPostComment', payload);
-    }
+    },
+    setSocailShareModal({ commit }, payload) {
+      commit('setSocailShareModal', payload);
+    },
+    setSocailShareModalData({ commit }, payload) {
+      commit('setSocailShareModalData', payload);
+    },
   },
   getters: {
     showCreateClass: state => state.showCreateClass,

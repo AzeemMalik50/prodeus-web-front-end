@@ -1,0 +1,34 @@
+<template>
+<svg xmlns="http://www.w3.org/2000/svg" :style="getStyle" viewBox="0 0 40 40">
+  <defs>
+  </defs>
+  <g id="pinterest" transform="translate(-0.001 -0.002)">
+    <circle id="Ellipse_1273" data-name="Ellipse 1273" class="cls-1" cx="20" cy="20" r="20" transform="translate(0.001 0.002)"/>
+    <g id="Group_6575" data-name="Group 6575" transform="translate(10.34 8.769)">
+      <path id="Path_13685" data-name="Path 13685" class="cls-2" d="M40.276,42.607c-1.512-.117-2.147-.867-3.333-1.587-.652,3.419-1.448,6.7-3.807,8.41-.729-5.168,1.069-9.05,1.9-13.17-1.423-2.4.171-7.218,3.173-6.03,3.695,1.461-3.2,8.908,1.429,9.838,4.831.971,6.8-8.383,3.807-11.425-4.329-4.393-12.6-.1-11.583,6.188.248,1.537,1.836,2,.635,4.125-2.771-.614-3.6-2.8-3.491-5.712.171-4.768,4.285-8.107,8.41-8.569,5.218-.584,10.115,1.916,10.791,6.824.76,5.539-2.356,11.538-7.934,11.107Z" transform="translate(-29 -24.593)"/>
+    </g>
+  </g>
+</svg>
+
+</template>
+<script>
+export default {
+  props:['cStyle'],
+  computed:{
+    getStyle(){
+return this.cStyle || {
+  height: '32px'
+}
+    }
+  }
+}
+</script>
+<style lang="scss" scoped>
+.cls-1 {
+        fill: #cb2027 !important;
+      }
+
+      .cls-2 {
+        fill: #f1f2f2 !important;
+      }
+</style>

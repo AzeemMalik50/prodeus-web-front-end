@@ -12,6 +12,7 @@
     <create-post v-if="showAnswerPost" :type="postType" :parentPost="selectedQuestion" />
     <project-detail  v-if="isProjectOpen" />
     <question-detail  v-if="isQuestionOpen" />
+    <share-modal v-if="showSocailShare" />
     </div>
 </template>
 
@@ -92,7 +93,8 @@ export default {
       loggedInUser: state => state.authentication.user,
       selectedQuestion: state => state.post.selectedQuestion,
       isQuestionOpen: state => state.isQuestionOpen,
-      isProjectOpen: state => state.isProjectOpen
+      isProjectOpen: state => state.isProjectOpen,
+      showSocailShare: state => state.showSocailShare
     })
   }
 };

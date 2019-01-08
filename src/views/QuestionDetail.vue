@@ -61,28 +61,11 @@
             <div class="text-block-7">4.2k</div>
           </div>
         </div>
-        <!-- <div class="social-share-wrap">
-            <img src="../assets/Group-6199.svg" alt="">
-            <img src="../assets/Group-6200.svg" alt="">
-            <img src="../assets/Group-6201.svg" alt="">
-            <img src="../assets/Group-6202.svg" alt="">
-            </div> -->
-        <social-sharing :url="socialData.url" :title="question.title" :description="questionText" :quote="question.title" hashtags="prodeus" :twitter-user="loggedInUser.fullName" inline-template>
-          <div class="social-share-wrap">
-            <network network="facebook">
-              <facebook />
-
-              <!-- <img src="../assets/Group-6199.svg" alt=""> -->
-            </network>
-            <network network="twitter">
-              <twitter />
-              <!-- <img src="../assets/Group-6200.svg" alt=""> -->
-            </network>
+        <div class="social-share-wrap">
+        <socail-share :data="socialShareData" />
           </div>
-        </social-sharing>
       </div>
     </div>
-    <!-- <create-post v-if="showAnswerPost" :type="postType" :parentPost="question" /> -->
   </div>
 </template>
 
@@ -268,6 +251,13 @@ export default {
         ? this.question.content.find(c => c.type === "text")
         : "";
       return textContent ? textContent.body.substring(0, 100) : "";
+    },
+     socialShareData(){
+      return {
+        url: window.location.origin + "?question=" + this.currentPostId,
+        title: this.question.title,
+        text: this.questionText,
+      }
     }
   }
 };

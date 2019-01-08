@@ -164,7 +164,7 @@ export default {
       this.content.splice(index, 1);
     },
     submit() {
-      if (this.title && this.title.length >= 5) {
+      if (this.title && this.title.length >= 5 & this.category) {
         let payload = {
           title: this.title,
           content: this.content,

@@ -19,7 +19,7 @@
             <comment @click.native="addComment()" height="32" :active="comm" />
             <heart @click.native="likeProject()" height="32" :active="liked" />
             <reblog height="32" @click.native.stop="reblogProject" :active="reblogged" />
-            <share height="32" :active="share" />
+            <share @click.native="openShare" height="32" :active="share" />
           </div>
         </div>
         <div v-for="cont in project.content" :key="cont._id" class="margin-top-10">
@@ -81,24 +81,9 @@
             <div class="text-block-7">{{project.reBlogs.length}}</div>
           </div>
         </div>
-        <social-sharing :url="socialData.url" :title="project.title" :description="questionText" :quote="project.title" hashtags="prodeus" :twitter-user="loggedInUser.fullName" inline-template>
           <div class="social-share-wrap">
-            <network network="facebook">
-              <facebook />
-
-              <!-- <img src="../assets/Group-6199.svg" alt=""> -->
-            </network>
-            <network network="twitter">
-              <twitter />
-              <!-- <img src="../assets/Group-6200.svg" alt=""> -->
-            </network>
+        <socail-share :data="socialShareData" />
           </div>
-        </social-sharing>
-        <!-- <div class="social-share-wrap">
-            <img src="../assets/Group-6199.svg" alt="">
-            <img src="../assets/Group-6200.svg" alt="">
-            <img src="../assets/Group-6201.svg" alt="">
-            <img src="../assets/Group-6202.svg" alt=""></div> -->
       </div>
     </div>
   </div>
@@ -174,6 +159,10 @@ export default {
     );
   },
   methods: {
+    openShare() {
+      this.$store.dispatch("setSocailShareModalData", this.socialShareData);
+      this.$store.dispatch("setSocailShareModal", true);
+    },
     pressEscape(e) {
       if (e.keyCode === 27) {
         this.goBack();
@@ -206,7 +195,7 @@ export default {
     onSubmit() {
       if (this.discus.body && this.discus.type) {
         let disc = JSON.parse(JSON.stringify(this.discus));
-        if(!disc.media.mediaId){
+        if (!disc.media.mediaId) {
           delete disc.media;
         }
         this.$store.dispatch("post/addPostComment", disc).then(
@@ -311,6 +300,13 @@ export default {
         ? this.project.content.find(c => c.type === "text")
         : "";
       return textContent ? textContent.body.substring(0, 100) : "";
+    },
+    socialShareData() {
+      return {
+        url: window.location.origin + "?project=" + this.currentPostId,
+        title: this.project.title,
+        text: this.questionText
+      };
     }
   }
 };

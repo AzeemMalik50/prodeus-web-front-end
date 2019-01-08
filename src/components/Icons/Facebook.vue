@@ -1,5 +1,5 @@
 <template>
-<svg xmlns="http://www.w3.org/2000/svg" height="32" viewBox="0 0 32 32">
+<svg xmlns="http://www.w3.org/2000/svg" :style="getStyle" viewBox="0 0 32 32">
   <defs>
   </defs>
   <g id="Group_6199" data-name="Group 6199" transform="translate(-371 -656)">
@@ -10,7 +10,19 @@
   </g>
 </svg>
 </template>
- <style>
+<script>
+export default {
+  props:['cStyle'],
+  computed:{
+    getStyle(){
+return this.cStyle || {
+  height: '32px'
+}
+    }
+  }
+}
+</script>
+ <style scoped>
       .cls-1 {
         fill: #446c9a;
       }

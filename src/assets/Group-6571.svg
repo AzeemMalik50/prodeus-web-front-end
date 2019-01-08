@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #446c9a;
+      }
+
+      .cls-2 {
+        fill: #fff;
+      }
+    </style>
+  </defs>
+  <g id="Group_6571" data-name="Group 6571" transform="translate(-371 -656)">
+    <circle id="Ellipse_1151" data-name="Ellipse 1151" class="cls-1" cx="20" cy="20" r="20" transform="translate(371 656)"/>
+    <g id="facebook-logo-2" transform="translate(385.997 667.245)">
+      <path id="Path_13437" data-name="Path 13437" class="cls-2" d="M31.187,0,28.917,0a3.988,3.988,0,0,0-4.2,4.309V6.3H22.434a.357.357,0,0,0-.357.357V9.532a.357.357,0,0,0,.357.357h2.283v7.264a.357.357,0,0,0,.357.357h2.979a.357.357,0,0,0,.357-.357V9.889h2.669a.357.357,0,0,0,.357-.357V6.653A.357.357,0,0,0,31.08,6.3H28.41V4.612c0-.81.193-1.22,1.247-1.22h1.53a.357.357,0,0,0,.357-.357V.361A.357.357,0,0,0,31.187,0Z" transform="translate(-22.077)"/>
+    </g>
+  </g>
+</svg>

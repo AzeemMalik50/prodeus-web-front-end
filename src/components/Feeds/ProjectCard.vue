@@ -32,7 +32,7 @@
 
         <!-- <img src="@/assets/reblog.svg" height="20" class="reblog-active" /> -->
         <img src="@/assets/comment.svg" height="16" @click.self="projectDetail(true)" class="comment-active"/>
-        <img src="@/assets/share.svg" height="16" class="share-active" />
+        <img src="@/assets/share.svg" height="16"  @click.self="openShare()" class="share-active" />
       </div>
     </div>
   </div>
@@ -49,6 +49,10 @@ export default {
     Project
   },
   methods: {
+    openShare(){
+      this.$store.dispatch('setSocailShareModalData', this.socialShareData);
+      this.$store.dispatch('setSocailShareModal', true);
+    },
     projectDetail(goToComment) {
       if (goToComment) {
         this.$store.dispatch("setGoToPostComment", true);
@@ -123,6 +127,13 @@ export default {
         userClass += " post";
       }
       return userClass;
+    },
+      socialShareData(){
+      return {
+        url: window.location.origin + "?project=" + this.project._id,
+        title: this.project.title,
+        text: this.projectText,
+      }
     }
   }
 };

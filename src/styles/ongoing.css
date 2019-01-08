@@ -4465,6 +4465,12 @@ h2 {
   text-decoration: none;
 }
 
+.link-3.white {
+  background-color: transparent;
+  color: #fff;
+  font-weight: 400;
+}
+
 .image-13 {
   margin-right: 10px;
 }
@@ -5669,7 +5675,7 @@ h2 {
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  width: 540px;
+  width: 500px;
   max-width: 580px;
   min-width: 380px;
   margin-top: 40px;
@@ -5694,6 +5700,10 @@ h2 {
   box-shadow: 0 1px 6px 1px rgba(0, 0, 0, .25);
 }
 
+.div-block-129._380 {
+  width: auto;
+}
+
 .heading-43 {
   position: relative;
   z-index: 1;
@@ -5707,7 +5717,7 @@ h2 {
 
 .heading-44 {
   margin-top: 0px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   font-family: Roboto, sans-serif;
   color: #22283a;
   font-size: 24px;
@@ -5768,10 +5778,10 @@ h2 {
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
   flex-direction: column;
-  -webkit-box-align: stretch;
-  -webkit-align-items: stretch;
-  -ms-flex-align: stretch;
-  align-items: stretch;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
 }
 
 .heading-45 {
@@ -5847,10 +5857,10 @@ h2 {
 
 .button-3 {
   display: block;
-  width: 160px;
+  width: 120px;
   margin-right: auto;
   margin-left: auto;
-  padding: 10px 28px;
+  padding: 6px 20px;
   border-radius: 50px;
   background-color: #3e99f4;
   font-family: Roboto, sans-serif;
@@ -5904,6 +5914,11 @@ h2 {
   font-family: Roboto, sans-serif;
   color: #22283a;
   text-align: left;
+}
+
+.paragraph-9.grey {
+  color: #bcbcbc;
+  text-align: center;
 }
 
 .paragraph-10 {
@@ -6197,6 +6212,33 @@ h2 {
 
 .div-block-147 {
   display: none;
+}
+
+.image-41 {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.image-42 {
+  margin-right: 10px;
+}
+
+.div-block-148 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 10px 20px;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border-radius: 40px;
+  background-color: #bcbcbc;
 }
 
 @media (max-width: 991px) {
@@ -7416,6 +7458,13 @@ h2 {
     min-width: auto;
     margin-top: 20px;
     border-radius: 0px;
+  }
+  .div-block-129._380 {
+    width: auto;
+    margin-top: 0px;
+    margin-right: 10px;
+    margin-left: 10px;
+    border-radius: 5px;
   }
   .heading-43 {
     margin-right: 40px;

@@ -1,5 +1,5 @@
 <template>
-<svg xmlns="http://www.w3.org/2000/svg" height="32" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32">
+<svg xmlns="http://www.w3.org/2000/svg" :style="getStyle" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32">
   <defs>
 
     <clipPath id="clip-path">
@@ -19,7 +19,19 @@
 </svg>
 
 </template>
-<style>
+<script>
+export default {
+  props:['cStyle'],
+  computed:{
+    getStyle(){
+return this.cStyle || {
+  height: '32px'
+}
+    }
+  }
+}
+</script>
+<style scoped>
       .cls-1 {
         fill: #fff;
       }

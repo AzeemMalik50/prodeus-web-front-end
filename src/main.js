@@ -35,6 +35,14 @@ import Comm from './components/Icons/Comment.vue';
 import Reblog from './components/Icons/Reblog.vue';
 import Share from './components/Icons/Share.vue';
 import ReShare from './components/Icons/ReShare.vue';
+import Pintrest from './components/Icons/Pintrest.vue';
+import Dribbble from './components/Icons/Dribbble.vue';
+import SocialShare from './components/Social/SocialShare.vue';
+import ShareModal from './components/Social/ShareModal.vue';
+
+
+
+
 
 
 
@@ -63,6 +71,11 @@ Vue.component('comment', Comm);
 Vue.component('reblog', Reblog);
 Vue.component('re-share', ReShare);
 Vue.component('comment-input', CommentInput);
+Vue.component('pintrest', Pintrest);
+Vue.component('dribbble', Dribbble);
+Vue.component('socail-share', SocialShare);
+Vue.component('share-modal', ShareModal);
+
 
 
 
