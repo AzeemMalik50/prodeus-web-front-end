@@ -109,8 +109,8 @@
               </div>
             </div>
           </div>
-          <div class="div-block-126">
-            <a href="#" class="link">Submit Assignment</a>
+          <div class="div-block-126" v-if="currentLesson.teacherAssignment">
+            <a href="#" @click.stop="openSubmitAssignment" class="link">Submit Assignment</a>
           </div>
         </div>
         <div class="card"><img src="../assets/fortune.jpg" alt="" class="image-31">
@@ -140,6 +140,7 @@
       </div>
     </div>
   </div>
+  <submit-assignment v-if="showSubmitAssignment" />
     <Loading :color="'#8446e8'" :active.sync="!currentClass.trailer" :is-full-page="true"></Loading>
 </div>
 </template>
@@ -148,6 +149,7 @@ import { mapGetters, mapState } from "vuex";
 import Loading from "vue-loading-overlay";
 import ProdeusPlayer from "@/components/Video/ProdeusPlayer.vue";
 import ClassDiscussion from "../components/ClassRoom/ClassDiscussion";
+import SubmitAssignment from "../components/ClassRoom/SubmitAssignment";
 
 export default {
   name: "ClassRoom",
@@ -155,7 +157,8 @@ export default {
   components: {
     Loading,
     ProdeusPlayer,
-    ClassDiscussion
+    ClassDiscussion,
+    SubmitAssignment
   },
   data() {
     return {
@@ -200,10 +203,20 @@ export default {
       currentClass: "classes/currentClass"
     }),
     ...mapState({
-      watchedLessons: state => state.classes.watchedLessons
+      watchedLessons: state => state.classes.watchedLessons,
+      showSubmitAssignment: state => state.classes.showSubmitAssignment
     })
   },
   methods: {
+    openSubmitAssignment() {
+      this.$store.dispatch("classes/setCurretLesson", {
+        classId: this.currentClass._id,
+        lessonId: this.currentLesson._id,
+        assignmentNumber: this.currentLesson.assignmentNumber,
+        currentLessonIndex: this.lessonIndex
+      });
+      this.$store.dispatch("classes/setShowSubmitAssignment", true);
+    },
     downloadFile(file) {
       let link = document.createElement("a");
       link.href =
@@ -215,10 +228,17 @@ export default {
       return process.env.VUE_APP_API_BASE_URL + "/media/" + id;
     },
     videoEnded() {
-      console.log("vide has ebnded .....");
-      let lessonIndex = this.watchedLessons.findIndex(x=>x.classId === this.id);
-      let lessonData = lessonIndex > -1 ? this.watchedLessons[lessonIndex].watchedLessons : lessonIndex;
-      if (lessonIndex > -1 && lessonsData.indexOf(this.currentLesson._id) > -1) {
+      let lessonIndex = this.watchedLessons.findIndex(
+        x => x.classId === this.id
+      );
+      let lessonData =
+        lessonIndex > -1
+          ? this.watchedLessons[lessonIndex].watchedLessons
+          : lessonIndex;
+      if (
+        lessonIndex > -1 &&
+        lessonsData.indexOf(this.currentLesson._id) > -1
+      ) {
         this.$store
           .dispatch("classes/watchedLesson", {
             classId: this.id,
@@ -226,7 +246,7 @@ export default {
           })
           .then(
             res => {
-              console.log(res);
+              // console.log(res);
             },
             err => {
               console.error(err);

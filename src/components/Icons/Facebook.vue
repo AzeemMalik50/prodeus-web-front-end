@@ -1,5 +1,5 @@
 <template>
-<svg xmlns="http://www.w3.org/2000/svg" :style="getStyle" viewBox="0 0 32 32">
+<svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 32 32">
   <defs>
   </defs>
   <g id="Group_6199" data-name="Group 6199" transform="translate(-371 -656)">
@@ -29,5 +29,8 @@ return this.cStyle || {
 
       .cls-2 {
         fill: #fff;
+      }
+      svg {
+        height: 32px;
       }
     </style>

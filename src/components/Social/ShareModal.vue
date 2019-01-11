@@ -1,6 +1,6 @@
 <template>
-  <div class="modalwrapper" @click="closeModal()">
-    <div class="post-wrapper">
+  <div class="modalwrapper" @click.self="closeModal()">
+    <div class="post-wrapper" @click.self="closeModal()">
       <div class="div-block-129 _380"><img src="images/Logo.svg" height="40" alt="" class="image-41">
         <div class="div-block-132">
           <h1 class="heading-44">Share with the world!</h1>
@@ -26,7 +26,7 @@
                 </div>
               </social-sharing> -->
 
-        <socail-share :data="socialData" :cStyle="iconStyles" />
+        <socail-share :data="socialData" />
 
               <!-- <img src="images/Group-6571.svg" height="40" alt="">
             <img src="images/Group-6572.svg" height="40" alt="">
@@ -67,10 +67,16 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.network{
+    margin-right: 10px !important;
+}
 .social-share-wrap {
   position: unset !important;
 }
 .fb {
+  height: 40px !important;
+}
+svg {
   height: 40px !important;
 }
 </style>

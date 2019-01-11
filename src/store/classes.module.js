@@ -6,6 +6,12 @@ const apiUrl = '/'
 export const classes = {
   namespaced: true,
   state: {
+    currentLesson:{
+      assignmentNumber: 0,
+      classId: '',
+      lessonId: '',
+      currentLessonIndex: 0
+    },
     currentClass: {},
     error: {},
     feeds: [],
@@ -14,7 +20,8 @@ export const classes = {
       instructor: null,
       student: null
     },
-    watchedLessons: {}
+    watchedLessons: {},
+    showSubmitAssignment: false
   },
   actions: {
     createClass({ commit }, payload) {
@@ -68,6 +75,9 @@ export const classes = {
         //   error => commit('failure', error)
         // );
     },
+    submitAssignment(){
+
+    },
     getWatchedLessons({ commit }) {
       authService.get(`/classes/student/${JSON.parse(localStorage.getItem('user'))._id}/watched`)
         .then(
@@ -89,9 +99,24 @@ export const classes = {
     },
     watchedLesson({ commit }, payload) {
       return authService.put(`/classes/lesson/${payload.classId}/watched`, payload);
+    },
+    submitAssignmentTolesson({ commit }, payload) {
+      return authService.post(`/student-assignments/${payload.parentClass.classId}/${payload.parentClass.lessonId}`, payload);
+    },
+    setCurretLesson({ commit }, payload) {
+      commit('setCurretLesson', payload)
+    },
+    setShowSubmitAssignment({ commit }, payload) {
+      commit('setShowSubmitAssignment', payload)
     }
   },
   mutations: {
+    setShowSubmitAssignment(state, flag) {
+      state.showSubmitAssignment = flag;
+    },
+    setCurretLesson(state, cLesson) {
+      state.currentLesson = cLesson;
+    },
     setWatchedLessobns(state, lessons) {
       state.watchedLessons = lessons;
     },

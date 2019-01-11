@@ -31,7 +31,7 @@
               <div class="_10px-botttom-margin">
                 <h1 v-if="question.user" class="heading-10">{{question.user.fullName}}</h1>
               </div>
-              <a href="#" v-if="isConnected" @click.prevent="disConnect()" class="tag outline">Connected</a>
+              <a href="#" v-if="isConnected" @click.prevent="disConnect()" class="tag blue">Connected</a>
               <a href="#" v-else @click.prevent="connect()" class="tag outline"> Connect </a>
             </div>
             <!-- <div class="profile-picture _50"></div> -->

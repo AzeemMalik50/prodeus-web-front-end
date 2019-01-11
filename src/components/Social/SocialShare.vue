@@ -6,17 +6,17 @@
             :networks="overriddenNetworks"
              inline-template>
                 <div class="social-share-wrap">
-                  <network network="facebook">
+                  <network network="facebook" class="network">
                     <facebook />
                   </network>
-                  <network network="twitter">
-                    <twitter/>
+                  <network network="twitter" class="network">
+                    <twitter />
                   </network>
-                  <network network="pinterest">
+                  <network network="pinterest" class="network">
                     <pintrest />
                   </network>
-                  <network network="dribbble">
-                    <dribbble/>
+                  <network network="dribbble" class="network">
+                    <dribbble />
                   </network>
                 </div>
               </social-sharing>
@@ -46,3 +46,16 @@ export default {
 }
 </script>
 
+<style lang="scss" scoped>
+.social-share-wrap {
+  span {
+    margin-right: 10px !important;
+  }
+}
+#share-facebook {
+    margin-right: 10px !important;
+}
+.modal {
+  height: 40px;
+}
+</style>
