@@ -75,6 +75,9 @@ export const classes = {
         //   error => commit('failure', error)
         // );
     },
+    getPorotfolioFeeds({ commit }) {
+      return authService.get(`/portfolio/feed`)
+     },
     submitAssignment(){
 
     },

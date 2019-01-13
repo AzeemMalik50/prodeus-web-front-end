@@ -174,6 +174,7 @@ export default {
       this.$router.replace({
         query
       });
+      this.$router.go(-1);
       this.$store.dispatch("toggelQuestionDialog", false);
       this.$store.dispatch("toggelProjectDialog", false);
     },
