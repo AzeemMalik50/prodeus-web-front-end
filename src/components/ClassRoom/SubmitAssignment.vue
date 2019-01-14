@@ -2,9 +2,9 @@
   <div class="modal-wrapper" @click.self="closeDialog">
     <div class="_100-vh center" @click.self="closeDialog">
       <div class="addpost-modal" @click.self="closeDialog">
-        <div class="card add">
-          <div class="signifier"></div>
-          <div v-if="!assignmentSubmited" class="width-100 ">
+        <div class="card add" v-if="!assignmentSubmited">
+          <!-- <div class="width-100 " > -->
+            <div class="signifier"></div>
             <div class="_30px-bottom-margin">
               <div class="form-block-4 w-form">
                 <form id="email-form-3" name="email-form-3" data-name="Email Form 3">
@@ -63,7 +63,8 @@
                   </div>
                 </div><a href="#" class="toggle social" :class="{'active': isPrivate}">Private</a>
               </div><a href="#" class="link" :class="{'active-submit': isFormValid, 'grey': !isFormValid}" @click.stop="submit">Submit</a></div>
-          </div>
+          <!-- </div> -->
+        </div>
           <div class="div-block-129 _380" v-else>
             <img src="../../assets/Logo.svg" height="40" alt="" class="image-41">
             <div class="div-block-132">
@@ -73,7 +74,6 @@
                 <img src="../../assets/left-arrow_1.svg" @click.self="closeForm" height="16" alt="" class="image-42"><a href="#" class="link-3 white">Back</a></div>
             </div>
           </div>
-        </div>
       </div>
     </div>
   </div>
@@ -185,7 +185,7 @@
         }
       },
       closeDialog() {
-        if(this.assignmentSubmited){
+        if (this.assignmentSubmited) {
           this.closeForm();
         } else if (confirm(`Are you sure to exit submit assignment!`)) {
           this.closeForm();
