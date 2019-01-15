@@ -7,6 +7,10 @@ import moment from 'moment-timezone';
 const HelloJs = require('hellojs/dist/hello.all.min.js');
 const VueHello = require('vue-hellojs');
 import VueMasonry from 'vue-masonry-css';
+ // donuts chart
+import Donut from 'vue-css-donut-chart';
+import 'vue-css-donut-chart/dist/vcdonut.css';
+
 
 const VueScrollTo = require('vue-scrollto');
 const SocialSharing = require('vue-social-sharing');
@@ -78,7 +82,7 @@ Vue.component('share-modal', ShareModal);
 
 
 
-
+Vue.use(Donut);
 Vue.use(VueScrollTo);
 Vue.use(SocialSharing);
 Vue.use(VueMasonry);

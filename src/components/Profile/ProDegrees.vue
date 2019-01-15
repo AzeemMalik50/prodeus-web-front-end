@@ -132,12 +132,17 @@
                           </div>
                         </div>
                         <div>
-                           <div class="_20px-bottom-margin">
+                            <vc-donut
+    background="white" foreground="grey"
+    :size="180" unit="px" :thickness="35"
+    :sections="sections" :total="totalCredits">
+    <div class="_20px-bottom-margin">
                               <div class="_2-px-bottom-margin">
                                 <h1 class="heading-5 black-bold">{{proDegreeData.credits}}</h1>
                               </div>
                               <h1 class="heading-18">Credits</h1>
                             </div>
+  </vc-donut>
                           <!-- <img src="../../assets/graph.svg" width="208" alt=""> -->
                           </div>
                       </div>
@@ -150,6 +155,12 @@
 export default {
   data() {
     return {
+      credit: 1,
+        // sections: [
+        //   { label: 'Red section', value: 0, color: '#8446e8' },
+        //   { label: 'Green section', value: 0, color: '#ebcb4d' },
+        //   { label: 'Blue section', value: 0, color: '#61cb96' }
+        // ],
       proDegreeData: {
         classesTaughtCount: 0,
         projectCounts: 0,
@@ -158,7 +169,9 @@ export default {
         classHours: 0,
         answerCount: 0,
         credits: 0,
-        projectCredits: 0
+        projectCredits: 0,
+        classCredits: 0,
+        answersCredits: 0
       }
     };
   },
@@ -171,6 +184,22 @@ export default {
         console.error(err);
       }
     );
+  },
+  computed: {
+    totalCredits(){
+      if(this.proDegreeData.credits){
+        return this.proDegreeData.credits;
+      } else {
+        return 1;
+      }
+    },
+    sections(){
+      return [
+          { label: 'Class Credits', value: this.proDegreeData.classCredits, color: '#8446e8', tooltip: true },
+          { label: 'Project Credits', value: this.proDegreeData.projectCredits, color: '#ebcb4d' },
+          { label: 'Answer Credits', value: this.proDegreeData.answersCredits, color: '#61cb96' }
+        ]
+    }
   }
 };
 </script>

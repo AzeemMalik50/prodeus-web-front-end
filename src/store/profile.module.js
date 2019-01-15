@@ -21,6 +21,9 @@ export const profile = {
     setEducationIndex({ commit }, index) {
       commit('setEducationIndex', index);
     },
+    updateSettings({ commit }, payload) {
+      return authService.post(`/change/credentials`, payload);
+    },
     getProfile({ commit }, userId) {
       commit('resetProfile');
       const UserId = userId || JSON.parse(localStorage.getItem('user'))._id;

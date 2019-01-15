@@ -22,6 +22,7 @@ export default new Vuex.Store({
     goToAnswer: false,
     goToPostComment: false,
     showSocailShare: false,
+    showProfileSetting: false,
     socailShareData: {
       url:'',
       title:'',
@@ -29,6 +30,9 @@ export default new Vuex.Store({
     }
   },
   mutations: {
+    setProfileSettingForm: (state, payload) => {
+      state.showProfileSetting = payload;
+    },
     setSocailShareModalData: (state, payload) => {
       state.socailShareData = payload;
     },
@@ -100,6 +104,9 @@ export default new Vuex.Store({
     },
     setSocailShareModalData({ commit }, payload) {
       commit('setSocailShareModalData', payload);
+    },
+    setProfileSettingForm({ commit }, payload) {
+      commit('setProfileSettingForm', payload);
     },
   },
   getters: {

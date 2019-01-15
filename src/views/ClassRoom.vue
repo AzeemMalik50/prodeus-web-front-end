@@ -63,8 +63,10 @@
               </div>
               <div class="div-block-8">
                 <div class="text-block" :class="{white: index === currentLessonIndex}">{{lesson.secondsDuration | duration }}</div>
+                <div v-if="lesson.teacherAssignment">
                 <img v-if="index === currentLessonIndex" src="../assets/assignment_required_active.svg" height="16" alt="" class="image-2">
                 <img v-else src="../assets/Assignment.svg" height="16" alt="" class="image-2">
+                </div>
                 </div>
             </div>
           </div>

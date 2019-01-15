@@ -53,7 +53,8 @@
               <router-link :to="{name:'profile'}" class="link-5">View my profile</router-link></div>
           <div class="div-block-112">
             <div class="horiz-left-align-justify-atart">
-              <img src="../assets/settings-work-tool-grey.svg" width="20" alt="" class="image-28"></div><a href="#" class="link-5">Account Settings</a></div>
+              <img src="../assets/settings-work-tool-grey.svg" width="20" alt="" class="image-28">
+              </div><a href="#" @click.prevent="openProfileSetting()" class="link-5">Account Settings</a></div>
           <div class="div-block-112" @click="logOut()">
             <div class="horiz-left-align-justify-atart">
               <img src="../assets/logout.svg" width="20" alt="" class="image-28">
@@ -102,7 +103,7 @@
     </div>
     <AddClass v-if="showCreateClass" />
     <create-post v-if="showPostForm" :type="postType" />
-
+    <profile-setting v-if="showProfileSetting" />
   </div>
 </template>
 
@@ -111,12 +112,14 @@ import { mapGetters, mapState } from "vuex";
 
 import AddClass from "../views/AddClass";
 import CreatePost from "../views/CreatePost";
-import Notifications from './Notifications';
+import Notifications from "./Notifications";
+import ProfileSetting from "../components/Profile/Settings";
 export default {
   components: {
     AddClass,
     CreatePost,
-    Notifications
+    Notifications,
+    ProfileSetting
   },
   data() {
     return {
@@ -133,13 +136,12 @@ export default {
       "1m"
     );
     this.$store.dispatch("notification/getNotificationsCount");
-
   },
-  watch:{
-    $route (to, from){
-        this.closeAll();
+  watch: {
+    $route(to, from) {
+      this.closeAll();
     }
-},
+  },
   methods: {
     toggelePanel(name) {
       this[name] = !this[name];
@@ -156,6 +158,10 @@ export default {
         this.isNotify = false;
       }
     },
+    openProfileSetting() {
+      this.closeAll();
+      this.$store.dispatch("setProfileSettingForm", true);
+    },
     openCreateClass() {
       this.isAdd = false;
       this.$store.dispatch("changeCreateClass", true);
@@ -169,10 +175,10 @@ export default {
       this.$store.dispatch("authentication/logout");
       this.$cookies.remove("accessToken");
     },
-    toRoute(name){
-      this.$router.push({name:name})
+    toRoute(name) {
+      this.$router.push({ name: name });
     },
-    closeAll(){
+    closeAll() {
       this.isAdd = false;
       this.isNotify = false;
       this.isUser = false;
@@ -182,7 +188,9 @@ export default {
     profilePic() {
       let storeUser = this.loggedInUser;
       if (storeUser.local.img) {
-        return process.env.VUE_APP_API_BASE_URL + "/media/" + storeUser.local.img;
+        return (
+          process.env.VUE_APP_API_BASE_URL + "/media/" + storeUser.local.img
+        );
       } else if (storeUser.facebook && storeUser.facebook.img) {
         return storeUser.facebook.img;
       } else if (storeUser.google && storeUser.google.img) {
@@ -195,9 +203,10 @@ export default {
       return JSON.parse(localStorage.getItem("user"));
     },
     ...mapGetters(["showCreateClass", "showPostForm"]),
-     ...mapState({
-      unreadCount: state => state.notification.unreadCount
-    }),
+    ...mapState({
+      unreadCount: state => state.notification.unreadCount,
+      showProfileSetting: state => state.showProfileSetting
+    })
   }
 };
 </script>
