@@ -44,7 +44,6 @@
   },
   methods:{
     gotoClassRoom(){
-      console.log('go to.,....')
       this.$router.push({name:'classRoom', params:{id: this.myClass._id}})
     }
   },

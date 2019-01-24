@@ -1,5 +1,5 @@
 <template>
-  <div class="card nopadding">
+  <div class="card nopadding" @click="gotoClassRoom()">
     <div class="_30px-top-bottom-20-side-padding class-desc">
       <div class="div-block-116">
         <div class="div-block-118">
@@ -27,7 +27,8 @@
         </div>
       </div>
     </div>
-    <div class="card-module _60"><a href="#" class="button-2 w-button">12 Submissions</a></div>
+    <div class="card-module _60">
+      <a href="#" @click.prevent="gotoClassRoom()" class="button-2 w-button">{{submittions}} Submissions</a></div>
   </div>
 </template>
 
@@ -36,11 +37,24 @@
   props:['myClass'],
    data(){
     return {
-      image:''
+      image:'',
+      questions: 0,
+      comments:0,
+      submittions: 0
+    }
+  },
+    methods:{
+    gotoClassRoom(){
+      this.$router.push({name:'classRoom', params:{id: this.myClass._id}})
     }
   },
   created(){
     this.image =  this.$apiBaseUrl  + "/media/" + this.myClass.img;
+    this.myClass.lessons.forEach(ls => {
+        this.comments = this.comments + ls.comments.length;
+        this.questions = this.questions + ls.questions.length;
+        this.submittions = this.submittions + ls.studentAssignments.length;
+      });
     // this.$store.dispatch("classes/getMedia", this.myClass.img).then(
     //     response => {
     //       this.image = response.data;
@@ -49,22 +63,6 @@
     //       console.error(err);
     //     }
     //   );
-  },
-  computed: {
-      comments(){
-      let count = 0;
-      this.myClass.lessons.forEach(ls => {
-        count = count + ls.comments.length;
-      });
-      return count;
-    },
-      questions(){
-      let count = 0;
-      this.myClass.lessons.forEach(ls => {
-        count = count + ls.questions.length;
-      });
-      return count;
-    }
   }
   }
 </script>
