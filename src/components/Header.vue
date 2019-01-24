@@ -32,8 +32,9 @@
             <img src="@/assets/NotificationsInactive.svg" v-else class="height-20" />
           </a>
           <a  class="link-block w-inline-block cursor-pointer cursor-pointer" @click.prevent="toggelePanel('isUser')">
-            <img :src="profilePic" v-if="profilePic" class="width-20 profile-pic" />
-            <img src="@/assets/Profile.svg" v-else class="width-20" />
+            <!-- <img :src="profilePic" v-if="profilePic" class="width-20 profile-pic" /> -->
+        <user-thumbnail :user="loggedInUser" :myClass="'profile-picture _30'" :link="'no'" />
+            <!-- <img src="@/assets/Profile.svg" v-else class="width-20" /> -->
           </a>
         </nav>
       </div>
@@ -104,6 +105,12 @@
     <AddClass v-if="showCreateClass" />
     <create-post v-if="showPostForm" :type="postType" />
     <profile-setting v-if="showProfileSetting" />
+    <project-detail  v-if="isProjectOpen" />
+    <question-detail  v-if="isQuestionOpen" />
+    <share-modal v-if="showSocailShare" />
+    <create-post v-if="showAnswerPost" :type="answerPost" :parentPost="selectedQuestion" />
+    <project-detail  v-if="isAssignmentOpen" isAssignment="true" />
+
   </div>
 </template>
 
@@ -112,6 +119,8 @@ import { mapGetters, mapState } from "vuex";
 
 import AddClass from "../views/AddClass";
 import CreatePost from "../views/CreatePost";
+import ProjectDetail from "@/views/ProjectDetail";
+import QuestionDetail from "@/views/QuestionDetail";
 import Notifications from "./Notifications";
 import ProfileSetting from "../components/Profile/Settings";
 export default {
@@ -119,10 +128,13 @@ export default {
     AddClass,
     CreatePost,
     Notifications,
-    ProfileSetting
+    ProfileSetting,
+    ProjectDetail,
+    QuestionDetail
   },
   data() {
     return {
+       answerPost: "Answer",
       postType: "",
       isAdd: false,
       isNotify: false,
@@ -185,27 +197,18 @@ export default {
     }
   },
   computed: {
-    profilePic() {
-      let storeUser = this.loggedInUser;
-      if (storeUser.local.img) {
-        return (
-          process.env.VUE_APP_API_BASE_URL + "/media/" + storeUser.local.img
-        );
-      } else if (storeUser.facebook && storeUser.facebook.img) {
-        return storeUser.facebook.img;
-      } else if (storeUser.google && storeUser.google.img) {
-        return storeUser.google.img;
-      } else {
-        return null;
-      }
-    },
     loggedInUser() {
       return JSON.parse(localStorage.getItem("user"));
     },
-    ...mapGetters(["showCreateClass", "showPostForm"]),
+    ...mapGetters(["showCreateClass", "showPostForm", "showAnswerPost"]),
     ...mapState({
       unreadCount: state => state.notification.unreadCount,
-      showProfileSetting: state => state.showProfileSetting
+      showProfileSetting: state => state.showProfileSetting,
+      isProjectOpen: state => state.isProjectOpen,
+      isAssignmentOpen: state => state.isAssignmentOpen,
+      showSocailShare: state => state.showSocailShare,
+      selectedQuestion: state => state.post.selectedQuestion,
+      isQuestionOpen: state => state.isQuestionOpen,
     })
   }
 };

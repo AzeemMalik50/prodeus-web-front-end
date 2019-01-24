@@ -158,8 +158,8 @@
       },
       upLoadFiles() {
         let assignment = new FormData();
-        for (let i = 0; i < this.attachObject.files.length; i++) {
-          assignment.append("prodeusFiles", this.attachObject.files[i]);
+        for (let i = 0; i < this.attachedFiles.length; i++) {
+          assignment.append("prodeusFiles", this.attachedFiles[i]);
         }
         this.uploading = true;
         this.$store.dispatch("classes/uploadFiles", assignment).then(

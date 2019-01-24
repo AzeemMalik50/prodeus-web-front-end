@@ -4,21 +4,31 @@
         @change="filesChange($event.target.name, $event.target.files);" hidden>
         <div class="text-block-4 assignment" @click="chooseFiles()">
             Attach Files</div>
-        <div class="attached-item" v-for="(file,index) in attachedFiles" :key="file.name">
+        <div class="attached-item" v-for="(file,index) in attachedFiles" :key="file._id">
             <img src="../../assets/attachment.svg" class="attachment" />
-            <span>{{file.name.length < 35 ? file.name : file.name.slice(0, 35)+'...'}}</span>
+            <span>{{file.originalName.length < 35 ? file.originalName : file.originalName.slice(0, 35)+'...'}}</span>
              <img @click="removeAttachItem(index)" src="../../assets/Trash.svg" class="trash"  />
         </div>
+        <loading :color="'#8446e8'" :active.sync="attachObject.isUploading"
+        :is-full-page="false"></loading>
     </div>
 </template>
 
 <script>
+import Loading from "vue-loading-overlay";
+
 export default {
   props: ["attachObject"],
+  components: {
+    Loading
+  },
   data() {
     return {
       attachedFiles: []
     };
+  },
+  created() {
+    this.attachedFiles = this.attachObject.media;
   },
   methods: {
     chooseFiles: function() {
@@ -29,21 +39,23 @@ export default {
     },
     filesChange(fieldName, fileList) {
       if (!fileList.length) return;
-      fileList = this.toArray(this.attachedFiles).concat(
-        this.toArray(fileList)
-      );
+      fileList = this.toArray(fileList);
+      // this.toArray(this.attachedFiles).concat(
+      //   this.toArray(fileList)
+      // );
       this.attachObject.isUploading = true;
-      this.attachedFiles = fileList;
-      this.attachObject.files = this.attachedFiles;
+      // this.attachedFiles = fileList;
+      // this.attachObject.files = this.attachedFiles;
       this.attachObject.isUploaded = false;
       let assignment = new FormData();
-      for (let i = 0; i < this.attachObject.files.length; i++) {
-        assignment.append("prodeusFiles", this.attachObject.files[i]);
+      for (let i = 0; i < fileList.length; i++) {
+        assignment.append("prodeusFiles", fileList[i]);
       }
-      this.$store.dispatch("classes/uploadFiles", assignment).then(
+      this.$store.dispatch("classes/uploadAssignmentFiles", assignment).then(
         assigns => {
           if (assigns) {
-            this.attachObject.media = assigns.data;
+          this.attachedFiles = this.attachedFiles.concat(assigns.data);
+            this.attachObject.media = this.attachedFiles.map(m => m._id);
           }
           this.attachObject.isUploading = false;
         },
@@ -57,7 +69,9 @@ export default {
       this.attachedFiles = Array.from(this.attachedFiles, x => x);
       // for (let i = 0; i < this.files.length; i++) {
       this.attachedFiles.splice(index, 1);
-      this.attachObject.files = this.attachedFiles;
+      // this.attachObject.files = this.attachedFiles;
+      this.attachObject.media = this.attachedFiles.map(m => m._id);
+
 
       // }
     }

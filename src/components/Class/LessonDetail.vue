@@ -22,7 +22,7 @@
           <img src="@/assets/file.svg" height="15" class="image-11" />
           <div class="div-block-81">
             <a class="link-2 cursor-pointer" :href="url(attach.originalName)" :download="attach.originalName">{{attach.originalName}}</a>
-            <div class="text-block-6">346KB</div>
+            <!-- <div class="text-block-6">346KB</div> -->
           </div>
         </div>
       </div>

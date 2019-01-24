@@ -10,7 +10,11 @@ export const classes = {
       assignmentNumber: 0,
       classId: '',
       lessonId: '',
-      currentLessonIndex: 0
+      currentLessonIndex: 0,
+      editClass: {
+        lessonIndex: 0,
+        currentClass: null
+      }
     },
     currentClass: {},
     error: {},
@@ -31,6 +35,9 @@ export const classes = {
             router.push({ name: 'classPage', params: { id: response.data._id } });
           }, error => commit('failure', error)
         );
+    },
+    updateClass({ commit }, payload) {
+      return authService.put(`/classes/${payload._id}`, payload)
     },
     getMyClasses({ commit }, payload) {
       commit('resetMyClasses');
@@ -78,9 +85,6 @@ export const classes = {
     getPorotfolioFeeds({ commit }) {
       return authService.get(`/portfolio/feed`)
      },
-    submitAssignment(){
-
-    },
     getWatchedLessons({ commit }) {
       authService.get(`/classes/student/${JSON.parse(localStorage.getItem('user'))._id}/watched`)
         .then(
@@ -94,8 +98,14 @@ export const classes = {
     uploadFiles({ commit }, payload) {
       return authService.fileUpload('/uploads', payload);
     },
+    uploadAssignmentFiles({ commit }, payload) {
+      return authService.fileUpload('/uploads/assignment', payload);
+    },
     getMedia({ commit }, mediaId) {
       return authService.getMedia(`/images/${mediaId}`);
+    },
+    getMediaDetail({ commit }, mediaId) {
+      return authService.getMedia(`/media/detail/${mediaId}`);
     },
     enrollClass({ commit }, payload) {
       return authService.put(`/classes/instructor/${payload.classId}/${payload.type}`, payload);
@@ -111,9 +121,15 @@ export const classes = {
     },
     setShowSubmitAssignment({ commit }, payload) {
       commit('setShowSubmitAssignment', payload)
+    },
+    setEditClass({ commit }, payload) {
+      commit('setEditClass', payload)
     }
   },
   mutations: {
+    setEditClass(state, data) {
+      state.editClass = data;
+    },
     setShowSubmitAssignment(state, flag) {
       state.showSubmitAssignment = flag;
     },

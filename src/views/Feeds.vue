@@ -9,10 +9,10 @@
     </div>
     </masonry>
   </div>
-    <create-post v-if="showAnswerPost" :type="postType" :parentPost="selectedQuestion" />
+    <!-- <create-post v-if="showAnswerPost" :type="postType" :parentPost="selectedQuestion" />
     <project-detail  v-if="isProjectOpen" />
     <question-detail  v-if="isQuestionOpen" />
-    <share-modal v-if="showSocailShare" />
+    <share-modal v-if="showSocailShare" /> -->
     </div>
 </template>
 

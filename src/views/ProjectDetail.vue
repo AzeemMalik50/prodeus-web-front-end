@@ -18,8 +18,8 @@
           <div class="div-block-86">
             <comment @click.native="addComment()" height="32" :active="comm" />
             <heart @click.native="likeProject()" height="32" :active="liked" />
-            <reblog height="32" @click.native.stop="reblogProject" :active="reblogged" />
-            <share @click.native="openShare" height="32" :active="share" />
+            <reblog v-if="!isAssignment" height="32" @click.native.stop="reblogProject" :active="reblogged" />
+            <share v-if="!isAssignment" @click.native="openShare" height="32" :active="share" />
           </div>
         </div>
         <div v-for="cont in project.content" :key="cont._id" class="margin-top-10">
@@ -33,7 +33,7 @@
             <h1 class="heading-1">Comments ({{project.discussions.length}})</h1>
           </div>
           <div class="_20px-bottom-margin">
-          <comment-input :ref="'postComment'" :discId="'postComment'+project._id" :discItem="discus" :onSubmit="onSubmit" />
+            <comment-input :ref="'postComment'" :discId="'postComment'+project._id" :discItem="discus" :onSubmit="onSubmit" />
 
           </div>
           <div class="_20px-bottom-margin"></div>
@@ -63,10 +63,21 @@
             <h2 class="heading-34 project">{{project.category}}</h2>
           </div>
         </div>
+        <div class="_20px-bottom-margin" v-if="isAssignment">
+          <h2 class="heading-6 grey">Assignment</h2>
+        </div>
         <div class="_20px-bottom-margin">
           <div class="text-block-6">Published on {{project.createdAt | moment("MMMM Do, YYYY")}}</div>
         </div>
-        <div class="flex-space-around">
+        <div v-if="isAssignment && isInstructor && isInReview" class="div-block-146">
+          <a href="#" @click.prevent="rejectAssignment()" class="link grey">Decline</a>
+          <a href="#" @click.prevent="approveAssignment()" class="link">Approve</a>
+        </div>
+         <div v-if="isInstructor" class="div-block-146">
+          <a  class="link grey" v-if="isRejected">Declined</a>
+          <a class="link" v-if="isAprroved">Approved</a>
+        </div>
+        <div class="flex-space-around" v-else>
           <div class="left-align"><img src="../assets/Group-5403.svg" class="cursor-auto" width="20" height="20" alt="">
             <div class="text-block-7">{{project.views}}</div>
           </div>
@@ -81,9 +92,9 @@
             <div class="text-block-7">{{project.reBlogs.length}}</div>
           </div>
         </div>
-          <div class="social-share-wrap">
-        <socail-share :data="socialShareData" />
-          </div>
+        <div class="social-share-wrap" v-if="!isAssignment">
+          <socail-share :data="socialShareData" />
+        </div>
       </div>
     </div>
   </div>
@@ -97,7 +108,7 @@ import Answers from "../components/Questions/Answers";
 import ReplyItem from "../components/ClassRoom/ReplyItem";
 
 export default {
-  props: ["postId"],
+  props: ["postId", "isAssignment"],
   components: {
     CreatePost,
     Answers,
@@ -143,10 +154,13 @@ export default {
     this.socialData.url =
       window.location.origin + "?question=" + this.currentPostId;
     this.discus.postId = this.currentPostId;
-    this.$store.dispatch("post/getPost", this.currentPostId).then(
+
+    this.$store.dispatch(`${this.moduleType}/getPost`, this.currentPostId).then(
       post => {
         this.project = post.data;
-        this.viewPost();
+        if (!this.isAssignment) {
+          this.viewPost();
+        }
         if (this.goToPostComment) {
           setTimeout(() => {
             this.addComment();
@@ -159,6 +173,40 @@ export default {
     );
   },
   methods: {
+    rejectAssignment() {
+      this.$store
+        .dispatch(`${this.moduleType}/updateAssignmentStatus`, {
+          id: this.currentPostId,
+          status: "rejected"
+        })
+        .then(
+          res => {
+            if (res.data && res.data.message == "success") {
+              this.project.status = "rejected";
+            }
+          },
+          err => {
+            console.error(err);
+          }
+        );
+    },
+    approveAssignment() {
+      this.$store
+        .dispatch(`${this.moduleType}/updateAssignmentStatus`, {
+          id: this.currentPostId,
+          status: "approved"
+        })
+        .then(
+          res => {
+            if (res.data && res.data.message == "success") {
+              this.project.status = "approved";
+            }
+          },
+          err => {
+            console.error(err);
+          }
+        );
+    },
     openShare() {
       this.$store.dispatch("setSocailShareModalData", this.socialShareData);
       this.$store.dispatch("setSocailShareModal", true);
@@ -174,9 +222,10 @@ export default {
       this.$router.replace({
         query
       });
-      this.$router.go(-1);
+      // this.$router.go(-1);
       this.$store.dispatch("toggelQuestionDialog", false);
       this.$store.dispatch("toggelProjectDialog", false);
+      this.$store.dispatch("toggelAssignmentDialog", false);
     },
     getMedia(mediaId) {
       return this.$apiBaseUrl + "/media/" + mediaId;
@@ -199,7 +248,7 @@ export default {
         if (!disc.media.mediaId) {
           delete disc.media;
         }
-        this.$store.dispatch("post/addPostComment", disc).then(
+        this.$store.dispatch(`${this.moduleType}/addPostComment`, disc).then(
           resp => {
             this.project.discussions.push(resp.data);
             this.discus.body = "";
@@ -237,26 +286,30 @@ export default {
       if (this.liked) {
         this.unLikeProject();
       } else {
-        this.$store.dispatch("post/likePost", this.project._id).then(
-          resp => {
-            this.project.likes.indexOf(this.loggedInUser._id) === -1
-              ? this.project.likes.push(this.loggedInUser._id)
-              : "";
-          },
-          err => {}
-        );
+        this.$store
+          .dispatch(`${this.moduleType}/likePost`, this.project._id)
+          .then(
+            resp => {
+              this.project.likes.indexOf(this.loggedInUser._id) === -1
+                ? this.project.likes.push(this.loggedInUser._id)
+                : "";
+            },
+            err => {}
+          );
       }
     },
     unLikeProject() {
-      this.$store.dispatch("post/removeLikePost", this.project._id).then(
-        resp => {
-          let likeIndex = this.project.likes.indexOf(this.loggedInUser._id);
-          if (likeIndex > -1) {
-            this.project.likes.splice(likeIndex, 1);
-          }
-        },
-        err => {}
-      );
+      this.$store
+        .dispatch(`${this.moduleType}/removeLikePost`, this.project._id)
+        .then(
+          resp => {
+            let likeIndex = this.project.likes.indexOf(this.loggedInUser._id);
+            if (likeIndex > -1) {
+              this.project.likes.splice(likeIndex, 1);
+            }
+          },
+          err => {}
+        );
     },
     addComment() {
       this.$nextTick(() => {
@@ -277,6 +330,16 @@ export default {
       currentPostId: state => state.currentPostId,
       goToPostComment: state => state.goToPostComment
     }),
+    ...mapGetters({
+      currentClass: "classes/currentClass"
+    }),
+    isInstructor() {
+      return (
+        this.currentClass &&
+        this.currentClass.instructor &&
+        this.loggedInUser._id === this.currentClass.instructor._id
+      );
+    },
     isConnected() {
       if (
         this.project.user &&
@@ -308,6 +371,22 @@ export default {
         title: this.project.title,
         text: this.questionText
       };
+    },
+    moduleType() {
+      if (this.isAssignment) {
+        return "assignment";
+      } else {
+        return "post";
+      }
+    },
+    isInReview() {
+      return this.project.status && this.project.status === "in-review";
+    },
+    isAprroved() {
+      return this.project.status && this.project.status === "approved";
+    },
+    isRejected() {
+      return this.project.status && this.project.status === "rejected";
     }
   }
 };

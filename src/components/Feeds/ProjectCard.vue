@@ -11,6 +11,7 @@
       <div class="_20px-margin">
         <h2 class="heading-6 center project" v-html="project.category"></h2>
       </div>
+
       <div class="_30px-bottom-margin">
         <h1 class="heading-4 center" v-html="project.title"></h1>
       </div>
@@ -25,14 +26,17 @@
           </div>
         </div>
       </div>
-      <div class="flex-space-around">
+      <div v-if="isInReview && isAssignment" class="flex-space-around">
+        <a href="#" class="link" @click.prevent="projectDetail()">Review</a></div>
+
+      <div class="flex-space-around" v-if="(!isInReview && isAssignment && isApproved) || !isAssignment">
         <img src="@/assets/heart-active.svg" v-if="liked" @click.stop="unLikeProject()" height="16"/>
         <img src="@/assets/heart.svg" v-else @click.stop="likeProject()" height="16"/>
-            <re-share height="20" @click.native.stop="reblogProject" :active="reblogged"/>
+            <re-share height="20" v-if="!isAssignment"  @click.native.stop="reblogProject" :active="reblogged"/>
 
         <!-- <img src="@/assets/reblog.svg" height="20" class="reblog-active" /> -->
         <img src="@/assets/comment.svg" height="16" @click.self="projectDetail(true)" class="comment-active"/>
-        <img src="@/assets/share.svg" height="16"  @click.self="openShare()" class="share-active" />
+        <img src="@/assets/share.svg" height="16" v-if="!isAssignment"  @click.self="openShare()" class="share-active" />
       </div>
     </div>
   </div>
@@ -42,37 +46,42 @@
 
 <script>
 import { mapGetters, mapState } from "vuex";
-import Project from "../../views/Project.vue";
 export default {
-  props: ["project", "title", "description"],
-  components: {
-    Project
-  },
+  props: ["project", "title", "description", "isAssignment"],
   methods: {
-    openShare(){
-      this.$store.dispatch('setSocailShareModalData', this.socialShareData);
-      this.$store.dispatch('setSocailShareModal', true);
+    openShare() {
+      this.$store.dispatch("setSocailShareModalData", this.socialShareData);
+      this.$store.dispatch("setSocailShareModal", true);
     },
     projectDetail(goToComment) {
       if (goToComment) {
         this.$store.dispatch("setGoToPostComment", true);
       }
-      this.$router.push({
-        name: "feed",
-        query: { project: this.project._id }
-      });
+      if (this.$route.name == "feed") {
+        this.$router.push({
+          name: "feed",
+          query: { project: this.project._id }
+        });
+      }
+
       this.$store.dispatch("setCurrentPostId", this.project._id);
-      this.$store.dispatch("toggelProjectDialog", true);
+      if (this.isAssignment) {
+        this.$store.dispatch("toggelAssignmentDialog", true);
+      } else {
+        this.$store.dispatch("toggelProjectDialog", true);
+      }
     },
     likeProject() {
-      this.$store.dispatch("post/likePost", this.project._id).then(
-        resp => {
-          this.project.likes.indexOf(this.loggedInUser._id) === -1
-            ? this.project.likes.push(this.loggedInUser._id)
-            : "";
-        },
-        err => {}
-      );
+      this.$store
+        .dispatch(`${this.moduleType}/likePost`, this.project._id)
+        .then(
+          resp => {
+            this.project.likes.indexOf(this.loggedInUser._id) === -1
+              ? this.project.likes.push(this.loggedInUser._id)
+              : "";
+          },
+          err => {}
+        );
     },
     reblogProject() {
       if (!this.reblogged) {
@@ -87,15 +96,17 @@ export default {
       }
     },
     unLikeProject() {
-      this.$store.dispatch("post/removeLikePost", this.project._id).then(
-        resp => {
-          let likeIndex = this.project.likes.indexOf(this.loggedInUser._id);
-          if (likeIndex > -1) {
-            this.project.likes.splice(likeIndex, 1);
-          }
-        },
-        err => {}
-      );
+      this.$store
+        .dispatch(`${this.moduleType}/removeLikePost`, this.project._id)
+        .then(
+          resp => {
+            let likeIndex = this.project.likes.indexOf(this.loggedInUser._id);
+            if (likeIndex > -1) {
+              this.project.likes.splice(likeIndex, 1);
+            }
+          },
+          err => {}
+        );
     }
   },
   computed: {
@@ -128,11 +139,24 @@ export default {
       }
       return userClass;
     },
-      socialShareData(){
+    socialShareData() {
       return {
         url: window.location.origin + "?project=" + this.project._id,
         title: this.project.title,
-        text: this.projectText,
+        text: this.projectText
+      };
+    },
+    isInReview() {
+      return this.project.status && this.project.status === "in-review";
+    },
+     isApproved() {
+      return this.project.status && this.project.status === "approved";
+    },
+    moduleType() {
+      if (this.isAssignment) {
+        return "assignment";
+      } else {
+        return "post";
       }
     }
   }

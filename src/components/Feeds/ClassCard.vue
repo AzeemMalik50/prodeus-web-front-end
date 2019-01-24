@@ -17,8 +17,10 @@
       <div class="_30px-bottom-margin">
         <h1 class="heading-4 center">{{classTitle}}</h1>
       </div>
+      <div v-if="!isInstructor">
       <a href="#" v-if="isEnrolled" @click.prevent  class="link outline">Enrolled</a>
       <a href="#" v-else @click.prevent="enrollClass()" class="link outline">Enroll</a>
+      </div>
       </div>
   </div>
 </template>
@@ -116,6 +118,9 @@ export default {
       );
       return enrollIndex > -1;
     },
+    isInstructor(){
+      return this.currentUserId === this.feedClass.instructor._id;
+    }
   }
 };
 </script>

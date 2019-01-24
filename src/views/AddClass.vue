@@ -125,8 +125,8 @@
               <div class="_40-side-padding" v-if="lessonIndex !== newClass.lessons.length -1 || currentLesson().toUpload.isUploading">
                 <div class="_20-px-top-bottom-padding">
                   <div class="align-right">
-                    <div class="button outline inactive" v-if="currentLesson().toUpload.isUploading">
-                      <h1 class="form-button outline"> Uploading Video...</h1>
+                    <div class="button outline inactive" v-if="currentLesson().toUpload.isUploading || (currentLesson().teacherAssignment && currentLesson().teacherAssignment.isUploading)">
+                      <h1 class="form-button outline"> Uploading...</h1>
                     </div>
                      <div v-else class="button outline" @click="completeLesson()">
                       <h1 class="form-button outline">Next Lesson</h1>
@@ -175,7 +175,10 @@
                 </div>
             </div>
             <div class="_40px-bottom-margin">
-              <div class="button" @click="closeAddClass()" :class="{inactive: !isClassReady}">
+              <div class="button" @click="closeAddClass()" :class="{inactive: !isClassReady}" v-if="newClass._id">
+                <h1 class="form-button">Save Changes</h1>
+              </div>
+               <div v-else class="button" @click="closeAddClass()" :class="{inactive: !isClassReady}">
                 <h1 class="form-button">Preview &amp; Publish</h1>
               </div>
             </div>
@@ -191,10 +194,9 @@
 </template>
 
 <script>
-import { mapGetters, createNamespacedHelpers } from "vuex";
+import { mapGetters, createNamespacedHelpers, mapState } from "vuex";
 import FileUpload from "../components/CreateClasss/FileUpload";
 import LessonForm from "../components/CreateClasss/LessonForm";
-const { mapState, mapActions } = createNamespacedHelpers("categories");
 import Loading from "vue-loading-overlay";
 import axios from "axios";
 // import "vue-loading-overlay/dist/vue-loading.css";
@@ -206,6 +208,7 @@ const teacherAssignment = {
   isUploading: false
 };
 const newLesson = {
+  _id: "",
   title: "",
   description: "",
   lessonThumbnail: "",
@@ -256,6 +259,7 @@ export default {
       },
       currentForm: Object,
       newClass: {
+        _id: "",
         title: "",
         aboutClass: "",
         skillTags: [],
@@ -291,7 +295,38 @@ export default {
   },
   created() {
     this.$store.dispatch("categories/getCategories");
-    this.addLessson(2);
+    if (
+      this.editClass &&
+      this.editClass.currentClass &&
+      this.editClass.currentClass._id
+    ) {
+      for (let i = 0; i < this.editClass.currentClass.lessons.length; i++) {
+        this.editClass.currentClass.lessons[i] = Object.assign(
+          JSON.parse(JSON.stringify(newLesson)),
+          this.editClass.currentClass.lessons[i]
+        );
+        this.editClass.currentClass.lessons[i].completed = true;
+        if (this.editClass.currentClass.lessons[i].teacherAssignment) {
+          this.editClass.currentClass.lessons[
+            i
+          ].teacherAssignment = Object.assign(
+            JSON.parse(JSON.stringify(teacherAssignment)),
+            this.editClass.currentClass.lessons[i].teacherAssignment
+          );
+        }
+      }
+      this.newClass = Object.assign(
+        JSON.parse(JSON.stringify(this.newClass)),
+        this.editClass.currentClass
+      );
+      this.lessonIndex = this.editClass.lessonIndex;
+        this.newClass.trailer.completed = true;
+
+      this.currentLessonType = "lessons";
+      this.selectedTab = "2";
+    } else {
+      this.addLessson(2);
+    }
     window.addEventListener("keyup", this.closeClassModal);
   },
   watch: {
@@ -310,7 +345,7 @@ export default {
   methods: {
     toLesson(index) {
       if (this.newClass.lessons[index].completed) {
-      this.currentLessonType = "lessons";
+        this.currentLessonType = "lessons";
         this.lessonIndex = index;
       }
     },
@@ -367,33 +402,47 @@ export default {
         this.newClass.lessons[i].lessonThumbnail = null;
         this.newClass.lessons[i].toUpload.thumbnail = null;
         this.newClass.lessons[i].toUpload.video = null;
+        delete this.newClass.lessons[i].createdAt;
+        delete this.newClass.lessons[i].updatedAt;
       }
       this.newClass.trailer.lessonThumbnail = null;
-      this.newClass.trailer.toUpload.video = null;
-      this.newClass.trailer.toUpload.thumbnail = null;
-
+      if (this.newClass.trailer.toUpload) {
+        this.newClass.trailer.toUpload.video = null;
+        this.newClass.trailer.toUpload.thumbnail = null;
+      }
     },
     closeAddClass() {
       /*  final project submittion and call create-classs api */
       if (this.isClassReady) {
         this.clearLessonThumbnails();
-        this.$store.dispatch("classes/createClass", this.newClass);
-        /*  action to close create-class-form */
+        if (this.newClass._id) {
+          delete this.newClass.createdAt;
+          delete this.newClass.updatedAt;
 
-        this.$store.dispatch("changeCreateClass", false);
+          this.$store.dispatch("classes/updateClass", this.newClass).then(
+            response => {
+              this.$store.dispatch("changeCreateClass", false);
+            },
+            error => commit("failure", error)
+          );
+        } else {
+          this.$store.dispatch("classes/createClass", this.newClass);
+          this.$store.dispatch("changeCreateClass", false);
+        }
+        /*  action to close create-class-form */
       }
     },
     closeClassModal(e) {
       /*  press escape to close modal */
 
       if (e.keyCode === 27) {
-       this.closeDialog();
+        this.closeDialog();
       }
     },
     closeDialog() {
       if (confirm("Are you sure to exit create class!")) {
-          this.$store.dispatch("changeCreateClass", false);
-        }
+        this.$store.dispatch("changeCreateClass", false);
+      }
     },
     handelLessonChanges() {
       const refData = this.currentLesson();
@@ -411,7 +460,7 @@ export default {
         refData.title &&
         refData.description &&
         refData.lessonThumbnail &&
-        refData.toUpload.thumbnail
+        refData.media
       ) {
         // this.isUploading = true;
         if (this.isTrailer) {
@@ -503,7 +552,8 @@ export default {
   },
   computed: {
     ...mapState({
-      allCategories: state => state.allCategories
+      allCategories: state => state.categories.allCategories,
+      editClass: state => state.classes.editClass
     }),
     isClassInfoReady() {
       return (

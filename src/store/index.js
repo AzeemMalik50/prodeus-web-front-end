@@ -7,6 +7,8 @@ import { profile } from './profile.module';
 import { notification } from './notification.module';
 import { discussion } from './discussion.module';
 import { post } from './post.module';
+import { assignment } from './assignment.module';
+
 
 
 Vue.use(Vuex)
@@ -16,6 +18,7 @@ export default new Vuex.Store({
     showCreateClass: false,
     showPostForm: false,
     isProjectOpen: false,
+    isAssignmentOpen: false,
     isQuestionOpen: false,
     showAnswerPost: false,
     currentPostId: '',
@@ -57,6 +60,9 @@ export default new Vuex.Store({
     toggelProjectDialog: (state, payload) => {
       state.isProjectOpen = payload;
     },
+    toggelAssignmentDialog: (state, payload) => {
+      state.isAssignmentOpen = payload;
+    },
     toggelQuestionDialog: (state, payload) => {
       state.isQuestionOpen = payload;
     },
@@ -84,6 +90,11 @@ export default new Vuex.Store({
       commit
     }, payload) => {
       commit('toggelProjectDialog', payload);
+    },
+    toggelAssignmentDialog: async ({
+      commit
+    }, payload) => {
+      commit('toggelAssignmentDialog', payload);
     },
     toggelQuestionDialog: async ({
       commit
@@ -122,6 +133,7 @@ export default new Vuex.Store({
     profile,
     notification,
     discussion,
-    post
+    post,
+    assignment
   }
 })

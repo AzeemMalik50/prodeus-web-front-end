@@ -6,15 +6,17 @@
 </template>
 <script>
 export default {
-  props: ["user", "myClass"],
+  props: ["user", "myClass", "link"],
   methods: {
     goToProfile() {
-      this.$router.push({
-        name: "userProfile",
-        params: {
-          userId: this.user._id
-        }
-      });
+      if (this.link !== 'no') {
+        this.$router.push({
+          name: "userProfile",
+          params: {
+            userId: this.user._id
+          }
+        });
+      }
     }
   },
   computed: {

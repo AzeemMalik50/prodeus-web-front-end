@@ -80,14 +80,27 @@ export default {
     allowAssigment: Boolean,
     isVideoSelected: Boolean
   },
-   watch: {
+  watch: {
     lesson: {
       handler(val) {
-       if(this.lesson.teacherAssignment){
-         this.isAssignReq = this.lesson.teacherAssignment.isrequired;
-       }
+        if (this.lesson.teacherAssignment) {
+          this.isAssignReq = this.lesson.teacherAssignment.isrequired;
+        }
       },
       deep: true
+    },
+    "lesson._id": {
+      handler(val) {
+        if (this.lesson.teacherAssignment) {
+          this.isAssignReq = this.lesson.teacherAssignment.isrequired;
+        }
+      },
+      deep: true
+    }
+  },
+  created() {
+    if (this.lesson._id) {
+    this.setEditLesson();
     }
   },
   data() {
@@ -108,6 +121,20 @@ export default {
   },
 
   methods: {
+    setEditLesson() {
+      this.lesson.lessonThumbnail =
+        process.env.VUE_APP_API_BASE_URL + "/media/" + this.lesson.img;
+        if(this.lesson.teacherAssignment) {
+          this.lesson.hasAssignment = true;
+        }
+      // this.lesson.toUpload.video =  this.lesson.media;
+      this.$store
+        .dispatch("classes/getMediaDetail", this.lesson.media)
+        .then(res => {
+          this.lesson.toUpload.video = res.data;
+          this.lesson.toUpload.video.name = res.data.originalName;
+        });
+    },
     chooseFiles() {
       this.lesson.toUpload.isUploaded = false;
       document.getElementById("videoFile").click();
@@ -223,8 +250,9 @@ export default {
       fileReader.readAsArrayBuffer(file);
     },
     assignmentRequired() {
-      this.lesson.teacherAssignment.isrequired  = !this.lesson.teacherAssignment.isrequired;
-     this.isAssignReq = this.lesson.teacherAssignment.isrequired ;
+      this.lesson.teacherAssignment.isrequired = !this.lesson.teacherAssignment
+        .isrequired;
+      this.isAssignReq = this.lesson.teacherAssignment.isrequired;
     }
   }
 };
