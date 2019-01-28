@@ -27,7 +27,7 @@
           <!-- <a href="#" class="link-block w-inline-block">
             <img src="@/assets/MessagesInactive.svg" class="width-20" />
           </a> -->
-          <a  class="link-block w-inline-block cursor-pointer" cursor-pointer @click.prevent="toggelePanel('isNotify')">
+          <a  class="link-block w-inline-block cursor-pointer" cursor-pointer @click.prevent="toggelNotification">
             <img src="@/assets/notifications_active.svg" v-if="unreadCount > 0" class="height-20" />
             <img src="@/assets/NotificationsInactive.svg" v-else class="height-20" />
           </a>
@@ -41,8 +41,10 @@
     </div>
       <div class="navmodal-wrap">
     <div class="navmodal-container">
-      <notifications v-show="isNotify" />
-      <div class="div-block-104 user" v-if="isUser">
+      <div v-on-clickaway="closeNotif">
+      <notifications v-show="isNotify"/>
+      </div>
+      <div class="div-block-104 user" v-if="isUser" v-on-clickaway="closeUser">
         <div class="div-block-105">
           <h1 class="heading-41">My Account</h1>
         </div>
@@ -62,7 +64,7 @@
               </div><a href="#" class="link-5">Log Out</a></div>
         </div>
       </div>
-      <div class="div-block-104 add" v-if="isAdd">
+      <div class="div-block-104 add" v-if="isAdd && isDeskTop" v-on-clickaway="closeAdd">
         <div class="div-block-114">
           <div class="_10px-botttom-margin cursor-pointer">
             <div class="div-block-113 project" @click="openPostForm('project')">
@@ -87,21 +89,46 @@
   </div>
     <div data-collapse="none" data-animation="default" data-duration="400" class="navbar-bottom w-nav">
       <nav role="navigation" class="nav-menu bottom w-nav-menu">
-        <a href="#" class="link-block w-inline-block">
+          <router-link :to="{ name: 'myClasses', params: { id: loggedInUser._id} }" class="link-block w-inline-block">
           <img src="@/assets/ClassroomInactive.svg" class="height-24" />
-        </a>
-        <a href="#" class="link-block w-inline-block">
+          </router-link>
+          <a href="#" class="link-block w-inline-block" @click.prevent="toggelePanel('isAdd')">
+        <img src="@/assets/Group-6084.svg" height="24" alt=""></a>
+            <router-link to="/" class="link-block w-inline-block">
+          <img src="@/assets/Logo.svg" height="24" alt="" class="image-40">
+            </router-link>
+        <a href="#" class="link-block w-inline-block" @click.prevent="toggelNotification">
           <img src="@/assets/notifications_active.svg" v-if="unreadCount > 0"  class="width-24" />
           <img src="@/assets/MessagesInactive.svg" v-else class="width-24" />
-        </a>
-        <a href="#" class="link-block w-inline-block">
-          <img src="@/assets/NotificationsInactive.svg" class="height-24" />
         </a>
         <a href="#" class="link-block w-inline-block">
           <img src="@/assets/Profile.svg" class="width-24" />
         </a>
       </nav>
     </div>
+     <div class="navmodal-wrap" v-if="isAdd && !isDeskTop" @click.self="toggelePanel('isAdd')">
+    <div class="div-block-147" @click.self="toggelePanel('isAdd')">
+      <div class="div-block-114" v-on-clickaway="closeAdd">
+        <div class="_10px-botttom-margin">
+          <div class="div-block-113 project" @click="openPostForm('project')">
+            <img src="images/add-white.svg" height="20" alt="" class="image-29">
+            <div class="text-block-14">Share your work</div>
+          </div>
+        </div>
+        <div class="_10px-botttom-margin">
+          <div class="div-block-113 question" @click="openPostForm('question')">
+            <img src="images/add-white.svg" height="20" alt="" class="image-29">
+            <div class="text-block-14">Ask a question</div>
+          </div>
+        </div>
+        <div class="_10px-botttom-margin"></div>
+        <div class="div-block-113 class" @click="openCreateClass()">
+          <img src="images/add-white.svg" height="20" alt="" class="image-29">
+          <div class="text-block-14">Create a class</div>
+        </div>
+      </div>
+     </div>
+     </div>
     <AddClass v-if="showCreateClass" />
     <create-post v-if="showPostForm" :type="postType" />
     <profile-setting v-if="showProfileSetting" />
@@ -116,6 +143,7 @@
 
 <script>
 import { mapGetters, mapState } from "vuex";
+import { mixin as clickaway } from "vue-clickaway";
 
 import AddClass from "../views/AddClass";
 import CreatePost from "../views/CreatePost";
@@ -132,13 +160,15 @@ export default {
     ProjectDetail,
     QuestionDetail
   },
+  mixins: [clickaway],
   data() {
     return {
-       answerPost: "Answer",
+      answerPost: "Answer",
       postType: "",
       isAdd: false,
       isNotify: false,
-      isUser: false
+      isUser: false,
+      windowWidth: window.screen.width
     };
   },
   created() {
@@ -148,15 +178,23 @@ export default {
       "1m"
     );
     this.$store.dispatch("notification/getNotificationsCount");
+    window.addEventListener('resize', this.handleResize)
   },
   watch: {
     $route(to, from) {
       this.closeAll();
+    },
+    'windowWidth':{
+       handler(val) {
+       console.log(val);
+      }
     }
   },
   methods: {
+    handleResize(){
+      this.windowWidth = window.screen.width;
+    },
     toggelePanel(name) {
-      this[name] = !this[name];
       if (name == "isAdd") {
         this.isNotify = false;
         this.isUser = false;
@@ -169,6 +207,12 @@ export default {
         this.isAdd = false;
         this.isNotify = false;
       }
+      this[name] = !this[name];
+    },
+    toggelNotification() {
+      setTimeout(() => {
+        this.isNotify = !this.isNotify;
+      }, 200);
     },
     openProfileSetting() {
       this.closeAll();
@@ -194,11 +238,29 @@ export default {
       this.isAdd = false;
       this.isNotify = false;
       this.isUser = false;
+    },
+    closeAdd() {
+      if (this.isAdd) {
+        this.isAdd = false;
+      }
+    },
+    closeNotif() {
+      if (this.isNotify) {
+        this.isNotify = false;
+      }
+    },
+    closeUser() {
+      if (this.isUser) {
+        this.isUser = false;
+      }
     }
   },
   computed: {
     loggedInUser() {
       return JSON.parse(localStorage.getItem("user"));
+    },
+    isDeskTop(){
+      return this.windowWidth > 991;
     },
     ...mapGetters(["showCreateClass", "showPostForm", "showAnswerPost"]),
     ...mapState({
@@ -208,7 +270,7 @@ export default {
       isAssignmentOpen: state => state.isAssignmentOpen,
       showSocailShare: state => state.showSocailShare,
       selectedQuestion: state => state.post.selectedQuestion,
-      isQuestionOpen: state => state.isQuestionOpen,
+      isQuestionOpen: state => state.isQuestionOpen
     })
   }
 };

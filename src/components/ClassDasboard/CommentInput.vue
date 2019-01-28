@@ -9,7 +9,7 @@
     <div class="align-right-justify-start">
       <div class="form-block-3 w-form">
         <form id="email-form" name="email-form" data-name="Email Form">
-          <input type="file" name="commentMedia" accept="image/x-png,image/gif,image/jpeg,video/mp4" id="commentMedia" @change="addMedia($event.target.name, $event.target.files);" class="input-file" hidden>
+          <input type="file" name="commentMedia" accept="image/x-png,image/gif,image/jpeg,video/mp4" :id="discId" @change="addMedia($event.target.name, $event.target.files);" class="input-file" hidden>
           <div class="comment-block w-input pd-0 pdr-10">
             <img src="@/assets/attachment.svg" v-if="!discItem.selectedMedia.file" @click="chooseMedia()" class="attach" />
             <input type="text" :ref="discId" v-on:keydown.enter.prevent='submitComment' v-model="discItem.body" class="comment-block w-input pd-0" :class="{'pdl-15':isMedia }" maxlength="256" :name="discId" data-name="Comment" :placeholder="inputPlaceHolder" :id="discId">
@@ -66,18 +66,19 @@ export default {
       // document.getElementById("commentMedia").value = "";
     },
     chooseMedia() {
-      document.getElementById("commentMedia").click();
+      document.getElementById(this.discId).click();
     },
     removeMedia() {
       this.discItem.selectedMedia.mediaType = "";
       this.discItem.selectedMedia.file = null;
-      document.getElementById("commentMedia").value = "";
+      document.getElementById(this.discId).value = "";
     },
     submitComment() {
       if (this.discItem.body) {
         if (this.isMedia) {
           this.uploadMedia();
         } else {
+          delete this.discItem.media;
           this.onSubmit();
         }
       }

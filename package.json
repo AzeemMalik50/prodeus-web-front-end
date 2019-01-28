@@ -11,6 +11,7 @@
     "hellojs": "^1.17.1",
     "moment-timezone": "^0.5.23",
     "vue": "^2.5.17",
+    "vue-clickaway": "^2.2.2",
     "vue-cookies": "^1.5.7",
     "vue-css-donut-chart": "^1.0.1",
     "vue-hellojs": "0.0.4",

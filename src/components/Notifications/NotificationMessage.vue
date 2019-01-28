@@ -1,5 +1,5 @@
 <template>
-  <div class="div-block-107" :class="{unread: !notification.read}"  @click="goToNotification()">
+  <div class="div-block-107" :class="{unread: !notification.read}"  @click="goToNotification()" v-if="notification.from">
             <div class="flex-space-between cursor-pointer">
               <div class="div-block-109">
                 <img :src="userImage || profilePic(notification.from)" class="profile-picture _38px" />
@@ -28,7 +28,7 @@ export default {
     };
   },
   created() {
-    if (this.notification.from.local.img) {
+    if (this.notification.from && this.notification.from.local.img) {
       this.userImage =
         this.$apiBaseUrl + "/media/" + this.notification.from.local.img;
     }
@@ -67,9 +67,9 @@ export default {
       );
     },
     profilePic(user) {
-      if (user.facebook && user.facebook.img) {
+      if (user && user.facebook && user.facebook.img) {
         return user.facebook.img;
-      } else if (user.google && user.google.img) {
+      } else if (user && user.google && user.google.img) {
         return user.google.img;
       } else {
         return null;

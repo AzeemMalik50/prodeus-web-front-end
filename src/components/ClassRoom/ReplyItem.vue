@@ -69,7 +69,8 @@ export default {
           file: null
         }
       },
-      showReply: false
+      showReply: false,
+      isEdit: false
     };
   },
   created() {
@@ -110,6 +111,9 @@ export default {
     },
     getMedia(mediaId) {
       return this.$apiBaseUrl + "/media/" + mediaId;
+    },
+    visibelEdit(){
+      this.isEdit = true;
     }
   },
   computed: {

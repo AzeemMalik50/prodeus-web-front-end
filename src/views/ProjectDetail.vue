@@ -27,6 +27,20 @@
           <video v-if="cont.type==='video'" class="width-100" controls :src="getMedia(cont.media)"></video>
           <div v-if="cont.type==='text'" v-html="cont.body"></div>
         </div>
+        <div v-if="isAssignment && project.media && project.media.length" class="w-100">
+           <div class="_10px-botttom-margin">
+                    <h1 class="heading-afile">Attached Files</h1>
+                  </div>
+                  <div class="div-block-82" v-for="attach in project.media" :key="attach._id">
+                    <img src="../assets/file.svg" height="15" alt="" class="image-11">
+                    <div class="div-block-81">
+                      <a class="link-2 cursor-pointer" :href="url(attach.originalName)" :download="attach.originalName">
+                        {{attach.originalName.length < 35 ? attach.originalName : attach.originalName.slice(0, 35)+'...'}}
+                        </a>
+                      <!-- <div class="text-block-6">346KB</div> -->
+                    </div>
+                  </div>
+        </div>
 
         <div class="_30px-top-bottom-20-side-padding width-100">
           <div class="_40px-bottom-margin center">
@@ -322,7 +336,17 @@ export default {
         this.$store.dispatch("setGoToPostComment", false);
       });
     },
-    doNothing() {}
+    doNothing() {},
+    downloadFile(file) {
+      let link = document.createElement("a");
+      link.href =
+        process.env.VUE_APP_API_BASE_URL + "/media/" + file.originalName;
+      link.setAttribute("download", file.originalName);
+      link.click();
+    },
+    url(id) {
+      return process.env.VUE_APP_API_BASE_URL + "/media/" + id;
+    }
   },
   computed: {
     ...mapState({
@@ -395,5 +419,17 @@ export default {
 <style lang="scss" scoped>
 .margin-top-10 {
   margin-top: 10px;
+}
+.w-100 {
+  width: 100%;
+}
+.heading-afile {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-family: Roboto, sans-serif;
+  color: #bcbcbc;
+  font-size: 20px;
+  line-height: 30px;
+  font-weight: 400;
 }
 </style>
