@@ -16,6 +16,7 @@
                 <img v-if="discussItem.media.type==='image'" :src="getMedia(discussItem.media.mediaId)" />
                 <video v-if="discussItem.media.type==='video'" class="width-100" controls :src="getMedia(discussItem.media.mediaId)"></video>
               </div>
+              <edit-menu :menuStyle="{top: '35px',right: '10px'}" :iconStyle="{top: '10px',right: '10px'}" />
               <p class="paragraph-4 reply">
                 {{discussItem.body}}
               </p>
@@ -49,83 +50,101 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-export default {
-  name: "reply-item",
-  props: ["discussItem", "level"],
-  data() {
-    return {
-      currentLevel: "1",
-      discus: {
-        body: "",
-        type: "",
-        parent: "",
-        media: {
-          mediaId: "",
-          type: ""
+  import {
+    mapState
+  } from "vuex";
+  export default {
+    name: "reply-item",
+    props: ["discussItem", "level"],
+    data() {
+      return {
+        currentLevel: "1",
+        discus: {
+          body: "",
+          type: "",
+          parent: "",
+          media: {
+            mediaId: "",
+            type: ""
+          },
+          selectedMedia: {
+            mediaType: "",
+            file: null
+          }
         },
-        selectedMedia: {
-          mediaType: "",
-          file: null
+        showReply: false,
+        isEdit: false
+      };
+    },
+    created() {
+      let level = this.level;
+      if (!level) {
+        level = "0";
+      }
+      this.currentLevel = (parseInt(level) + 1).toString();
+      this.discus.parent = this.discussItem._id;
+      this.discus.type = this.discussItem.type;
+    },
+    methods: {
+      visibleInput() {
+        this.showReply = true;
+        this.$nextTick(() => {
+          this.$refs["comment" + this.discussItem._id].setFocus();
+        });
+        // this.$nextTick(() => {
+        //   this.$refs[this.discussItem._id].focus();
+        // });
+      },
+      onSubmit() {
+        if (this.discus.body && this.discus.type) {
+          let disc = JSON.parse(JSON.stringify(this.discus));
+          if (!disc.media.mediaId) {
+            delete disc.media;
+          }
+          this.$store.dispatch("discussion/createDiscussion", disc).then(
+            resp => {
+              this.discussItem.replies.push(resp.data);
+              this.discus.body = "";
+              this.discus.media.mediaId = "";
+              this.showReply = false;
+            },
+            err => {}
+          );
         }
       },
-      showReply: false,
-      isEdit: false
-    };
-  },
-  created() {
-    let level = this.level;
-    if (!level) {
-      level = "0";
-    }
-    this.currentLevel = (parseInt(level) + 1).toString();
-    this.discus.parent = this.discussItem._id;
-    this.discus.type = this.discussItem.type;
-  },
-  methods: {
-    visibleInput() {
-      this.showReply = true;
-      this.$nextTick(() => {
-        this.$refs["comment" + this.discussItem._id].setFocus();
-      });
-      // this.$nextTick(() => {
-      //   this.$refs[this.discussItem._id].focus();
-      // });
-    },
-    onSubmit() {
-      if (this.discus.body && this.discus.type) {
-         let disc = JSON.parse(JSON.stringify(this.discus));
-        if(!disc.media.mediaId){
-          delete disc.media;
-        }
-        this.$store.dispatch("discussion/createDiscussion", disc).then(
-          resp => {
-            this.discussItem.replies.push(resp.data);
-            this.discus.body = "";
-            this.discus.media.mediaId = "";
-            this.showReply = false;
-          },
-          err => {}
-        );
+      getMedia(mediaId) {
+        return this.$apiBaseUrl + "/media/" + mediaId;
+      },
+      visibelEdit() {
+        this.isEdit = true;
       }
     },
-    getMedia(mediaId) {
-      return this.$apiBaseUrl + "/media/" + mediaId;
-    },
-    visibelEdit(){
-      this.isEdit = true;
+    computed: {
+      ...mapState({
+        currentUser: state => state.authentication.user
+      }),
+      deepLevel() {
+        return parseInt(this.currentLevel);
+      },
+      hasMedia() {
+        return this.discussItem.media && this.discussItem.media.mediaId;
+      }
     }
-  },
-  computed: {
-    ...mapState({
-      currentUser: state => state.authentication.user
-    }),
-    deepLevel() {
-      return parseInt(this.currentLevel);
-    },
-    hasMedia() {
-      return this.discussItem.media && this.discussItem.media.mediaId;
-    }
-  }
-};
+  };
 </script>
+
+<style lang="scss" scoped>
+  // .edit-menu {
+  //   top: 35px !important;
+  //   right: 10px !important;
+  // }
+
+  // .menu-icon {
+  //   top: 10px !important;
+  //   right: 10px !important;
+  // }
+
+  .edit-container {
+    position: relative;
+  }
+</style>

@@ -1,0 +1,28 @@
+<template>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 18">
+  <defs>
+
+  </defs>
+  <g id="Group_5701" data-name="Group 5701" transform="translate(-16195.198 -1445)">
+    <rect id="Rectangle_5022" data-name="Rectangle 5022" class="cls-1" width="4" height="4" rx="2" transform="translate(16195.198 1445)"/>
+    <rect id="Rectangle_5023" data-name="Rectangle 5023" class="cls-1" width="4" height="4" rx="2" transform="translate(16195.198 1452)"/>
+    <rect id="Rectangle_5024" data-name="Rectangle 5024" class="cls-1" width="4" height="4" rx="2" transform="translate(16195.198 1459)"/>
+  </g>
+</svg>
+
+</template>
+<style lang="scss" scoped>
+.cls-1 {
+  fill: #d5d5d5;
+}
+svg:hover {
+  g {
+    .cls-1 {
+      fill: #3e99f4 !important;
+    }
+  }
+}
+svg {
+  width: 4px;
+}
+</style>

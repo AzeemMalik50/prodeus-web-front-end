@@ -8,6 +8,7 @@
             <a href="#" class="link-3">Back</a>
           </div>
         </div>
+        <edit-menu :menuStyle="{top: '50px',right: '20px'}" :iconStyle="{top: '30px',right: '20px'}" />
         <div class="post-head">
           <div class="_20px-bottom-margin">
             <h1 class="heading-1">{{project.title}}</h1>
@@ -73,9 +74,11 @@
           <div class="_10px-botttom-margin">
             <h1 class="heading-33">{{project.title}}</h1>
           </div>
+
           <div class="_20px-bottom-margin">
             <h2 class="heading-34 project">{{project.category}}</h2>
           </div>
+              <edit-menu :menuStyle="{top: '160px',right: '25px'}" :iconStyle="{top: '140px',right: '25px'}" />
         </div>
         <div class="_20px-bottom-margin" v-if="isAssignment">
           <h2 class="heading-6 grey">Assignment</h2>

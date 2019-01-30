@@ -183,11 +183,6 @@ export default {
   watch: {
     $route(to, from) {
       this.closeAll();
-    },
-    'windowWidth':{
-       handler(val) {
-       console.log(val);
-      }
     }
   },
   methods: {

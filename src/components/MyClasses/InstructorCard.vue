@@ -1,5 +1,5 @@
 <template>
-  <div class="card nopadding" @click="gotoClassRoom()">
+  <div class="card nopadding">
     <div class="_30px-top-bottom-20-side-padding class-desc">
       <div class="div-block-116">
         <div class="div-block-118">
@@ -8,9 +8,9 @@
           </div>
           <h2 class="heading-6">{{myClass.category}}</h2>
         </div>
-        <div class="div-block-117"><img src="@/assets/Menu.svg" width="4" alt=""></div>
+<edit-menu />
       </div>
-    </div><img :src="image" alt="" class="image-5">
+    </div><img @click.self="gotoClassRoom()" :src="image" alt="" class="image-5">
     <div class="card-module _50">
       <div class="flex-space-around">
         <div class="left-align"><img src="@/assets/students.svg" width="20" height="20" alt="">
@@ -33,28 +33,31 @@
 </template>
 
 <script>
-  export default {
-  props:['myClass'],
-   data(){
+export default {
+  props: ["myClass"],
+  data() {
     return {
-      image:'',
+      image: "",
       questions: 0,
-      comments:0,
+      comments: 0,
       submittions: 0
-    }
+    };
   },
-    methods:{
-    gotoClassRoom(){
-      this.$router.push({name:'classRoom', params:{id: this.myClass._id}})
-    }
-  },
-  created(){
-    this.image =  this.$apiBaseUrl  + "/media/" + this.myClass.img;
-    this.myClass.lessons.forEach(ls => {
-        this.comments = this.comments + ls.comments.length;
-        this.questions = this.questions + ls.questions.length;
-        this.submittions = this.submittions + ls.studentAssignments.length;
+  methods: {
+    gotoClassRoom() {
+      this.$router.push({
+        name: "classRoom",
+        params: { id: this.myClass._id }
       });
+    }
+  },
+  created() {
+    this.image = this.$apiBaseUrl + "/media/" + this.myClass.img;
+    this.myClass.lessons.forEach(ls => {
+      this.comments = this.comments + ls.comments.length;
+      this.questions = this.questions + ls.questions.length;
+      this.submittions = this.submittions + ls.studentAssignments.length;
+    });
     // this.$store.dispatch("classes/getMedia", this.myClass.img).then(
     //     response => {
     //       this.image = response.data;
@@ -64,10 +67,10 @@
     //     }
     //   );
   }
-  }
+};
 </script>
 <style lang="scss" scoped>
 .class-desc {
-      width: 270px;
+  width: 270px;
 }
 </style>
