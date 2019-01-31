@@ -18,7 +18,7 @@
       <p>
         {{answer.title}}
       </p>
-      <edit-menu :menuStyle="{top: '-14px',right: '10px'}" :iconStyle="{top: '-35px',right: '10px'}" />
+      <edit-menu v-if="isCreater" :onEdit="editAnswer" :menuStyle="{top: '-14px',right: '10px'}" :iconStyle="{top: '-35px',right: '10px'}" />
         <div v-for="cont in answer.content" :key="cont._id" class="margin-top-10 _10px-botttom-margin">
                 <img v-if="cont.type==='image'"  :src="getMedia(cont.media)" />
                 <video v-if="cont.type==='video'" controls :src="getMedia(cont.media)"></video>
@@ -95,6 +95,10 @@ export default {
     };
   },
   methods: {
+     editAnswer() {
+      this.$store.dispatch("post/setEditPost", this.answer);
+      this.$store.dispatch("toggelPostForm", true);
+    },
     visibleInput() {
       this.showReply = true;
       this.$nextTick(() => {
@@ -186,6 +190,9 @@ export default {
     },
     isDownVoted() {
       return this.answer.downVotes.indexOf(this.currentUser._id) > -1;
+    },
+    isCreater(){
+      return this.answer && this.answer.user && this.currentUser._id === this.answer.user._id;
     }
   }
 };

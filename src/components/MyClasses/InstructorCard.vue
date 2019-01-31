@@ -8,7 +8,7 @@
           </div>
           <h2 class="heading-6">{{myClass.category}}</h2>
         </div>
-<edit-menu />
+        <edit-menu :onEdit="openEditClass"/>
       </div>
     </div><img @click.self="gotoClassRoom()" :src="image" alt="" class="image-5">
     <div class="card-module _50">
@@ -44,10 +44,19 @@ export default {
     };
   },
   methods: {
+    openEditClass() {
+      this.$store.dispatch("classes/setEditClass", {
+        lessonIndex: 0,
+        currentClass: JSON.parse(JSON.stringify(this.myClass))
+      });
+      this.$store.dispatch("changeCreateClass", true);
+    },
     gotoClassRoom() {
       this.$router.push({
         name: "classRoom",
-        params: { id: this.myClass._id }
+        params: {
+          id: this.myClass._id
+        }
       });
     }
   },
@@ -69,6 +78,7 @@ export default {
   }
 };
 </script>
+
 <style lang="scss" scoped>
 .class-desc {
   width: 270px;

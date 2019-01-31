@@ -7,14 +7,15 @@
             <img src="../assets/left-arrow.svg" height="16" alt="" class="image-13">
             <a class="link-3">Back</a></div>
         </div>
-              <edit-menu :menuStyle="{top: '50px',right: '20px'}" :iconStyle="{top: '30px',right: '20px'}" />
+        <edit-menu v-if="isCreater" :onEdit="editQuestion" :menuStyle="{top: '50px',right: '20px'}" :iconStyle="{top: '30px',right: '20px'}" />
         <div class="post-head">
           <div class="_20px-bottom-margin">
             <h1 class="heading-1">{{question.title}}</h1>
           </div>
           <div class="_30px-bottom-margin">
             <h2 class="heading-32 question">{{question.category}}</h2>
-          </div><a href="#" @click.prevent="addAnswer" class="link outline question">Answer</a></div>
+          </div><a href="#" @click.prevent="addAnswer" class="link outline question">Answer</a>
+          </div>
         <div v-for="cont in question.content" :key="cont._id" class="margin-top-10">
           <img v-if="cont.type==='image'" :src="getMedia(cont.media)" />
           <video v-if="cont.type==='video'" class="width-100" controls :src="getMedia(cont.media)"></video>
@@ -47,8 +48,7 @@
           <div class="_20px-bottom-margin">
             <h2 class="heading-34 question">{{question.category}}</h2>
           </div>
-              <edit-menu :menuStyle="{top: '160px',right: '25px'}" :iconStyle="{top: '140px',right: '25px'}" />
-
+          <edit-menu v-if="isCreater" :onEdit="editQuestion" :menuStyle="{top: '160px',right: '25px'}" :iconStyle="{top: '140px',right: '25px'}" />
         </div>
         <div class="_20px-bottom-margin">
           <div class="text-block-6">Published on {{question.createdAt | moment("MMMM Do, YYYY")}}</div>
@@ -65,8 +65,8 @@
           </div>
         </div>
         <div class="social-share-wrap">
-        <socail-share :data="socialShareData" />
-          </div>
+          <socail-share :data="socialShareData" />
+        </div>
       </div>
     </div>
   </div>
@@ -139,6 +139,10 @@ export default {
     );
   },
   methods: {
+    editQuestion() {
+      this.$store.dispatch("post/setEditPost", this.question);
+      this.$store.dispatch("toggelPostForm", true);
+    },
     pressEscape(e) {
       if (e.keyCode === 27) {
         this.goBack();
@@ -256,12 +260,15 @@ export default {
         : "";
       return textContent ? textContent.body.substring(0, 100) : "";
     },
-     socialShareData(){
+    socialShareData() {
       return {
         url: window.location.origin + "?question=" + this.currentPostId,
         title: this.question.title,
-        text: this.questionText,
-      }
+        text: this.questionText
+      };
+    },
+     isCreater(){
+      return this.question && this.question.user && this.loggedInUser._id === this.question.user._id;
     }
   }
 };

@@ -2,7 +2,7 @@
   <div>
     <div class="card cursor-pointer" @click="questionDetail()">
       <div class="_20px-pad-wrapper">
-        <edit-menu />
+        <edit-menu v-if="isCreater" :onEdit="editQuestion" />
         <!-- <div class="profile-picture"></div>  -->
 
         <user-thumbnail :user="question.user" :myClass="'profile-picture'" />
@@ -49,107 +49,115 @@
 </template>
 
 <script>
-  import {
-    mapGetters,
-    mapState
-  } from "vuex";
-  import CreatePost from "@/views/CreatePost";
+import { mapGetters, mapState } from "vuex";
+import CreatePost from "@/views/CreatePost";
 
-  export default {
-    props: ["question"],
-    components: {
-      CreatePost
+export default {
+  props: ["question"],
+  components: {
+    CreatePost
+  },
+  data() {
+    return {
+      postType: "Answer"
+    };
+  },
+  methods: {
+    editQuestion() {
+      this.$store.dispatch("post/setEditPost", this.question);
+      this.$store.dispatch("toggelPostForm", true);
     },
-    data() {
-      return {
-        postType: "Answer"
-      };
-    },
-    methods: {
-      questionDetail(goToAnswer) {
-        if (goToAnswer) {
-          this.$store.dispatch("setGoToAnswer", true);
-        }
-        this.$router.push({
-          name: "feed",
-          query: {
-            question: this.question._id
-          }
-        });
-        this.$store.dispatch("setCurrentPostId", this.question._id);
-        this.$store.dispatch("toggelQuestionDialog", true);
-      },
-      addAnswer() {
-        // this.$store.dispatch("toggelAnswerForm", true);
-        // this.$store.dispatch("post/setSelectedQuestion", this.question);
-      },
-      vote(type) {
-        if (
-          (type === "upVote" &&
-            this.answers[0].upVotes.indexOf(this.loggedInUser._id) === -1) ||
-          (type === "downVote" &&
-            this.answers[0].downVotes.indexOf(this.loggedInUser._id) === -1)
-        ) {
-          this.$store
-            .dispatch("post/votePost", {
-              postId: this.answers[0]._id,
-              voteType: type,
-              parentPost: this.question._id
-            })
-            .then(
-              resp => {
-                if (type === "upVote") {
-                  this.answers[0].upVotes.push(this.loggedInUser._id);
-                  this.answers[0].downVotes = this.answers[0].downVotes.filter(
-                    el => el !== this.loggedInUser._id
-                  );
-                } else {
-                  this.answers[0].downVotes.push(this.loggedInUser._id);
-                  this.answers[0].upVotes = this.answers[0].upVotes.filter(
-                    el => el !== this.loggedInUser._id
-                  );
-                }
-              },
-              err => {}
-            );
-        }
+    questionDetail(goToAnswer) {
+      if (goToAnswer) {
+        this.$store.dispatch("setGoToAnswer", true);
       }
-    },
-    computed: {
-      ...mapGetters(["showAnswerPost"]),
-      ...mapState({
-        loggedInUser: state => state.authentication.user,
-        selectedQuestion: state => state.post.selectedQuestion
-      }),
-      answers() {
-        if (this.question.replies && this.question.replies.length) {
-          return this.question.replies.sort((a, b) => {
-            return (b.upVotes.length - b.downVotes.length) - (a.upVotes.length - a.downVotes.length);
-          });
-        } else {
-          return [];
+      this.$router.push({
+        name: "feed",
+        query: {
+          question: this.question._id
         }
-      },
-      voteCount() {
-        return (
-          this.answers[0].upVotes.length - this.answers[0].downVotes.length
-        ).toString();
-      },
-      isUpvoted() {
-        return this.answers[0].upVotes.indexOf(this.loggedInUser._id) > -1;
-      },
-      isDownVoted() {
-        return this.answers[0].downVotes.indexOf(this.loggedInUser._id) > -1;
+      });
+      this.$store.dispatch("setCurrentPostId", this.question._id);
+      this.$store.dispatch("toggelQuestionDialog", true);
+    },
+    addAnswer() {
+      // this.$store.dispatch("toggelAnswerForm", true);
+      // this.$store.dispatch("post/setSelectedQuestion", this.question);
+    },
+    vote(type) {
+      if (
+        (type === "upVote" &&
+          this.answers[0].upVotes.indexOf(this.loggedInUser._id) === -1) ||
+        (type === "downVote" &&
+          this.answers[0].downVotes.indexOf(this.loggedInUser._id) === -1)
+      ) {
+        this.$store
+          .dispatch("post/votePost", {
+            postId: this.answers[0]._id,
+            voteType: type,
+            parentPost: this.question._id
+          })
+          .then(
+            resp => {
+              if (type === "upVote") {
+                this.answers[0].upVotes.push(this.loggedInUser._id);
+                this.answers[0].downVotes = this.answers[0].downVotes.filter(
+                  el => el !== this.loggedInUser._id
+                );
+              } else {
+                this.answers[0].downVotes.push(this.loggedInUser._id);
+                this.answers[0].upVotes = this.answers[0].upVotes.filter(
+                  el => el !== this.loggedInUser._id
+                );
+              }
+            },
+            err => {}
+          );
       }
     }
-  };
+  },
+  computed: {
+    ...mapGetters(["showAnswerPost"]),
+    ...mapState({
+      loggedInUser: state => state.authentication.user,
+      selectedQuestion: state => state.post.selectedQuestion
+    }),
+    answers() {
+      if (this.question.replies && this.question.replies.length) {
+        return this.question.replies.sort((a, b) => {
+          return (
+            b.upVotes.length -
+            b.downVotes.length -
+            (a.upVotes.length - a.downVotes.length)
+          );
+        });
+      } else {
+        return [];
+      }
+    },
+    voteCount() {
+      return (
+        this.answers[0].upVotes.length - this.answers[0].downVotes.length
+      ).toString();
+    },
+    isUpvoted() {
+      return this.answers[0].upVotes.indexOf(this.loggedInUser._id) > -1;
+    },
+    isDownVoted() {
+      return this.answers[0].downVotes.indexOf(this.loggedInUser._id) > -1;
+    },
+    isCreater() {
+      return this.loggedInUser._id === this.question.user._id;
+    }
+  }
+};
 </script>
 
 <style scoped lang="scss">
-  svg {
-    height: 16px;
-  }
-  .min-width-15 {
-    min-width: 15px;
-  }
+svg {
+  height: 16px;
+}
+.min-width-15 {
+  min-width: 15px;
+}
 </style>

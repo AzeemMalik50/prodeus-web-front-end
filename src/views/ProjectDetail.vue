@@ -8,7 +8,7 @@
             <a href="#" class="link-3">Back</a>
           </div>
         </div>
-        <edit-menu :menuStyle="{top: '50px',right: '20px'}" :iconStyle="{top: '30px',right: '20px'}" />
+        <edit-menu v-if="isCreater" :onEdit="editProject" :menuStyle="{top: '50px',right: '20px'}" :iconStyle="{top: '30px',right: '20px'}" />
         <div class="post-head">
           <div class="_20px-bottom-margin">
             <h1 class="heading-1">{{project.title}}</h1>
@@ -74,11 +74,10 @@
           <div class="_10px-botttom-margin">
             <h1 class="heading-33">{{project.title}}</h1>
           </div>
-
           <div class="_20px-bottom-margin">
             <h2 class="heading-34 project">{{project.category}}</h2>
           </div>
-              <edit-menu :menuStyle="{top: '160px',right: '25px'}" :iconStyle="{top: '140px',right: '25px'}" />
+              <edit-menu v-if="isCreater" :onEdit="editProject" :menuStyle="{top: '160px',right: '25px'}" :iconStyle="{top: '140px',right: '25px'}" />
         </div>
         <div class="_20px-bottom-margin" v-if="isAssignment">
           <h2 class="heading-6 grey">Assignment</h2>
@@ -190,6 +189,10 @@ export default {
     );
   },
   methods: {
+    editProject() {
+      this.$store.dispatch("post/setEditPost", this.project);
+      this.$store.dispatch("toggelPostForm", true);
+    },
     rejectAssignment() {
       this.$store
         .dispatch(`${this.moduleType}/updateAssignmentStatus`, {
@@ -414,6 +417,9 @@ export default {
     },
     isRejected() {
       return this.project.status && this.project.status === "rejected";
+    },
+    isCreater() {
+      return this.project && this.project.user && this.loggedInUser._id === this.project.user._id;
     }
   }
 };

@@ -49,7 +49,7 @@
           </div>
           <div class="div-block-92">
             <!-- <a class="link outline" :class="getClass">Choose Category</a> -->
-             <select v-if="type !== 'Answer'" id="field-2" class="link outline select" :class="getClass" name="field-2" v-model="category" required="true" data-name="Field 2">
+             <select v-if="postType !== 'Answer'" id="field-2" class="link outline select" :class="getClass" name="field-2" v-model="category" required="true" data-name="Field 2">
                         <option  value="">Choose Category</option>
                         <option v-for="catg in allCategories" :key="catg.id" :value="catg.name">
                           {{catg.name}}</option>
@@ -62,9 +62,8 @@
 </template>
 
 <script>
-import { mapGetters, createNamespacedHelpers } from "vuex";
+import { mapGetters, mapState } from "vuex";
 import Loading from "vue-loading-overlay";
-const { mapState, mapActions } = createNamespacedHelpers("categories");
 
 export default {
   props: ["type", "parentPost"],
@@ -75,6 +74,7 @@ export default {
     return {
       uploading: false,
       title: "",
+      postType: "",
       category: "",
       content: [],
       config: {
@@ -98,6 +98,13 @@ export default {
   created() {
     this.$store.dispatch("categories/getCategories");
     window.addEventListener("keyup", this.closePostModal);
+    this.postType = this.type;
+    if (this.editPost && this.editPost._id) {
+      this.title = this.editPost.title;
+      this.content = this.editPost.content;
+      this.category = this.editPost.category;
+      this.postType = this.editPost.postType;
+    }
   },
   methods: {
     getImage(mediaId) {
@@ -110,7 +117,7 @@ export default {
       }
     },
     closeDialog() {
-      if (confirm(`Are you sure to exit create ${this.type}!`)) {
+      if (confirm(`Are you sure to exit create ${this.postType}!`)) {
         this.closeForm();
       }
     },
@@ -118,6 +125,7 @@ export default {
       this.$store.dispatch("toggelPostForm", false);
       this.$store.dispatch("toggelAnswerForm", false);
       this.$store.dispatch("post/setSelectedQuestion", null);
+      this.$store.dispatch("post/setEditPost", null);
     },
     addText() {
       this.content.push({
@@ -163,42 +171,64 @@ export default {
     removeItem(index) {
       this.content.splice(index, 1);
     },
+    createPost(payload) {
+      if (this.parentPost) {
+        payload.parent = this.parentPost._id;
+      }
+      this.$store.dispatch("post/addPost", payload).then(
+        post => {
+          this.closeForm();
+          if (this.parentPost) {
+            this.parentPost.replies.push(post.data);
+          } else {
+            let query = {};
+            query[this.postType] = post.data._id;
+            this.$router.push({
+              name: "feed",
+              query: query
+            });
+          }
+        },
+        err => {
+          console.error(err);
+        }
+      );
+    },
+    updatePost(payload) {
+      payload._id = this.editPost._id;
+      this.$store.dispatch("post/updatePost", payload).then(
+        post => {
+          this.editPost.content = this.content;
+          this.editPost.title = this.title;
+          this.editPost.category = this.category;
+          this.closeForm();
+        },
+        err => {
+          console.error(err);
+        }
+      );
+    },
     submit() {
-      if (this.title && this.title.length >= 5 & this.category) {
+      if (this.title && (this.title.length >= 5) && this.category) {
         let payload = {
           title: this.title,
           content: this.content,
           category: this.category,
           postType:
-            this.type.charAt(0).toUpperCase() + this.type.slice(1).toLowerCase()
+            this.postType.charAt(0).toUpperCase() +
+            this.postType.slice(1).toLowerCase()
         };
-        if (this.parentPost) {
-          payload.parent = this.parentPost._id;
+        if (this.editPost && this.editPost._id) {
+          this.updatePost(payload);
+        } else {
+          this.createPost(payload);
         }
-        this.$store.dispatch("post/addPost", payload).then(
-          post => {
-            this.closeForm();
-            if (this.parentPost) {
-              this.parentPost.replies.push(post.data);
-            } else {
-              let query ={};
-              query[this.type] = post.data._id;
-              this.$router.push({
-                name: 'feed',
-                query: query
-              });
-            }
-          },
-          err => {
-            console.error(err);
-          }
-        );
       }
     }
   },
   computed: {
     getClass() {
-      if (this.type === "project") {
+      if (this.postType.toLowerCase() === "project") {
         return {
           project: true
         };
@@ -218,7 +248,8 @@ export default {
       }
     },
     ...mapState({
-      allCategories: state => state.allCategories
+      allCategories: state => state.categories.allCategories,
+      editPost: state => state.post.editPost
     })
   }
 };
@@ -250,7 +281,7 @@ export default {
 }
 .project {
   background-color: #ebcb4d;
-   &.select {
+  &.select {
     border: 2px solid #ebcb4d;
     color: #ebcb4d;
   }
@@ -262,5 +293,4 @@ export default {
     color: #61cb96;
   }
 }
-
 </style>

@@ -6,11 +6,15 @@ export const post = {
   namespaced: true,
   state: {
     selectedQuestion: {},
+    editPost: null,
     error: {},
   },
   actions: {
     addPost({ commit }, data) {
       return authService.post(`/posts`, data);
+    },
+    updatePost({ commit }, data) {
+      return authService.put(`/posts/${data._id}`, data);
     },
     addPostComment({ commit }, data) {
       return authService.post(`/posts/${data.postId}/discussion`, data);
@@ -36,8 +40,14 @@ export const post = {
     viewPost({ commit }, id) {
       return authService.put(`/posts/${id}/view`, {})
     },
+    setEditPost({ commit }, data) {
+      commit('setEditPost', data);
+    }
   },
   mutations: {
+    setEditPost(state, post) {
+      state.editPost = post;
+    },
     failure(state, err) {
       state.error = err;
     },

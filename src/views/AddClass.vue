@@ -319,11 +319,17 @@ export default {
         JSON.parse(JSON.stringify(this.newClass)),
         this.editClass.currentClass
       );
-      this.lessonIndex = this.editClass.lessonIndex;
-        this.newClass.trailer.completed = true;
+      if (this.editClass.lessonIndex) {
+        this.lessonIndex = this.editClass.lessonIndex;
+        this.selectedTab = "2";
+      } else {
+        this.lessonIndex = 0;
+        this.selectedTab = "1";
+      }
+      // this.lessonIndex = this.editClass.lessonIndex;
+      this.newClass.trailer.completed = true;
 
       this.currentLessonType = "lessons";
-      this.selectedTab = "2";
     } else {
       this.addLessson(2);
     }

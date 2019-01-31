@@ -107,6 +107,7 @@ export default {
 }
 .edit-container {
   display: inherit;
+  z-index: 999 !important;
 }
 .menu-icon {
   position: absolute;
