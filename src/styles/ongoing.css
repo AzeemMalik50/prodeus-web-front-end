@@ -5478,16 +5478,30 @@ h2 {
   right: 0px;
   bottom: 0px;
   z-index: 1;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  height: 187px;
   padding-top: 10px;
   padding-right: 30px;
   padding-left: 30px;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
   -webkit-box-flex: 1;
   -webkit-flex: 1;
   -ms-flex: 1;
   flex: 1;
   background-color: transparent;
-  background-image: -webkit-gradient(linear, left top, left bottom, from(transparent), to(rgba(34, 40, 58, .5)));
-  background-image: linear-gradient(180deg, transparent, rgba(34, 40, 58, .5));
+  background-image: -webkit-gradient(linear, left top, left bottom, from(transparent), to(#22283a));
+  background-image: linear-gradient(180deg, transparent, #22283a);
   color: #fff;
 }
 
@@ -6245,6 +6259,15 @@ h2 {
   background-color: #bcbcbc;
 }
 
+.text-block-18 {
+  font-family: Roboto;
+  color: #bcbcbc;
+}
+
+.image-43 {
+  display: none;
+}
+
 @media (max-width: 991px) {
   .navbar {
     padding-right: 0px;
@@ -6343,7 +6366,8 @@ h2 {
     flex: 1;
   }
   .search {
-    width: 80%;
+    width: 100%;
+    margin-left: 0px;
   }
   .navbar-bottom {
     position: fixed;
@@ -6366,6 +6390,9 @@ h2 {
     -ms-flex-align: center;
     align-items: center;
     box-shadow: 0 -1px 1px 0 rgba(0, 0, 0, .1);
+  }
+  .brand {
+    display: none;
   }
   ._10px-botttom-margin {
     margin-bottom: 14px;
@@ -6453,6 +6480,9 @@ h2 {
     -webkit-flex: 1;
     -ms-flex: 1;
     flex: 1;
+  }
+  .nav-wrap {
+    width: 100%;
   }
   .tab-link-tab-2 {
     padding-right: 20px;
@@ -6644,6 +6674,9 @@ h2 {
     align-items: center;
     background-color: rgba(34, 40, 58, .75);
   }
+  .image-43 {
+    display: block;
+  }
 }
 
 @media (max-width: 767px) {
@@ -6715,6 +6748,7 @@ h2 {
     flex: 1;
   }
   .brand {
+    display: none;
     -webkit-box-flex: 0;
     -webkit-flex: 0 0 auto;
     -ms-flex: 0 0 auto;
@@ -6765,6 +6799,7 @@ h2 {
     width: 100%;
   }
   .nav-wrap {
+    width: 100%;
     margin-right: 10px;
     margin-left: 10px;
   }
@@ -6902,6 +6937,10 @@ h2 {
   .body {
     background-color: #f4f4f5;
   }
+  .navbar {
+    padding-right: 2px;
+    padding-left: 2px;
+  }
   .card {
     margin-bottom: 20px;
     padding-right: 0px;
@@ -7012,14 +7051,57 @@ h2 {
   .div-block-12 {
     width: 120px;
   }
+  .nav-menu.left {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+  }
+  .nav-menu.bottom {
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+  }
   .link-block {
+    min-width: 24px;
     -webkit-box-flex: 0;
-    -webkit-flex: 0 0 auto;
-    -ms-flex: 0 0 auto;
-    flex: 0 0 auto;
+    -webkit-flex: 0 auto;
+    -ms-flex: 0 auto;
+    flex: 0 auto;
   }
   ._20px-margin {
     width: 100%;
+  }
+  .search-input {
+    width: 100%;
+    margin-left: 0px;
+    padding-right: 30px;
+    padding-left: 58px;
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+  }
+  .search {
+    width: 100%;
+    margin-right: 20px;
+    margin-left: 0px;
+  }
+  .navbar-bottom {
+    padding-right: 20px;
+    padding-left: 20px;
+  }
+  .brand {
+    display: none;
+  }
+  .image-4 {
+    margin-right: 10px;
+    margin-left: 20px;
   }
   ._30px-top-bottom-20-side-padding {
     padding: 20px;
@@ -7138,8 +7220,12 @@ h2 {
     width: 100%;
     margin-right: 0px;
     margin-left: 0px;
-    padding-right: 10px;
-    padding-left: 10px;
+    padding-right: 20px;
+    padding-left: 12px;
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
   }
   .tabs-menu {
     overflow: scroll;
@@ -7451,6 +7537,15 @@ h2 {
     -ms-flex: 1;
     flex: 1;
   }
+  .link-block-4 {
+    display: none;
+  }
+  .div-block-112.alt {
+    height: 60px;
+  }
+  .link-5 {
+    font-size: 16px;
+  }
   .div-block-121 {
     margin-top: 10px;
   }
@@ -7488,6 +7583,10 @@ h2 {
   }
   .div-block-139 {
     display: block;
+  }
+  .div-block-149 {
+    height: 80vh;
+    background-color: #fff;
   }
 }
 

@@ -4,139 +4,153 @@
       <div class="nav-wrap">
         <div class="nav-menu left">
           <!-- <a href="#" class="brand w-nav-brand"> -->
-            <router-link to="/" class="brand w-nav-brand">
+          <router-link to="/" class="brand w-nav-brand">
             <img src="@/assets/Logo.svg" class="logo" />
-            </router-link>
+          </router-link>
           <!-- </a> -->
           <form action="/search" class="search w-form">
             <img src="@/assets/Search.svg" class="image-4" />
             <input type="search" class="search-input w-input" maxlength="256" name="query" placeholder="Search prodeus" id="search" required="">
             <input type="submit" value="Search" class="search-button w-button"></form>
           <!-- <a class="w-inline-block cursor-pointer"  >
-            <img src="@/assets/Add-Post.svg" class="add-post" />
-          </a> -->
-          <a  class="link-block-4 w-inline-block cursor-pointer" @click.prevent="toggelePanel('isAdd')">
-          <div class="div-block-113"><img src="@/assets/add-white.svg" height="20" alt="" class="image-29">
-            <div class="text-block-14">Post</div>
-          </div><img src="images/Profile.svg" width="24" alt="" class="image-39"></a>
+              <img src="@/assets/Add-Post.svg" class="add-post" />
+            </a> -->
+          <a class="link-block-4 w-inline-block cursor-pointer" @click.prevent="toggelePanel('isAdd')">
+            <div class="div-block-113"><img src="@/assets/add-white.svg" height="20" alt="" class="image-29">
+              <div class="text-block-14">Post</div>
+            </div><img src="@/assets/Profile.svg" width="24" alt="" class="image-39"></a>
+          <img @click="toggelMenu" src="@/assets/Menu_1.svg" width="24" alt="" class="image-43">
         </div>
+
         <nav role="navigation" class="nav-menu w-nav-menu">
           <router-link :to="{ name: 'myClasses', params: { id: loggedInUser._id} }" class="link-block w-inline-block">
             <img src="@/assets/ClassroomInactive.svg" class="height-20" />
           </router-link>
           <!-- <a href="#" class="link-block w-inline-block">
-            <img src="@/assets/MessagesInactive.svg" class="width-20" />
-          </a> -->
-          <a  class="link-block w-inline-block cursor-pointer" cursor-pointer @click.prevent="toggelNotification">
-            <img src="@/assets/notifications_active.svg" v-if="unreadCount > 0" class="height-20" />
-            <img src="@/assets/NotificationsInactive.svg" v-else class="height-20" />
-          </a>
-          <a  class="link-block w-inline-block cursor-pointer cursor-pointer" @click.prevent="toggelePanel('isUser')">
+              <img src="@/assets/MessagesInactive.svg" class="width-20" />
+            </a> -->
+          <a class="link-block w-inline-block cursor-pointer" cursor-pointer @click.prevent.stop="toggelNotification">
+              <img src="@/assets/notifications_active.svg" v-if="unreadCount > 0" class="height-20" />
+              <img src="@/assets/NotificationsInactive.svg" v-else class="height-20" />
+            </a>
+          <a class="link-block w-inline-block cursor-pointer cursor-pointer" @click.prevent="toggelePanel('isUser')">
             <!-- <img :src="profilePic" v-if="profilePic" class="width-20 profile-pic" /> -->
-        <user-thumbnail :user="loggedInUser" :myClass="'profile-picture _30'" :link="'no'" />
+            <user-thumbnail :user="loggedInUser" :myClass="'profile-picture _30'" :link="'no'" />
             <!-- <img src="@/assets/Profile.svg" v-else class="width-20" /> -->
           </a>
         </nav>
       </div>
     </div>
-      <div class="navmodal-wrap">
-    <div class="navmodal-container">
-      <div v-on-clickaway="closeNotif">
-      <notifications v-show="isNotify"/>
-      </div>
-      <div class="div-block-104 user" v-if="isUser" v-on-clickaway="closeUser">
-        <div class="div-block-105">
-          <h1 class="heading-41">My Account</h1>
+    <transition name="slide" v-if="isMenuOpen">
+      <div class="page-section image-43">
+        <div class="div-block-106 div-block-149">
+          <div class="div-block-112 alt" @click="openProfileSetting(); isMenuOpen = false">
+            <div class="horiz-left-align-justify-atart">
+              <img src="@/assets/settings-work-tool-grey.svg" width="20" alt="" class="image-28"></div><a href="#" class="link-5">Account Settings</a></div>
+          <div class="div-block-112 alt" @click="logOut(); isMenuOpen = false">
+            <div class="horiz-left-align-justify-atart"><img src="@/assets/logout.svg" width="20" alt="" class="image-28"></div><a href="#" class="link-5">Log Out</a></div>
         </div>
-        <img src="../assets/Path-13444.svg" height="26" alt="" class="image-27">
-        <div class="div-block-106">
-          <div class="div-block-112" @click="toRoute('profile');toggelePanel('isUser')">
-            <div class="horiz-left-align-justify-atart">
-              <img src="../assets/Profile.svg" width="20" alt="" class="image-28"></div>
-              <router-link :to="{name:'profile'}" class="link-5">View my profile</router-link></div>
-          <div class="div-block-112">
-            <div class="horiz-left-align-justify-atart">
-              <img src="../assets/settings-work-tool-grey.svg" width="20" alt="" class="image-28">
+      </div>
+    </transition>
+    <div class="navmodal-wrap">
+      <div class="navmodal-container">
+        <div v-on-clickaway="closeNotif">
+          <notifications v-show="isNotify" />
+        </div>
+        <div class="div-block-104 user" v-if="isUser" v-on-clickaway="closeUser">
+          <div class="div-block-105">
+            <h1 class="heading-41">My Account</h1>
+          </div>
+          <img src="../assets/Path-13444.svg" height="26" alt="" class="image-27">
+          <div class="div-block-106">
+            <div class="div-block-112" @click="toRoute('profile');toggelePanel('isUser')">
+              <div class="horiz-left-align-justify-atart">
+                <img src="../assets/Profile.svg" width="20" alt="" class="image-28"></div>
+              <router-link :to="{name:'profile'}" class="link-5">View my profile</router-link>
+            </div>
+            <div class="div-block-112">
+              <div class="horiz-left-align-justify-atart">
+                <img src="../assets/settings-work-tool-grey.svg" width="20" alt="" class="image-28">
               </div><a href="#" @click.prevent="openProfileSetting()" class="link-5">Account Settings</a></div>
-          <div class="div-block-112" @click="logOut()">
-            <div class="horiz-left-align-justify-atart">
-              <img src="../assets/logout.svg" width="20" alt="" class="image-28">
+            <div class="div-block-112" @click="logOut()">
+              <div class="horiz-left-align-justify-atart">
+                <img src="../assets/logout.svg" width="20" alt="" class="image-28">
               </div><a href="#" class="link-5">Log Out</a></div>
+          </div>
+        </div>
+        <div class="div-block-104 add" v-if="isAdd && isDeskTop" v-on-clickaway="closeAdd">
+          <div class="div-block-114">
+            <div class="_10px-botttom-margin cursor-pointer">
+              <div class="div-block-113 project" @click="openPostForm('project')">
+                <img src="../assets/add-white.svg" height="20" alt="" class="image-29">
+                <div class="text-block-14">Share your work</div>
+              </div>
+            </div>
+            <div class="_10px-botttom-margin cursor-pointer">
+              <div class="div-block-113 question" @click="openPostForm('question')">
+                <img src="../assets/add-white.svg" height="20" alt="" class="image-29">
+                <div class="text-block-14">Ask a question</div>
+              </div>
+            </div>
+            <div class="_10px-botttom-margin"></div>
+            <div class="div-block-113 class cursor-pointer" @click="openCreateClass()">
+              <img src="../assets/add-white.svg" height="20" alt="" class="image-29">
+              <div class="text-block-14">Create a class</div>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="div-block-104 add" v-if="isAdd && isDeskTop" v-on-clickaway="closeAdd">
-        <div class="div-block-114">
-          <div class="_10px-botttom-margin cursor-pointer">
+    </div>
+    <div data-collapse="none" data-animation="default" data-duration="400" class="navbar-bottom w-nav">
+      <nav role="navigation" class="nav-menu bottom w-nav-menu">
+        <router-link :to="{ name: 'myClasses', params: { id: loggedInUser._id} }" @click="isMenuOpen = false" class="link-block w-inline-block">
+          <img src="@/assets/ClassroomInactive.svg" class="height-24" />
+        </router-link>
+        <a href="#" class="link-block w-inline-block" @click.prevent="toggelePanel('isAdd');isMenuOpen = false">
+          <img src="@/assets/Group-6084.svg" height="24" alt=""></a>
+        <router-link to="/" class="link-block w-inline-block" @click="isMenuOpen = false">
+          <img src="@/assets/Logo.svg" height="24" alt="" class="image-40">
+        </router-link>
+        <a href="#" class="link-block w-inline-block" @click.prevent.stop="toggelNotification(); isMenuOpen = false">
+            <img src="@/assets/notifications_active.svg" v-if="unreadCount > 0"  class="width-24" />
+            <img src="@/assets/MessagesInactive.svg" v-else class="width-24" />
+          </a>
+        <router-link :to="{name:'profile'}" @click="isMenuOpen = false" class="link-block w-inline-block">
+          <img src="@/assets/Profile.svg" class="width-24" />
+        </router-link>
+      </nav>
+    </div>
+    <div class="navmodal-wrap" v-if="isAdd && !isDeskTop" @click.self="toggelePanel('isAdd')">
+      <div class="div-block-147" @click.self="toggelePanel('isAdd')">
+        <div class="div-block-114" v-on-clickaway="closeAdd">
+          <div class="_10px-botttom-margin">
             <div class="div-block-113 project" @click="openPostForm('project')">
-              <img src="../assets/add-white.svg" height="20" alt="" class="image-29">
+              <img src="images/add-white.svg" height="20" alt="" class="image-29">
               <div class="text-block-14">Share your work</div>
             </div>
           </div>
-          <div class="_10px-botttom-margin cursor-pointer">
+          <div class="_10px-botttom-margin">
             <div class="div-block-113 question" @click="openPostForm('question')">
-              <img src="../assets/add-white.svg" height="20" alt="" class="image-29">
+              <img src="images/add-white.svg" height="20" alt="" class="image-29">
               <div class="text-block-14">Ask a question</div>
             </div>
           </div>
           <div class="_10px-botttom-margin"></div>
-          <div class="div-block-113 class cursor-pointer" @click="openCreateClass()">
-            <img src="../assets/add-white.svg" height="20" alt="" class="image-29">
+          <div class="div-block-113 class" @click="openCreateClass()">
+            <img src="images/add-white.svg" height="20" alt="" class="image-29">
             <div class="text-block-14">Create a class</div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-    <div data-collapse="none" data-animation="default" data-duration="400" class="navbar-bottom w-nav">
-      <nav role="navigation" class="nav-menu bottom w-nav-menu">
-          <router-link :to="{ name: 'myClasses', params: { id: loggedInUser._id} }" class="link-block w-inline-block">
-          <img src="@/assets/ClassroomInactive.svg" class="height-24" />
-          </router-link>
-          <a href="#" class="link-block w-inline-block" @click.prevent="toggelePanel('isAdd')">
-        <img src="@/assets/Group-6084.svg" height="24" alt=""></a>
-            <router-link to="/" class="link-block w-inline-block">
-          <img src="@/assets/Logo.svg" height="24" alt="" class="image-40">
-            </router-link>
-        <a href="#" class="link-block w-inline-block" @click.prevent="toggelNotification">
-          <img src="@/assets/notifications_active.svg" v-if="unreadCount > 0"  class="width-24" />
-          <img src="@/assets/MessagesInactive.svg" v-else class="width-24" />
-        </a>
-        <a href="#" class="link-block w-inline-block">
-          <img src="@/assets/Profile.svg" class="width-24" />
-        </a>
-      </nav>
-    </div>
-     <div class="navmodal-wrap" v-if="isAdd && !isDeskTop" @click.self="toggelePanel('isAdd')">
-    <div class="div-block-147" @click.self="toggelePanel('isAdd')">
-      <div class="div-block-114" v-on-clickaway="closeAdd">
-        <div class="_10px-botttom-margin">
-          <div class="div-block-113 project" @click="openPostForm('project')">
-            <img src="images/add-white.svg" height="20" alt="" class="image-29">
-            <div class="text-block-14">Share your work</div>
-          </div>
-        </div>
-        <div class="_10px-botttom-margin">
-          <div class="div-block-113 question" @click="openPostForm('question')">
-            <img src="images/add-white.svg" height="20" alt="" class="image-29">
-            <div class="text-block-14">Ask a question</div>
-          </div>
-        </div>
-        <div class="_10px-botttom-margin"></div>
-        <div class="div-block-113 class" @click="openCreateClass()">
-          <img src="images/add-white.svg" height="20" alt="" class="image-29">
-          <div class="text-block-14">Create a class</div>
-        </div>
-      </div>
-     </div>
-     </div>
     <AddClass v-if="showCreateClass" />
     <create-post v-if="showPostForm" :type="postType" />
     <profile-setting v-if="showProfileSetting" />
-    <project-detail  v-if="isProjectOpen" />
-    <question-detail  v-if="isQuestionOpen" />
+    <project-detail v-if="isProjectOpen" />
+    <question-detail v-if="isQuestionOpen" />
     <share-modal v-if="showSocailShare" />
     <create-post v-if="showAnswerPost" :type="answerPost" :parentPost="selectedQuestion" />
-    <project-detail  v-if="isAssignmentOpen" isAssignment="true" />
+    <project-detail v-if="isAssignmentOpen" isAssignment="true" />
 
   </div>
 </template>
@@ -163,6 +177,7 @@ export default {
   mixins: [clickaway],
   data() {
     return {
+      isMenuOpen: false,
       answerPost: "Answer",
       postType: "",
       isAdd: false,
@@ -178,15 +193,19 @@ export default {
       "1m"
     );
     this.$store.dispatch("notification/getNotificationsCount");
-    window.addEventListener('resize', this.handleResize)
+    window.addEventListener("resize", this.handleResize);
   },
   watch: {
     $route(to, from) {
+      this.isMenuOpen = false
       this.closeAll();
     }
   },
   methods: {
-    handleResize(){
+    toggelMenu() {
+      this.isMenuOpen = !this.isMenuOpen;
+    },
+    handleResize() {
       this.windowWidth = window.screen.width;
     },
     toggelePanel(name) {
@@ -227,7 +246,9 @@ export default {
       this.$cookies.remove("accessToken");
     },
     toRoute(name) {
-      this.$router.push({ name: name });
+      this.$router.push({
+        name: name
+      });
     },
     closeAll() {
       this.isAdd = false;
@@ -254,7 +275,7 @@ export default {
     loggedInUser() {
       return JSON.parse(localStorage.getItem("user"));
     },
-    isDeskTop(){
+    isDeskTop() {
       return this.windowWidth > 991;
     },
     ...mapGetters(["showCreateClass", "showPostForm", "showAnswerPost"]),
@@ -335,5 +356,39 @@ svg {
   .cls-1 {
     fill: #bcbcbc;
   }
+}
+
+.slide-enter-active {
+  -moz-transition-duration: 0.3s;
+  -webkit-transition-duration: 0.3s;
+  -o-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+  -moz-transition-timing-function: ease-in;
+  -webkit-transition-timing-function: ease-in;
+  -o-transition-timing-function: ease-in;
+  transition-timing-function: ease-in;
+}
+
+.slide-leave-active {
+  -moz-transition-duration: 0.3s;
+  -webkit-transition-duration: 0.3s;
+  -o-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+  -moz-transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+  -webkit-transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+  -o-transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+  transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+}
+
+.slide-enter-to,
+.slide-leave {
+  max-height: 100px;
+  overflow: hidden;
+}
+
+.slide-enter,
+.slide-leave-to {
+  overflow: hidden;
+  max-height: 0;
 }
 </style>
