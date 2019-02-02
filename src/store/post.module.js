@@ -16,6 +16,9 @@ export const post = {
     updatePost({ commit }, data) {
       return authService.put(`/posts/${data._id}`, data);
     },
+    deletePost({ commit }, data) {
+      return authService.del(`/posts/${data._id}`);
+    },
     addPostComment({ commit }, data) {
       return authService.post(`/posts/${data.postId}/discussion`, data);
     },

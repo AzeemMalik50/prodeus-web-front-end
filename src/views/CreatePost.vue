@@ -209,7 +209,7 @@ export default {
       );
     },
     submit() {
-      if (this.title && (this.title.length >= 5) && this.category) {
+      if (this.title && (this.title.length >= 5) && (this.category || this.postType.toLowerCase() === 'answer')) {
         let payload = {
           title: this.title,
           content: this.content,
@@ -239,7 +239,7 @@ export default {
       }
     },
     submitClass() {
-      if (this.title && this.title.length >= 5) {
+      if (this.title && this.title.length >= 5 && (this.category || this.postType.toLowerCase() === 'answer')) {
         return this.getClass;
       } else {
         return {

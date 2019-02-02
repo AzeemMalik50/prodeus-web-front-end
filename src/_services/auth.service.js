@@ -7,7 +7,8 @@ export const authService = {
     put,
     patch,
     fileUpload,
-    getMedia
+    getMedia,
+    del
 };
 
 function get(URL) {
@@ -31,4 +32,7 @@ function fileUpload(URL, formData) {
 function getMedia(URL){
     // 'Content-Type': 'video/mp4'
     return axios.get(URL, { headers: authHeader({}),responseType: 'stream', adapter: httpAdapter });
+}
+function del(URL) {
+    return axios.delete(URL, { headers: authHeader() });
 }

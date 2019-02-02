@@ -30,6 +30,8 @@ import './styles/styles.scss';
 // Gloabl Copmponnets
 import UserThumbnail from './components/UserThumbnail';
 import CommentInput from './components/ClassDasboard/CommentInput.vue';
+import EditCommentInput from './components/ClassDasboard/EditCommentInput.vue';
+
 
 import DiscussionLike from './components/ClassRoom/DiscussionLike.vue';
 import Facebook from './components/Icons/Facebook.vue';
@@ -78,6 +80,8 @@ Vue.component('comment', Comm);
 Vue.component('reblog', Reblog);
 Vue.component('re-share', ReShare);
 Vue.component('comment-input', CommentInput);
+Vue.component('edit-comment-input', EditCommentInput);
+
 Vue.component('pintrest', Pintrest);
 Vue.component('dribbble', Dribbble);
 Vue.component('menu-icon', Menu);
@@ -102,6 +106,8 @@ Vue.use(VueHello, HelloJs);
 Vue.config.productionTip = false
 Vue.use(VueQuillEditor, /* { default global options } */);
 Vue.use(VueCookies);
+
+Vue.prototype.$eventHub = new Vue(); // Global event bus
 new Vue({
   router,
   store,

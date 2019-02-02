@@ -22,7 +22,7 @@
 import { mixin as clickaway } from "vue-clickaway";
 
 export default {
-  props: ["iconStyle", "menuStyle", "onEdit", "onDel"],
+  props: ["iconStyle", "menuStyle", "onEdit", "onDel", "ObjectName"],
   mixins: [clickaway],
   data() {
     return {
@@ -45,7 +45,7 @@ export default {
     },
     deleteMethod() {
       this.isMenuOpen = false;
-      if (this.onDel) {
+      if (confirm(`Are you sure to delete ${this.ObjectName}`) && this.onDel) {
         this.onDel();
       }
     }

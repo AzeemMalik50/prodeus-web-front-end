@@ -47,8 +47,18 @@ export default {
   },
   created() {
     this.getFeeds();
+    this.$eventHub.$on("post-deleted", this.removePost);
+  },
+  beforeDestroy() {
+    this.$eventHub.$off("post-deleted");
   },
   methods: {
+    removePost(post) {
+      let index = this.feeds.findIndex(f => f._id === post._id);
+      if (index > -1) {
+        this.feeds.splice(index, 1);
+      }
+    },
     getFeeds() {
       this.$store.dispatch("classes/getPorotfolioFeeds").then(
         response => {
@@ -68,7 +78,7 @@ export default {
         if (length === 1) {
           cols = this.feeds;
         } else {
-          cols = this.feeds.slice(0, Math.ceil(length/2));
+          cols = this.feeds.slice(0, Math.ceil(length / 2));
         }
       } else {
         cols = [];
@@ -76,13 +86,13 @@ export default {
       return cols;
     },
     secondColumn() {
-       let length = this.feeds.length;
+      let length = this.feeds.length;
       let cols = [];
       if (length > 0) {
         if (length === 1) {
           cols = [];
         } else {
-          cols = this.feeds.slice(Math.ceil(length/2), length -1);
+          cols = this.feeds.slice(Math.ceil(length / 2), length - 1);
         }
       } else {
         cols = [];

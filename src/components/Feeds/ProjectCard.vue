@@ -4,7 +4,7 @@
       <div class="div-block-66" v-if="projectImage">
         <img :src="projectImage" alt="" class="image-10">
       </div>
-      <edit-menu v-if="isCreater" :onEdit="editProject" />
+      <edit-menu v-if="isCreater" :onEdit="editProject" :onDel="deletePost" />
       <div class="_20px-pad-wrapper">
         <!-- <div class="profile-picture post"></div> -->
         <user-thumbnail :user="project.user" :myClass="userClasses" />
@@ -50,6 +50,16 @@ import { mapGetters, mapState } from "vuex";
 export default {
   props: ["project", "title", "description", "isAssignment"],
   methods: {
+    deletePost() {
+      this.$store.dispatch("post/deletePost", this.project).then(
+        res => {
+          this.$eventHub.$emit("post-deleted", this.project);
+        },
+        err => {
+          console.error(err);
+        }
+      );
+    },
     editProject() {
       this.$store.dispatch("post/setEditPost", this.project);
       this.$store.dispatch("toggelPostForm", true);

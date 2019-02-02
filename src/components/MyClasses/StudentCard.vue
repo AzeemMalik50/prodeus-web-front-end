@@ -8,7 +8,7 @@
           </div>
           <h2 class="heading-6">{{myClass.category}}</h2>
         </div>
-        <div class="div-block-117"><img src="@/assets/Menu.svg" width="4" alt=""></div>
+        <!-- <div class="div-block-117"><img src="@/assets/Menu.svg" width="4" alt=""></div> -->
       </div>
     </div><img :src="image" alt="" class="image-5">
     <div class="card-module _60"><img src="@/assets/Announcement.svg" height="21" alt="">

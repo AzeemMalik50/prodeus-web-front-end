@@ -46,6 +46,7 @@ export default {
     Loading
   },
   created() {
+    this.$eventHub.$on("class-deleted", this.removeItem);
     this.$store.dispatch("classes/getMyClasses", {
       id: this.id,
       type: "student"
@@ -55,7 +56,21 @@ export default {
       type: "instructor"
     });
   },
+  beforeDestroy() {
+    this.$eventHub.$off("class-deleted");
+  },
   methods: {
+    removeItem(item) {
+      let sIndex = this.myClasses.student.findIndex(f => f._id === item._id);
+      if (sIndex > -1) {
+        this.myClasses.student.splice(sIndex, 1);
+      }
+
+      let iIndex = this.myClasses.instructor.findIndex(f => f._id === item._id);
+      if (iIndex > -1) {
+        this.myClasses.instructor.splice(iIndex, 1);
+      }
+    },
     toggleMyClasses() {
       // let toName = "";
       // if (this.isInstructor) {

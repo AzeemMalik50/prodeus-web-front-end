@@ -2,7 +2,7 @@
   <div>
     <div class="card cursor-pointer" @click="questionDetail()">
       <div class="_20px-pad-wrapper">
-        <edit-menu v-if="isCreater" :onEdit="editQuestion" />
+        <edit-menu v-if="isCreater" :onEdit="editQuestion" :onDel="deletePost" />
         <!-- <div class="profile-picture"></div>  -->
 
         <user-thumbnail :user="question.user" :myClass="'profile-picture'" />
@@ -63,6 +63,16 @@ export default {
     };
   },
   methods: {
+    deletePost() {
+      this.$store.dispatch("post/deletePost", this.question).then(
+        res => {
+          this.$eventHub.$emit("post-deleted", this.question);
+        },
+        err => {
+          console.error(err);
+        }
+      );
+    },
     editQuestion() {
       this.$store.dispatch("post/setEditPost", this.question);
       this.$store.dispatch("toggelPostForm", true);

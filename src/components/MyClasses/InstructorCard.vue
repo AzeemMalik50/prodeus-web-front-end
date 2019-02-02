@@ -8,7 +8,7 @@
           </div>
           <h2 class="heading-6">{{myClass.category}}</h2>
         </div>
-        <edit-menu :onEdit="openEditClass"/>
+        <edit-menu :onEdit="openEditClass" :onDel="deleteClass"/>
       </div>
     </div><img @click.self="gotoClassRoom()" :src="image" alt="" class="image-5">
     <div class="card-module _50">
@@ -44,6 +44,16 @@ export default {
     };
   },
   methods: {
+    deleteClass() {
+      this.$store.dispatch("classes/deleteClass", this.myClass).then(
+        res => {
+          this.$eventHub.$emit("class-deleted", this.myClass);
+        },
+        err => {
+          console.error(err);
+        }
+      );
+    },
     openEditClass() {
       this.$store.dispatch("classes/setEditClass", {
         lessonIndex: 0,

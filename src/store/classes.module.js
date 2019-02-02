@@ -39,6 +39,9 @@ export const classes = {
     updateClass({ commit }, payload) {
       return authService.put(`/classes/${payload._id}`, payload)
     },
+    deleteClass({ commit }, payload) {
+      return authService.del(`/classes/${payload._id}`)
+    },
     getMyClasses({ commit }, payload) {
       commit('resetMyClasses');
       authService.get(`/classes/${payload.type}/${payload.id}`)

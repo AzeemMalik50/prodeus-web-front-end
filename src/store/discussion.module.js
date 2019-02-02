@@ -17,6 +17,12 @@ export const discussion = {
      createDiscussion({ commit }, payload) {
       return  authService.post(`/discussion`,payload)
      },
+     editDiscussion({ commit }, payload) {
+      return  authService.put(`/discussion/${payload._id}`,payload)
+     },
+     deleteDiscussion({ commit }, payload) {
+      return  authService.del(`/discussion/${payload._id}`)
+     },
      likeDiscussion({ commit }, id) {
       return  authService.put(`/discussion/${id}/like`,{})
      },

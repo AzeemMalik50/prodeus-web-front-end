@@ -7,7 +7,7 @@
             <img src="../assets/left-arrow.svg" height="16" alt="" class="image-13">
             <a class="link-3">Back</a></div>
         </div>
-        <edit-menu v-if="isCreater" :onEdit="editQuestion" :menuStyle="{top: '50px',right: '20px'}" :iconStyle="{top: '30px',right: '20px'}" />
+        <edit-menu v-if="isCreater" :onDel="deletePost" :onEdit="editQuestion" :menuStyle="{top: '50px',right: '20px'}" :iconStyle="{top: '30px',right: '20px'}" />
         <div class="post-head">
           <div class="_20px-bottom-margin">
             <h1 class="heading-1">{{question.title}}</h1>
@@ -48,7 +48,7 @@
           <div class="_20px-bottom-margin">
             <h2 class="heading-34 question">{{question.category}}</h2>
           </div>
-          <edit-menu v-if="isCreater" :onEdit="editQuestion" :menuStyle="{top: '160px',right: '25px'}" :iconStyle="{top: '140px',right: '25px'}" />
+          <edit-menu v-if="isCreater" :onDel="deletePost" :onEdit="editQuestion" :menuStyle="{top: '160px',right: '25px'}" :iconStyle="{top: '140px',right: '25px'}" />
         </div>
         <div class="_20px-bottom-margin">
           <div class="text-block-6">Published on {{question.createdAt | moment("MMMM Do, YYYY")}}</div>
@@ -119,6 +119,7 @@ export default {
     };
   },
   created() {
+    this.$eventHub.$on("post-deleted", this.goBack);
     this.socialData.url =
       window.location.origin + "?question=" + this.currentPostId;
     this.answer.parent = this.currentPostId;
@@ -139,6 +140,16 @@ export default {
     );
   },
   methods: {
+    deletePost() {
+      this.$store.dispatch("post/deletePost", this.question).then(
+        res => {
+          this.$eventHub.$emit("post-deleted", this.question);
+        },
+        err => {
+          console.error(err);
+        }
+      );
+    },
     editQuestion() {
       this.$store.dispatch("post/setEditPost", this.question);
       this.$store.dispatch("toggelPostForm", true);
@@ -267,9 +278,16 @@ export default {
         text: this.questionText
       };
     },
-     isCreater(){
-      return this.question && this.question.user && this.loggedInUser._id === this.question.user._id;
+    isCreater() {
+      return (
+        this.question &&
+        this.question.user &&
+        this.loggedInUser._id === this.question.user._id
+      );
     }
+  },
+  beforeDestroy() {
+    this.$eventHub.$off("post-deleted");
   }
 };
 </script>

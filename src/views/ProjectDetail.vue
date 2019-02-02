@@ -8,7 +8,7 @@
             <a href="#" class="link-3">Back</a>
           </div>
         </div>
-        <edit-menu v-if="isCreater" :onEdit="editProject" :menuStyle="{top: '50px',right: '20px'}" :iconStyle="{top: '30px',right: '20px'}" />
+        <edit-menu v-if="isCreater" :onDel="deletePost" :onEdit="editProject" :menuStyle="{top: '50px',right: '20px'}" :iconStyle="{top: '30px',right: '20px'}" />
         <div class="post-head">
           <div class="_20px-bottom-margin">
             <h1 class="heading-1">{{project.title}}</h1>
@@ -77,7 +77,7 @@
           <div class="_20px-bottom-margin">
             <h2 class="heading-34 project">{{project.category}}</h2>
           </div>
-              <edit-menu v-if="isCreater" :onEdit="editProject" :menuStyle="{top: '160px',right: '25px'}" :iconStyle="{top: '140px',right: '25px'}" />
+              <edit-menu v-if="isCreater" :onDel="deletePost" :onEdit="editProject" :menuStyle="{top: '160px',right: '25px'}" :iconStyle="{top: '140px',right: '25px'}" />
         </div>
         <div class="_20px-bottom-margin" v-if="isAssignment">
           <h2 class="heading-6 grey">Assignment</h2>
@@ -167,6 +167,7 @@ export default {
   },
   created() {
     window.addEventListener("keyup", this.pressEscape);
+    this.$eventHub.$on('post-deleted', this.goBack);
     this.socialData.url =
       window.location.origin + "?question=" + this.currentPostId;
     this.discus.postId = this.currentPostId;
@@ -189,6 +190,16 @@ export default {
     );
   },
   methods: {
+    deletePost() {
+      this.$store.dispatch("post/deletePost", this.project).then(
+        res => {
+          this.$eventHub.$emit("post-deleted", this.project);
+        },
+        err => {
+          console.error(err);
+        }
+      );
+    },
     editProject() {
       this.$store.dispatch("post/setEditPost", this.project);
       this.$store.dispatch("toggelPostForm", true);
@@ -419,8 +430,15 @@ export default {
       return this.project.status && this.project.status === "rejected";
     },
     isCreater() {
-      return this.project && this.project.user && this.loggedInUser._id === this.project.user._id;
+      return (
+        this.project &&
+        this.project.user &&
+        this.loggedInUser._id === this.project.user._id
+      );
     }
+  },
+    beforeDestroy(){
+    this.$eventHub.$off('post-deleted');
   }
 };
 </script>

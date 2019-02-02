@@ -69,6 +69,8 @@ export default {
         console.error(error);
       }
     );
+    this.$eventHub.$on("post-deleted", this.removeItem);
+    this.$eventHub.$on("class-deleted", this.removeItem);
     if (this.$route.query.question) {
       this.$store.dispatch("setCurrentPostId", this.$route.query.question);
       this.$store.dispatch("toggelQuestionDialog", true);
@@ -77,12 +79,24 @@ export default {
       this.$store.dispatch("toggelProjectDialog", true);
     }
   },
+  beforeDestroy() {
+    this.$eventHub.$off("post-deleted");
+    this.$eventHub.$off("class-deleted");
+  },
   data() {
     return {
       feeds: [],
       postType: "Answer",
-      projectData:{},
+      projectData: {}
     };
+  },
+  methods: {
+    removeItem(item) {
+      let index = this.feeds.findIndex(f => f._id === item._id);
+      if (index > -1) {
+        this.feeds.splice(index, 1);
+      }
+    }
   },
   computed: {
     ...mapGetters({
