@@ -1,5 +1,5 @@
 <template>
-<div class="width-100">
+<div class="width-100" v-if="!isDeleted">
  <div class="_100-percent-justify-start margin-top-10">
       <div class="_10px-botttom-margin">
         <div class="flex-space-between">
@@ -18,7 +18,7 @@
       <p>
         {{answer.title}}
       </p>
-      <edit-menu v-if="isCreater" :onEdit="editAnswer" :menuStyle="{top: '-14px',right: '10px'}" :iconStyle="{top: '-35px',right: '10px'}" />
+      <edit-menu v-if="isCreater" :onDel="deleteAnswer" :onEdit="editAnswer" :menuStyle="{top: '-14px',right: '10px'}" :iconStyle="{top: '-35px',right: '10px'}" />
         <div v-for="cont in answer.content" :key="cont._id" class="margin-top-10 _10px-botttom-margin">
                 <img v-if="cont.type==='image'"  :src="getMedia(cont.media)" />
                 <video v-if="cont.type==='video'" controls :src="getMedia(cont.media)"></video>
@@ -77,6 +77,7 @@ export default {
   },
   data() {
     return {
+      isDeleted: false,
       bestAnswer: false,
       showReply: false,
       discus: {
@@ -95,9 +96,19 @@ export default {
     };
   },
   methods: {
-     editAnswer() {
+    editAnswer() {
       this.$store.dispatch("post/setEditPost", this.answer);
       this.$store.dispatch("toggelPostForm", true);
+    },
+    deleteAnswer() {
+      this.$store.dispatch("post/deletePost", this.answer).then(
+        res => {
+          this.isDeleted = true;
+        },
+        err => {
+          console.error(err);
+        }
+      );
     },
     visibleInput() {
       this.showReply = true;
@@ -191,14 +202,18 @@ export default {
     isDownVoted() {
       return this.answer.downVotes.indexOf(this.currentUser._id) > -1;
     },
-    isCreater(){
-      return this.answer && this.answer.user && this.currentUser._id === this.answer.user._id;
+    isCreater() {
+      return (
+        this.answer &&
+        this.answer.user &&
+        this.currentUser._id === this.answer.user._id
+      );
     }
   }
 };
 </script>
 <style lang="scss" scoped>
- .edit-container {
-    position: relative;
-  }
+.edit-container {
+  position: relative;
+}
 </style>

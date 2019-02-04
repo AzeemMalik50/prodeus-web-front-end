@@ -1,4 +1,4 @@
-x<template>
+<template>
   <div class="flexcolumn">
     <div class="card">
       <div class="_40-side-padding portfolio_image">
@@ -19,7 +19,7 @@ x<template>
               </div>
               <div class="div-block-49">
                 <div class="_5px-bottom-margin">
-                  <h1 class="heading-4 center white">1.3k</h1>
+                  <h1 class="heading-4 center white">{{postCount}}</h1>
                 </div>
                 <h1 class="heading-18 center">Posts</h1>
               </div>
@@ -30,16 +30,22 @@ x<template>
           <img v-if="loggedInUser._id === user._id" src="../../assets/pencil-edit-button.svg" @click="openForm(basicInfo)" width="14" alt="" class="image-30">
         </div>
       </div>
-      <div class="_60px-block" v-if="loggedInUser._id !== user._id">
-        <div class="_30px-side-padding">
+      <div class="_60px-block" v-if="loggedInUser._id !== user._id && !profileLink">
+        <div class="_30px-side-padding" v-if="!profileLink">
           <div class="flex-space-around" v-if="isConnected">
             <a href="#" @click.prevent="disConnect()" class="tag blue">Connected</a></div>
           <div class="flex-space-around" v-else>
             <a href="#" @click.prevent="connect()" class="tag outline">Connect</a></div>
         </div>
       </div>
+       <div class="_60px-block"  v-if="profileLink">
+         <div class="_30px-side-padding">
+          <div class="flex-space-around">
+            <router-link  :to="{name:'userProfile', params:{userId: user._id}}" class="tag outline">View profile</router-link></div>
+        </div>
+      </div>
     </div>
-    <div class="card">
+    <div class="card"  v-if="!profileLink">
       <div class="_60px-block">
         <div class="_30px-side-padding">
           <div class="flex-space-around">
@@ -57,19 +63,31 @@ x<template>
 <script>
 import { mapGetters, mapState } from "vuex";
 export default {
-  props: ["user"],
+  props: ["user", 'profileLink'],
   data() {
     return {
       basicInfo: "",
       aboutMe: "",
       education: "",
-      work: ""
+      work: "",
+      postCount: 0
     };
   },
   created() {
     this.basicInfo = this.PROFILE_FORMS.BASIC_INFO;
+    this.getPostCount();
   },
   methods: {
+    getPostCount() {
+      this.$store.dispatch("post/getPostCount", this.user._id).then(
+        res => {
+          this.postCount = res.data.postCount;
+        },
+        err => {
+          console.error(err);
+        }
+      );
+    },
     openForm(formName) {
       this.$store.dispatch("profile/setProfileForm", formName);
     },
@@ -87,7 +105,10 @@ export default {
       };
     },
     isConnected() {
-      if( this.loggedInUser.connections && this.loggedInUser.connections.length > -1){
+      if (
+        this.loggedInUser.connections &&
+        this.loggedInUser.connections.length > -1
+      ) {
         return this.loggedInUser.connections.indexOf(this.user._id) > -1;
       } else {
         return false;

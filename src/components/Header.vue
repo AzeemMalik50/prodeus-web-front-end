@@ -8,10 +8,11 @@
             <img src="@/assets/Logo.svg" class="logo" />
           </router-link>
           <!-- </a> -->
-          <form action="/search" class="search w-form">
+          <!-- <form action="/search" class="search w-form">
             <img src="@/assets/Search.svg" class="image-4" />
             <input type="search" class="search-input w-input" maxlength="256" name="query" placeholder="Search prodeus" id="search" required="">
-            <input type="submit" value="Search" class="search-button w-button"></form>
+            <input type="submit" value="Search" class="search-button w-button"></form> -->
+            <search-input />
           <!-- <a class="w-inline-block cursor-pointer"  >
               <img src="@/assets/Add-Post.svg" class="add-post" />
             </a> -->
@@ -163,8 +164,11 @@ import AddClass from "../views/AddClass";
 import CreatePost from "../views/CreatePost";
 import ProjectDetail from "@/views/ProjectDetail";
 import QuestionDetail from "@/views/QuestionDetail";
+import SearchInput from "../components/SearchInput";
+
 import Notifications from "./Notifications";
 import ProfileSetting from "../components/Profile/Settings";
+
 export default {
   components: {
     AddClass,
@@ -172,7 +176,8 @@ export default {
     Notifications,
     ProfileSetting,
     ProjectDetail,
-    QuestionDetail
+    QuestionDetail,
+    SearchInput
   },
   mixins: [clickaway],
   data() {

@@ -14,6 +14,7 @@ import ForgotPassword from '@/views/ForgotPassword.vue';
 import ResetForgetPassword from '@/views/ResetForgetPassword.vue';
 import QuestionDetail from '@/views/QuestionDetail.vue';
 import ProjectDetail from '@/views/ProjectDetail.vue';
+import Search from './components/Search.vue';
 
 
 
@@ -31,6 +32,7 @@ const router = new Router({
       component: () => import(/* webpackChunkName: "home" */ './views/Home.vue'),
       children: [
         { path: '',name:'feed', component: Feeds },
+        { path: 'search',name:'search', component: Search },
         {
           path: 'classes/:id', name: 'classPage', component: ClassPage, props: true,
           beforeEnter(to, from, next) {

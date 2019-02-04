@@ -13,6 +13,9 @@ export const post = {
     addPost({ commit }, data) {
       return authService.post(`/posts`, data);
     },
+    getPostCount({ commit }, userId) {
+      return authService.get(`/posts/users/${userId}/count`);
+    },
     updatePost({ commit }, data) {
       return authService.put(`/posts/${data._id}`, data);
     },
@@ -45,7 +48,10 @@ export const post = {
     },
     setEditPost({ commit }, data) {
       commit('setEditPost', data);
-    }
+    },
+    search({ commit }, query) {
+      return authService.get(`/search?search=${query}`);
+    },
   },
   mutations: {
     setEditPost(state, post) {
