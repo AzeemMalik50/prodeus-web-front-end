@@ -16,7 +16,7 @@
                 <img v-if="discussItem.media.type==='image'" :src="getMedia(discussItem.media.mediaId)" />
                 <video v-if="discussItem.media.type==='video'" class="width-100" controls :src="getMedia(discussItem.media.mediaId)"></video>
               </div>
-              <edit-menu :onDel="deleteDiscussion" :onEdit="openEdit" :menuStyle="{top: '35px',right: '10px'}" :iconStyle="{top: '10px',right: '10px'}" />
+              <edit-menu :onDel="deleteDiscussion" v-if="isCreater" :onEdit="openEdit" :menuStyle="{top: '35px',right: '10px'}" :iconStyle="{top: '10px',right: '10px'}" />
               <p class="paragraph-4 reply">
                 {{discussItem.body}}
               </p>

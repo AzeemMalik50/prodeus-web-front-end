@@ -1,5 +1,5 @@
 <template>
-  <div class="flexcolumn double empty">
+  <div class="flexcolumn double">
     <div class="card">
       <div class="_40-side-padding">
         <div class="_30-px-top-bottom">

@@ -9,7 +9,7 @@
             <div class="w-form">
               <form id="email-form-3" name="email-form-3" data-name="Email Form 3">
                 <div>
-                  <div class="space-between nowrap _20px-bottom-margin">
+                  <div class="space-between nowrap _20px-bottom-margin _1">
                     <input v-model="workData.workExperience[selectedWorkIndex].title" type="text" class="portfolio w-input" maxlength="256" name="Title" data-name="Title" placeholder="Title" id="Title" required="">
                     <div class="div-block-139"></div>
                     <div class="div-block-142 cursor-pointer" @click="chooseFile()">

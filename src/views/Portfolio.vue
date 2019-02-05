@@ -23,12 +23,12 @@
               <!-- user pic -->
 
               <profile-card :user="profile" />
-            <transition-group  name="fade" mode="out-in" :duration="{ enter: 500, leave: 250 }">
+            <!-- <transition-group  name="fade" mode="out-in" :duration="{ enter: 500, leave: 250 }"> -->
               <detail :user="profile"  v-show="isDetail" key="detail" />
               <feeds  v-show="isFeed" key="feeds"/>
               <show-case v-show="isShowCase" key="showCase" />
               <pro-degrees v-show="isProDegree" key="proDegree"/>
-            </transition-group>
+            <!-- </transition-group> -->
 
               <!-- recent projects -->
               <recent-projects />
