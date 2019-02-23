@@ -15,6 +15,12 @@ import ResetForgetPassword from '@/views/ResetForgetPassword.vue';
 import QuestionDetail from '@/views/QuestionDetail.vue';
 import ProjectDetail from '@/views/ProjectDetail.vue';
 import Search from './components/Search.vue';
+import HomePage from '@/views/HomePage.vue';
+import Teach from '@/views/Teach.vue';
+import Learn from '@/views/Learn.vue';
+import ProDegrees from '@/views/ProDegrees.vue';
+
+
 
 
 
@@ -53,6 +59,25 @@ const router = new Router({
       ]
     },
     {
+      path: '/home',
+      name: 'home-page',
+      component: HomePage
+    },
+    {
+      path: '/teaching',
+      name: 'home-teach',
+      component: Teach
+    },
+    {
+      path: '/learning',
+      name: 'home-learn',
+      component: Learn
+    }, {
+      path: '/prodegrees',
+      name: 'home-degrees',
+      component: ProDegrees
+    },
+    {
       path: '/login',
       name: 'login',
       component: Login
@@ -87,14 +112,14 @@ const router = new Router({
 })
 router.beforeEach((to, from, next) => {
   // redirect to login page if not logged in and trying to access a restricted page
-  const publicPages = ['/login', '/sign-up', '/forgot-password', '/reset-password'];
+  const publicPages = ['/login', '/sign-up', '/forgot-password', '/reset-password', '/home', '/teaching', '/learning', '/prodegrees'];
   const authRequired = !publicPages.includes(to.path);
   const loggedIn = localStorage.getItem('user');
 
   if (!authRequired) {
     return next(/** from.path **/);
   } else if (authRequired && !loggedIn) {
-    return next('/login');
+    return next('/home');
   }
   next();
 });

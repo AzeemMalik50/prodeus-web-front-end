@@ -1,14 +1,17 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 18">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 16">
   <defs>
     <style>
       .cls-1 {
-        fill: #d5d5d5;
+        fill: none;
+        stroke: #bcbcbc;
+        stroke-linecap: round;
+        stroke-width: 2px;
       }
     </style>
   </defs>
-  <g id="Group_5701" data-name="Group 5701" transform="translate(-16195.198 -1445)">
-    <rect id="Rectangle_5022" data-name="Rectangle 5022" class="cls-1" width="4" height="4" rx="2" transform="translate(16195.198 1445)"/>
-    <rect id="Rectangle_5023" data-name="Rectangle 5023" class="cls-1" width="4" height="4" rx="2" transform="translate(16195.198 1452)"/>
-    <rect id="Rectangle_5024" data-name="Rectangle 5024" class="cls-1" width="4" height="4" rx="2" transform="translate(16195.198 1459)"/>
+  <g id="Group_6594" data-name="Group 6594" transform="translate(-335.5 -13.5)">
+    <line id="Line_1221" data-name="Line 1221" class="cls-1" x2="20" transform="translate(336.5 14.5)"/>
+    <line id="Line_1222" data-name="Line 1222" class="cls-1" x2="20" transform="translate(336.5 21.5)"/>
+    <line id="Line_1223" data-name="Line 1223" class="cls-1" x2="20" transform="translate(336.5 28.5)"/>
   </g>
 </svg>
