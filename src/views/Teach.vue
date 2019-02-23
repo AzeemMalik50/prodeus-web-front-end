@@ -1,7 +1,8 @@
 <template>
 <div>
     <div data-collapse="medium" data-animation="over-right" data-duration="400" class="navbar-3 w-nav">
-    <div class="div-block-2"><a href="homepage.html" class="w-nav-brand"><img src="../assets/Prodeus-Logo-White.svg" height="36" alt="" class="image-44"></a>
+    <div class="div-block-2">
+      <router-link to="/" class="w-nav-brand"><img src="../assets/Prodeus-Logo-White.svg" height="36" alt="" class="image-44"></router-link>
       <nav role="navigation" class="nav-menu-3 w-nav-menu">
        <router-link to="/learning" class="nav-link-2 w-nav-link">Learning</router-link>
        <router-link to="/teaching"  class="nav-link-2 w-nav-link" :class="{'w--current': $router.name == 'home-teach'}">Teaching</router-link>
