@@ -1,7 +1,7 @@
 <template>
   <div class="flexcolumn double">
     <div class="card">
-      <div class="_40-side-padding">
+      <div class="_40-side-padding" v-if="user.biography && user.biography !== 'Bio...'">
         <div class="_30-px-top-bottom">
           <div class="flex-space-between">
             <h1 class="heading-4">About me</h1>
@@ -15,8 +15,20 @@
           <p>{{user.biography}} </p>
         </div>
       </div>
+      <div class="_40-side-padding" v-else>
+        <div class="_30-px-top-bottom">
+          <h1 class="heading-4">About me</h1>
+        </div>
+        <div class="_30px-bottom-margin"></div>
+        <div class="div-block-184"><img src="../../assets/usersArtboard-2.svg" alt="" class="image-65">
+          <div class="div-block-113 alt cursor-pointer" v-if="loggedInUser._id === user._id" @click="openForm(PROFILE_FORMS.ABOUT_ME)"><img src="../../assets/add-white.svg" height="20" alt="" class="image-29">
+            <div class="text-block-14 alt">Tell us about yourself</div>
+          </div>
+        </div>
+        <div class="_40px-bottom-margin"></div>
+      </div>
     </div>
-    <div class="card">
+    <div class="card" v-if="profile.education && profile.education.length">
       <div class="_40-side-padding">
         <div class="_30-px-top-bottom">
           <div class="flex-space-between">
@@ -42,47 +54,28 @@
                   <h1 class="paragraph-2 grey"> {{ !edu.currentlyAttend ? new Date(edu.from).getFullYear() +' - '+ new Date(edu.to).getFullYear(): '(c.' +new Date(edu.from).getFullYear()+')'}}</h1>
                 </div>
               </div>
-              <!-- <img src="../../assets/pencil-edit-button.svg" v-if="loggedInUser._id === user._id" @click="openEducation(PROFILE_FORMS.EDUCATION, index)" height="14" alt=""> -->
-              </div>
+            </div>
           </div>
         </div>
-        <!-- <div class="_30px-bottom-margin">
-                        <div class="horiz-left-align-justify-atart">
-                          <div class="_30px-right-pad"><img src="../../assets/Logo.svg" width="40" height="40" alt=""></div>
-                          <div class="div-block-51">
-                            <div class="_5px-bottom-margin">
-                              <h1 class="heading-6 dark">EXPERT</h1>
-                            </div>
-                            <div class="_5px-bottom-margin">
-                              <h1 class="heading-23">Web Development</h1>
-                            </div>
-                            <div class="_5px-bottom-margin">
-                              <h1 class="paragraph-2 grey">(c. 2016)</h1>
-                            </div>
-                          </div>
-                        </div>
-                      </div> -->
-        <!-- <div class="_30px-bottom-margin">
-                        <div class="horiz-left-align-justify-atart">
-                          <div class="_30px-right-pad"><img src="../../assets/Logo.svg" width="40" height="40" alt=""></div>
-                          <div class="div-block-51">
-                            <div class="_5px-bottom-margin">
-                              <h1 class="heading-6 dark">BACHELOR OF FINE ARTS</h1>
-                            </div>
-                            <div class="_5px-bottom-margin">
-                              <h1 class="heading-23">Political Science</h1>
-                            </div>
-                            <div class="_5px-bottom-margin">
-                              <h1 class="paragraph-2 grey">2013 - 2018</h1>
-                            </div>
-                          </div>
-                        </div>
-                      </div> -->
       </div>
-      <div class="div-block-141 center" v-if="loggedInUser._id === user._id"><a href="#" class="link-7"  @click.stop="OpenNewEducation()" >Add Education</a></div>
-
+      <div class="div-block-141 center" v-if="loggedInUser._id === user._id"><a href="#" class="link-7" @click.stop="OpenNewEducation()">Add Education</a></div>
     </div>
-    <div class="card">
+    <div class="card" v-else>
+      <div class="_40-side-padding">
+        <div class="_30-px-top-bottom">
+          <h1 class="heading-4">Education</h1>
+        </div>
+        <div class="_30px-bottom-margin"></div>
+        <div class="div-block-184"><img src="../../assets/eduAsset-17.svg" alt="" class="image-65">
+          <div class="div-block-113 alt cursor-pointer" v-if="loggedInUser._id === user._id" @click="OpenNewEducation()">
+            <img src="../../assets/add-white.svg" height="20" alt="" class="image-29">
+            <div class="text-block-14 alt">Add education</div>
+          </div>
+        </div>
+        <div class="_40px-bottom-margin"></div>
+      </div>
+    </div>
+    <div class="card" v-if="profile.workExperience && profile.workExperience.length">
       <div class="_40-side-padding">
         <div class="_30-px-top-bottom">
           <div class="flex-space-between">
@@ -123,8 +116,21 @@
           </div>
         </div>
       </div>
-      <div class="div-block-141 center" v-if="loggedInUser._id === user._id"><a href="#"  @click.stop="OpenNewWork()" class="link-7">Add Work Experience</a></div>
-
+      <div class="div-block-141 center" v-if="loggedInUser._id === user._id"><a href="#" @click.stop="OpenNewWork()" class="link-7">Add Work Experience</a></div>
+    </div>
+    <div class="card" v-else>
+      <div class="_40-side-padding">
+        <div class="_30-px-top-bottom">
+          <h1 class="heading-4">Work Experience</h1>
+        </div>
+        <div class="_30px-bottom-margin"></div>
+        <div class="div-block-184"><img src="../../assets/workexpAsset-16.svg" alt="" class="image-65">
+          <div class="div-block-113 alt cursor-pointer" v-if="loggedInUser._id === user._id" @click="OpenNewWork()"><img src="../../assets/add-white.svg" height="20" alt="" class="image-29">
+            <div class="text-block-14 alt">Add work experience</div>
+          </div>
+        </div>
+        <div class="_40px-bottom-margin"></div>
+      </div>
     </div>
   </div>
 </template>
@@ -134,14 +140,25 @@
     mapGetters,
     mapState
   } from "vuex";
-  import moment from 'moment-timezone';
+  import moment from "moment-timezone";
 
   export default {
     props: ["user"],
     data() {
       return {
-        months: ["January", "February", "March", "April", "May", "June",
-          "July", "August", "September", "October", "November", "December"
+        months: [
+          "January",
+          "February",
+          "March",
+          "April",
+          "May",
+          "June",
+          "July",
+          "August",
+          "September",
+          "October",
+          "November",
+          "December"
         ]
       };
     },
@@ -159,17 +176,17 @@
         var months = Math.floor(days / 31);
         var years = Math.floor(months / 12);
 
-        var message = "" //from.toDateString();
+        var message = ""; //from.toDateString();
         // message += ""
         if (months > 0) {
-          message += months + " months "
+          message += months + " months ";
         }
         // message += days + " days "
         if (years > 0) {
           if (yearr == 1) {
-            message += years + "year )"
+            message += years + "year )";
           } else {
-            message += years + "years )"
+            message += years + "years )";
           }
         }
         if (message) {
@@ -177,7 +194,7 @@
           start += message;
           message = start;
         }
-        return message
+        return message;
       },
       openForm(formName) {
         this.$store.dispatch("profile/setProfileForm", formName);
@@ -225,7 +242,7 @@
         this.$store.dispatch("profile/setProfileForm", this.PROFILE_FORMS.WORK);
       },
       companyLogo(logoId) {
-        return process.env.VUE_APP_API_BASE_URL + "/media/" + logoId
+        return process.env.VUE_APP_API_BASE_URL + "/media/" + logoId;
       }
     },
     computed: {
