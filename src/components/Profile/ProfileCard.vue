@@ -45,7 +45,7 @@
         </div>
       </div>
     </div>
-    <div class="card"  v-if="!profileLink">
+    <!-- <div class="card"  v-if="!profileLink">
       <div class="_60px-block">
         <div class="_30px-side-padding">
           <div class="flex-space-around">
@@ -56,7 +56,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 

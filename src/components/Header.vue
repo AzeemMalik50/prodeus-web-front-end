@@ -4,7 +4,7 @@
       <div class="nav-wrap">
         <div class="nav-menu left">
           <!-- <a href="#" class="brand w-nav-brand"> -->
-          <router-link to="/" class="brand w-nav-brand">
+          <router-link to="/app" class="brand w-nav-brand">
             <img src="@/assets/Logo.svg" class="logo" />
           </router-link>
           <!-- </a> -->

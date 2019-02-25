@@ -1,6 +1,6 @@
 <template>
      <div class="flexcolumn">
-                <div class="card">
+                <!-- <div class="card">
                   <div class="_40-side-padding">
                     <div class="_30-px-top-bottom">
                       <h1 class="heading-4">Recent projects</h1>
@@ -19,6 +19,6 @@
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> -->
               </div>
 </template>

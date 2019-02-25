@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div @click="toggleSideMenu">
       <div data-collapse="medium" data-animation="over-right" data-duration="400" class="navbar-3 w-nav">
     <div class="div-block-2">
       <router-link to="/" class="w-nav-brand"><img src="../assets/Prodeus-Logo-White.svg" height="36" alt="" class="image-44"></router-link>
@@ -9,10 +9,19 @@
        <router-link to="/prodegrees"  class="nav-link-2 w-nav-link">ProDegrees</router-link>
        <router-link to="/login"  class="nav-link-3 w-nav-link">Login</router-link>
         </nav>
-      <div class="menu-button w-nav-button">
+      <div class="menu-button w-nav-button" @click.stop="toggleSideMenu">
         <div class="w-icon-nav-menu"></div>
       </div>
     </div>
+
+
+    <div @click.stop="doNothing" class="w-nav-overlay" v-if="isSideMenuOpen" data-wf-ignore="" style="height: 5495.97px; display: block; width: 200px;">
+  <nav role="navigation" class="nav-menu-3 w-nav-menu w--nav-menu-open" style="transform: translateX(0px) translateY(0px); height: 5495.97px; transition: transform 400ms ease 0s;">
+    <router-link to="/learning" class="nav-link-2 w-nav-link w--nav-link-open">Learning</router-link>
+    <router-link to="/teaching" class="nav-link-2 w-nav-link w--nav-link-open">Teaching</router-link>
+    <router-link to="/prodegrees" class="nav-link-2 w-nav-link w--nav-link-open">ProDegrees</router-link>
+    <router-link to="/login" class="nav-link-3 w-nav-link w--nav-link-open">Login</router-link>
+    </nav></div>
   </div>
   <!-- <div data-collapse="medium" data-animation="default" data-duration="400" data-w-id="63b108a1-19eb-6641-a06b-7fed91a3e3c6" class="navbar-4 w-nav" data-ix="display-none">
     <div class="div-block-2"><a href="homepage.html" class="w-nav-brand"><img src="https://uploads-ssl.webflow.com/5c4c89abdfbd6c122324f41c/5c61d222da78f067b8dd07a7_logoAsset%202.svg" alt="" class="image-44"></a>
@@ -122,6 +131,18 @@
 </template>
 <script>
 export default {
+  data(){
+    return {
+      isSideMenuOpen: false
+    }
+  },
+  methods:{
+    toggleSideMenu(){
+      this.isSideMenuOpen = !this.isSideMenuOpen;
+    },
+    doNothing(){
 
+    }
+  }
 }
 </script>

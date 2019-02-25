@@ -32,8 +32,8 @@ const router = new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: '/',
-      // name: 'home',
+      path: '/app',
+      // name: 'app',
       // component: Home,
       component: () => import(/* webpackChunkName: "home" */ './views/Home.vue'),
       children: [
@@ -57,6 +57,11 @@ const router = new Router({
         { path: 'question/:postId', name:'question', component: QuestionDetail, props: true },
         { path: 'project/:postId', name:'project', component: ProjectDetail, props: true },
       ]
+    },
+    {
+      path: '',
+      name: 'home-page',
+      component: HomePage
     },
     {
       path: '/home',
@@ -112,14 +117,16 @@ const router = new Router({
 })
 router.beforeEach((to, from, next) => {
   // redirect to login page if not logged in and trying to access a restricted page
-  const publicPages = ['/login', '/sign-up', '/forgot-password', '/reset-password', '/home', '/teaching', '/learning', '/prodegrees'];
+  const publicPages = ['/login', '/sign-up', '/forgot-password', '/reset-password', '/home', '/teaching', '/learning', '/prodegrees', '/'];
   const authRequired = !publicPages.includes(to.path);
   const loggedIn = localStorage.getItem('user');
 
   if (!authRequired) {
     return next(/** from.path **/);
+  } if(loggedIn && to.path == '/login'){
+    return next('/app');
   } else if (authRequired && !loggedIn) {
-    return next('/home');
+    return next('');
   }
   next();
 });
