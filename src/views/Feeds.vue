@@ -27,6 +27,7 @@ import QuestionDetail from "@/views/QuestionDetail";
 
 export default {
   name: "Feeds",
+  props: ["categoryId"],
   components: {
     ClassCard,
     ProjectCard,
@@ -61,14 +62,25 @@ export default {
     }
   },
   created() {
-    this.$store.dispatch("classes/getFeeds").then(
-      response => {
-        this.feeds = response.data;
-      },
-      error => {
-        console.error(error);
-      }
-    );
+    if (this.categoryId) {
+      this.$store.dispatch("classes/getCatgClasses", this.categoryId).then(
+        response => {
+          this.feeds = response.data;
+        },
+        error => {
+          console.error(error);
+        }
+      );
+    } else {
+      this.$store.dispatch("classes/getFeeds").then(
+        response => {
+          this.feeds = response.data;
+        },
+        error => {
+          console.error(error);
+        }
+      );
+    }
     this.$eventHub.$on("post-deleted", this.removeItem);
     this.$eventHub.$on("class-deleted", this.removeItem);
     if (this.$route.query.question) {

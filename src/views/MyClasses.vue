@@ -9,7 +9,7 @@
             </div>
           </div><a href="#" class="toggle" :class="{'active':isInstructor}">Instructor</a></div>
         <nav role="navigation" class="nav-menu-2 w-nav-menu">
-          <a href="#" class="nav-link w-nav-link">Course Catalog</a>
+          <router-link :to="{ name: 'course-catalog'}"  class="nav-link w-nav-link">Course Catalog</router-link>
           <a href="#" class="nav-link w-nav-link">My Degrees</a></nav>
       </div>
     </div>

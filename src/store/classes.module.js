@@ -85,6 +85,13 @@ export const classes = {
         //   error => commit('failure', error)
         // );
     },
+    getCatgClasses({ commit }, categoryId) {
+      return authService.get(`/classes/categories/${categoryId}`);
+         // .then(
+         //   response => commit('setFeeds', response.data),
+         //   error => commit('failure', error)
+         // );
+     },
     getPorotfolioFeeds({ commit }) {
       return authService.get(`/portfolio/feed`)
      },

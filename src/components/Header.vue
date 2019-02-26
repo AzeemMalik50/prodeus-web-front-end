@@ -7,12 +7,14 @@
           <router-link to="/app" class="brand w-nav-brand">
             <img src="@/assets/Logo.svg" class="logo" />
           </router-link>
+          <img src="@/assets/filter.svg" alt="" class="filtermobile">
           <!-- </a> -->
           <!-- <form action="/search" class="search w-form">
             <img src="@/assets/Search.svg" class="image-4" />
             <input type="search" class="search-input w-input" maxlength="256" name="query" placeholder="Search prodeus" id="search" required="">
             <input type="submit" value="Search" class="search-button w-button"></form> -->
             <search-input />
+            <img src="@/assets/filter.svg" alt="" class="image-67">
           <!-- <a class="w-inline-block cursor-pointer"  >
               <img src="@/assets/Add-Post.svg" class="add-post" />
             </a> -->
@@ -24,6 +26,9 @@
         </div>
 
         <nav role="navigation" class="nav-menu w-nav-menu">
+          <router-link :to="{ name: 'course-catalog'}" class="link-block w-inline-block">
+          <img src="@/assets/course-catalog.svg" width="24" alt="">
+          </router-link>
           <router-link :to="{ name: 'myClasses', params: { id: loggedInUser._id} }" class="link-block w-inline-block">
             <img src="@/assets/ClassroomInactive.svg" class="height-20" />
           </router-link>
@@ -45,6 +50,9 @@
     <transition name="slide" v-if="isMenuOpen">
       <div class="page-section image-43">
         <div class="div-block-106 div-block-149">
+             <div class="div-block-112 alt" @click="toRoute('course-catalog');">
+        <div class="horiz-left-align-justify-atart"><img src="@/assets/course-catalog.svg" width="20" alt="" class="image-28"></div>
+        <router-link :to="{ name: 'course-catalog'}" class="link-5">Course Catalog</router-link></div>
           <div class="div-block-112 alt" @click="openProfileSetting(); isMenuOpen = false">
             <div class="horiz-left-align-justify-atart">
               <img src="@/assets/settings-work-tool-grey.svg" width="20" alt="" class="image-28"></div><a href="#" class="link-5">Account Settings</a></div>
@@ -109,7 +117,7 @@
         </router-link>
         <a href="#" class="link-block w-inline-block" @click.prevent="toggelePanel('isAdd');isMenuOpen = false">
           <img src="@/assets/Group-6084.svg" height="24" alt=""></a>
-        <router-link to="/" class="link-block w-inline-block" @click="isMenuOpen = false">
+        <router-link to="/app" class="link-block w-inline-block" @click="isMenuOpen = false">
           <img src="@/assets/Logo.svg" height="24" alt="" class="image-40">
         </router-link>
         <a href="#" class="link-block w-inline-block" @click.prevent.stop="toggelNotification(); isMenuOpen = false">

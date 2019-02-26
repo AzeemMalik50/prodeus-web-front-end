@@ -1230,7 +1230,7 @@ h2 {
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  margin: 0px 30px;
+  margin: 0px 10px 0px 30px;
   -webkit-box-align: center;
   -webkit-align-items: center;
   -ms-flex-align: center;
@@ -5237,10 +5237,10 @@ h2 {
 }
 
 .link-block-4 {
-  -webkit-box-flex: 1;
-  -webkit-flex: 1;
-  -ms-flex: 1;
-  flex: 1;
+  -webkit-box-flex: 0;
+  -webkit-flex: 0 0 auto;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
   text-decoration: none;
 }
 
@@ -8286,6 +8286,20 @@ h2 {
   text-align: center;
 }
 
+.filtermobile {
+  display: none;
+}
+
+.image-67 {
+  height: 24px;
+  margin-right: 30px;
+}
+
+.image-68 {
+  width: 24px;
+  height: auto;
+}
+
 html.w-mod-js *[data-ix="display-none"] {
   display: none;
 }
@@ -9146,6 +9160,18 @@ html.w-mod-js *[data-ix="display-none"] {
   .div-block-186 {
     width: 40%;
   }
+  .filtermobile {
+    display: block;
+    height: 24px;
+    margin-right: 20px;
+    -webkit-box-flex: 0;
+    -webkit-flex: 0 0 auto;
+    -ms-flex: 0 0 auto;
+    flex: 0 0 auto;
+  }
+  .image-67 {
+    display: none;
+  }
 }
 
 @media (max-width: 767px) {
@@ -9614,6 +9640,9 @@ html.w-mod-js *[data-ix="display-none"] {
   .image-64 {
     display: none;
   }
+  .filtermobile {
+    margin-right: 10px;
+  }
 }
 
 @media (max-width: 479px) {
@@ -9621,8 +9650,8 @@ html.w-mod-js *[data-ix="display-none"] {
     background-color: #f4f4f5;
   }
   .navbar {
-    padding-right: 2px;
-    padding-left: 2px;
+    padding-right: 0px;
+    padding-left: 0px;
   }
   .card {
     margin-bottom: 20px;
@@ -9747,10 +9776,7 @@ html.w-mod-js *[data-ix="display-none"] {
     width: 120px;
   }
   .nav-menu.left {
-    -webkit-box-flex: 1;
-    -webkit-flex: 1;
-    -ms-flex: 1;
-    flex: 1;
+    width: 21px;
   }
   .nav-menu.bottom {
     -webkit-box-pack: justify;
@@ -9954,8 +9980,8 @@ html.w-mod-js *[data-ix="display-none"] {
     width: 100%;
     margin-right: 0px;
     margin-left: 0px;
-    padding-right: 20px;
-    padding-left: 12px;
+    padding-right: 10px;
+    padding-left: 10px;
     -webkit-box-flex: 1;
     -webkit-flex: 1;
     -ms-flex: 1;
@@ -10946,6 +10972,15 @@ html.w-mod-js *[data-ix="display-none"] {
     -webkit-flex-direction: column;
     -ms-flex-direction: column;
     flex-direction: column;
+  }
+  .filtermobile {
+    width: auto;
+    height: 22px;
+    margin-right: 16px;
+    -webkit-box-flex: 0;
+    -webkit-flex: 0 0 auto;
+    -ms-flex: 0 0 auto;
+    flex: 0 0 auto;
   }
 }
 

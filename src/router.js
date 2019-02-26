@@ -19,6 +19,8 @@ import HomePage from '@/views/HomePage.vue';
 import Teach from '@/views/Teach.vue';
 import Learn from '@/views/Learn.vue';
 import ProDegrees from '@/views/ProDegrees.vue';
+import CourseCatalog from '@/views/CourseCatalog.vue';
+
 
 
 
@@ -38,6 +40,7 @@ const router = new Router({
       component: () => import(/* webpackChunkName: "home" */ './views/Home.vue'),
       children: [
         { path: '',name:'feed', component: Feeds },
+        { path: 'feeds/categories/:categoryId',name:'catg-feed', component: Feeds, props: true },
         { path: 'search',name:'search', component: Search },
         {
           path: 'classes/:id', name: 'classPage', component: ClassPage, props: true,
@@ -56,11 +59,12 @@ const router = new Router({
         { path: 'class-room/:id', name:'classRoom', component: ClassRoom, props: true },
         { path: 'question/:postId', name:'question', component: QuestionDetail, props: true },
         { path: 'project/:postId', name:'project', component: ProjectDetail, props: true },
+        { path: 'course-catalog', name:'course-catalog', component: CourseCatalog},
       ]
     },
     {
       path: '',
-      name: 'home-page',
+      name: 'home',
       component: HomePage
     },
     {
