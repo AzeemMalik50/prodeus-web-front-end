@@ -27,10 +27,12 @@ export default new Vuex.Store({
     showSocailShare: false,
     showProfileSetting: false,
     socailShareData: {
-      url:'',
-      title:'',
-      text:''
-    }
+      url: '',
+      title: '',
+      text: ''
+    },
+    isOpenLogin: false,
+    isOpenSignup: false
   },
   mutations: {
     setProfileSettingForm: (state, payload) => {
@@ -68,6 +70,12 @@ export default new Vuex.Store({
     },
     setCurrentPostId: (state, payload) => {
       state.currentPostId = payload;
+    },
+    setLoginForm: (state, payload) => {
+      state.isOpenLogin = payload;
+    },
+    setSignUpForm: (state, payload) => {
+      state.isOpenSignup = payload;
     },
   },
   actions: {
@@ -118,6 +126,12 @@ export default new Vuex.Store({
     },
     setProfileSettingForm({ commit }, payload) {
       commit('setProfileSettingForm', payload);
+    },
+    setLoginForm({ commit }, payload) {
+      commit('setLoginForm', payload);
+    },
+    setSignUpForm({ commit }, payload) {
+      commit('setSignUpForm', payload);
     },
   },
   getters: {

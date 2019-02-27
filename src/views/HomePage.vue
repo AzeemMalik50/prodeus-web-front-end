@@ -1,5 +1,5 @@
 <template>
-  <div @click="toggleSideMenu">
+  <div @click="closeSideMenu">
     <div data-collapse="medium" data-animation="over-right" data-duration="400" class="navbar-3 w-nav">
     <div class="div-block-2">
       <router-link to="/" class="w-nav-brand"><img src="../assets/Prodeus-Logo-White.svg" height="36" alt="" class="image-44"></router-link>
@@ -7,7 +7,7 @@
       <router-link to="/learning" class="nav-link-2 w-nav-link">Learning</router-link>
        <router-link to="/teaching"  class="nav-link-2 w-nav-link w--current">Teaching</router-link>
       <router-link to="/teaching"  class="nav-link-2 w-nav-link">ProDegrees</router-link>
-       <router-link to="/login"  class="nav-link-3 w-nav-link">Login</router-link>
+       <a href="#"  @click.prevent="openLogin" class="nav-link-3 w-nav-link">Login</a>
       </nav>
       <div class="menu-button w-nav-button" @click.stop="toggleSideMenu">
         <div class="w-icon-nav-menu"></div>
@@ -20,7 +20,7 @@
     <router-link to="/learning" class="nav-link-2 w-nav-link w--nav-link-open">Learning</router-link>
     <router-link to="/teaching" class="nav-link-2 w-nav-link w--nav-link-open">Teaching</router-link>
     <router-link to="/prodegrees" class="nav-link-2 w-nav-link w--nav-link-open">ProDegrees</router-link>
-    <router-link to="/login" class="nav-link-3 w-nav-link w--nav-link-open">Login</router-link>
+    <a href="#" @click.prevent="openLogin" class="nav-link-3 w-nav-link w--nav-link-open">Login</a>
     </nav></div>
 
 
@@ -40,7 +40,7 @@
       <div class="vert-top-left">
         <div class="_40px-bottom">
           <h1 class="heading">A degree <br>shouldn’t be <br>a debt sentence</h1>
-        </div><a href="#" class="button-4 w-button">Register for our Free Private Beta</a>
+        </div><a href="#" @click.prevent="openSignUp" class="button-4 w-button">Register for our Free Private Beta</a>
         <div class="text-block-19">Public Enrollment coming June 2019</div>
       </div><img src="https://uploads-ssl.webflow.com/5c4c89abdfbd6c122324f41c/5c4f2f84e97f837db73d53c8_mountainAsset%206.svg" alt="" class="image-45"></div>
   </div>
@@ -574,6 +574,15 @@ export default {
     },
     doNothing(){
 
+    },
+    closeSideMenu(){
+      this.isSideMenuOpen = false;
+    },
+    openLogin(){
+      this.$store.dispatch('setLoginForm', true)
+    },
+    openSignUp(){
+      this.$store.dispatch('setSignUpForm', true)
     }
   }
 }

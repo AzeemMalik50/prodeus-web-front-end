@@ -1,7 +1,7 @@
 <template>
-    <div class="modal-wrapper">
+    <div class="modal-wrapper" @click="closeLogin">
     <div class="_100-vh center">
-      <div class="login-wrapper">
+      <div class="login-wrapper" @click.stop="doNothing">
         <div class="div-block-93">
           <div class="div-block-95">
             <div>
@@ -72,9 +72,9 @@
             <div class="div-block-98">
               <div class="div-block-99">
                 <div class="text-block-11">Not a member?</div>
-                 <router-link class="link-4" to="/sign-up">
+                 <a href="#" class="link-4"  @click.prevent="openSignUp">
                     Sign up
-                </router-link>
+                </a>
                 </div>
             </div>
           </div>
@@ -100,6 +100,14 @@ export default {
     }
   },
   methods: {
+    closeLogin() {
+      this.$store.dispatch("setLoginForm", false);
+    },
+    openSignUp(){
+      this.closeLogin();
+      this.$store.dispatch('setSignUpForm', true)
+    },
+    doNothing() {},
     handleSubmit(e) {
       this.submitted = true;
       const { email, password } = this;
@@ -208,7 +216,7 @@ export default {
   padding-left: 45px !important;
 }
 .link-4 {
-    color: #bcbcbc;
-    text-decoration: none;
+  color: #bcbcbc;
+  text-decoration: none;
 }
 </style>

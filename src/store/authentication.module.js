@@ -86,7 +86,7 @@ export const authentication = {
             userService.logout();
             state.status = {};
             state.user = null;
-            router.push({ name: 'login' });
+            router.push({ name: 'home' });
         },
         updateConnections(state, connections) {
             state.user.connections = connections;

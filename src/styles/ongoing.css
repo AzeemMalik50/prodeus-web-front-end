@@ -1301,6 +1301,19 @@ h2 {
   padding-bottom: 0px;
 }
 
+._10px-botttom-margin.alt {
+  position: relative;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  margin-bottom: 0px;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
 ._5px-bottom-margin {
   margin-bottom: 5px;
 }
@@ -1548,6 +1561,31 @@ h2 {
   background-color: rgba(0, 0, 0, .5);
 }
 
+.div-block-27.alt {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  height: 20px;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border-radius: 45px;
+  background-color: rgba(0, 0, 0, .1);
+}
+
+.div-block-27.alt.inactive {
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+}
+
 .div-block-28 {
   position: relative;
   margin-right: 20px;
@@ -1569,6 +1607,40 @@ h2 {
 
 .div-block-29.social {
   background-color: #3e99f4;
+}
+
+.div-block-29.project {
+  background-color: #ebcb4d;
+}
+
+.div-block-29.question {
+  background-color: #61cb96;
+}
+
+.div-block-29.alt {
+  position: relative;
+  left: 2px;
+  width: 18px;
+  height: 18px;
+  margin-top: 0px;
+  border-style: none;
+  border-width: 1px;
+  border-radius: 25px;
+}
+
+.div-block-29.alt.project {
+  left: -2px;
+  background-color: #bcbcbc;
+}
+
+.div-block-29.alt.question.inactive {
+  position: relative;
+  left: 0px;
+  right: -6px;
+  -webkit-box-flex: 0;
+  -webkit-flex: 0 0 auto;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
 }
 
 .nav-link {
@@ -5211,6 +5283,11 @@ h2 {
   width: auto;
 }
 
+.div-block-104.filter {
+  right: 540px;
+  width: 220px;
+}
+
 .div-block-105 {
   position: absolute;
   left: 0px;
@@ -8298,6 +8375,14 @@ h2 {
 .image-68 {
   width: 24px;
   height: auto;
+}
+
+.heading-57 {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-family: Roboto, sans-serif;
+  font-size: 18px;
+  font-weight: 400;
 }
 
 html.w-mod-js *[data-ix="display-none"] {

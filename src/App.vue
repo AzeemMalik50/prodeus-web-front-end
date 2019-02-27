@@ -1,8 +1,27 @@
 <template>
   <div id="app">
     <router-view/>
+    <Login  v-if="isOpenLogin"/>
+    <SignUp v-if="isOpenSignup" />
   </div>
 </template>
+<script>
+import { mapGetters, mapState } from "vuex";
+import Login from "./views/Login";
+import SignUp from "./views/SignUp";
+export default {
+components:{
+  Login,
+  SignUp
+},
+computed: {
+   ...mapState({
+      isOpenLogin: state => state.isOpenLogin,
+      isOpenSignup: state => state.isOpenSignup
+    })
+}
+}
+</script>
 
 <style lang="scss">
 #app{

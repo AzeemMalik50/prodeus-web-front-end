@@ -1,29 +1,18 @@
 <template>
-  <div @click="toggleSideMenu">
-      <div data-collapse="medium" data-animation="over-right" data-duration="400" class="navbar-3 w-nav">
-    <div class="div-block-2">
+<div @click="closeSideMenu">
+    <div data-collapse="medium" data-animation="over-right" data-duration="400" class="navbar-3 w-nav">
+      <div class="div-block-2">
       <router-link to="/" class="w-nav-brand"><img src="../assets/Prodeus-Logo-White.svg" height="36" alt="" class="image-44"></router-link>
       <nav role="navigation" class="nav-menu-3 w-nav-menu">
        <router-link to="/learning" class="nav-link-2 w-nav-link">Learning</router-link>
        <router-link to="/teaching"  class="nav-link-2 w-nav-link">Teaching</router-link>
        <router-link to="/prodegrees"  class="nav-link-2 w-nav-link" :class="{'w--current': $router.name == 'home-degrees'}">ProDegrees</router-link>
-       <router-link to="/login"  class="nav-link-3 w-nav-link">Login</router-link>
+       <a href="#"  @click.prevent="openLogin" class="nav-link-3 w-nav-link">Login</a>
         </nav>
       <div class="menu-button w-nav-button" @click.stop="toggleSideMenu">
         <div class="w-icon-nav-menu"></div>
       </div>
     </div>
-
-
-<div @click.stop="doNothing" class="w-nav-overlay" v-if="isSideMenuOpen" data-wf-ignore="" style="height: 5495.97px; display: block; width: 200px;">
-  <nav role="navigation" class="nav-menu-3 w-nav-menu w--nav-menu-open" style="transform: translateX(0px) translateY(0px); height: 5495.97px; transition: transform 400ms ease 0s;">
-    <router-link to="/learning" class="nav-link-2 w-nav-link w--nav-link-open">Learning</router-link>
-    <router-link to="/teaching" class="nav-link-2 w-nav-link w--nav-link-open">Teaching</router-link>
-    <router-link to="/prodegrees" class="nav-link-2 w-nav-link w--nav-link-open">ProDegrees</router-link>
-    <router-link to="/login" class="nav-link-3 w-nav-link w--nav-link-open">Login</router-link>
-    </nav></div>
-
-
   </div>
   <!-- <div data-collapse="medium" data-animation="default" data-duration="400" data-w-id="63b108a1-19eb-6641-a06b-7fed91a3e3c6" class="navbar-4 w-nav" data-ix="display-none">
     <div class="div-block-2"><a href="homepage.html" class="w-nav-brand"><img src="https://uploads-ssl.webflow.com/5c4c89abdfbd6c122324f41c/5c61d222da78f067b8dd07a7_logoAsset%202.svg" alt="" class="image-44"></a>
@@ -38,7 +27,7 @@
       <div class="vert-top-left">
         <div class="_40px-bottom">
           <h1 class="heading">Peer certified<br>degrees</h1>
-        </div><router-link to="/sign-up" class="button-4 w-button">Register for our Free Private Beta</router-link>
+        </div><a href="#" @click.prevent="openSignUp" class="button-4 w-button">Register for our Free Private Beta</a>
         <div class="text-block-19 dark">Public Enrollment coming June 2019</div>
       </div><img src="https://uploads-ssl.webflow.com/5c4c89abdfbd6c122324f41c/5c4dcca9dfbd6c294925ff5b_peercertifiedAsset%2010.svg" alt="" class="image-45 degrees"></div>
   </div>
@@ -67,7 +56,7 @@
         </div>
         <div class="div-block-180">
           <div class="text-block-24">Completing Classes</div>
-          <div class="text-block-25 class">30 Mins  |  10 Credits</div>
+          <div class="text-block-25 class">30 Mins  |  5 Credits</div>
         </div>
       </div>
     </div>
@@ -102,25 +91,32 @@
           <h1 class="heading-50">Build up your expertise</h1>
         </div>
         <div class="text-block-20 _30px-bottom">ProDegrees reflect your progress from apprenticeship to mastery. You can earn degrees by interacting with content that interests you or actively taking classes and earn an advanced degree within four months.</div>
-      </div><img src="../assets/credits-topAsset-2.svg" alt="" class="image-64"><img src="../assets/credits-bottomAsset-3.svg" alt="" class="image-63"><img src="../assets/creditsAsset-1.svg" alt="" class="image-62"></div>
+      </div><img src="../assets/1Asset-1.svg" alt="" class="image-64"><img src="../assets/credits-bottomAsset-3.svg" alt="" class="image-63"><img src="../assets/fullAsset-1.svg" alt="" class="image-62"></div>
   </section>
-  </div>
+</div>
 </template>
 
 <script>
 export default {
-  data(){
+  data() {
     return {
       isSideMenuOpen: false
-    }
+    };
   },
-  methods:{
-    toggleSideMenu(){
+  methods: {
+    toggleSideMenu() {
       this.isSideMenuOpen = !this.isSideMenuOpen;
     },
-    doNothing(){
-
+    doNothing() {},
+    closeSideMenu() {
+      this.isSideMenuOpen = false;
+    },
+     openLogin(){
+      this.$store.dispatch('setLoginForm', true)
+    },
+    openSignUp(){
+      this.$store.dispatch('setSignUpForm', true)
     }
   }
-}
+};
 </script>

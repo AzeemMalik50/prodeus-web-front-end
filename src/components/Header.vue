@@ -160,7 +160,6 @@
     <share-modal v-if="showSocailShare" />
     <create-post v-if="showAnswerPost" :type="answerPost" :parentPost="selectedQuestion" />
     <project-detail v-if="isAssignmentOpen" isAssignment="true" />
-
   </div>
 </template>
 
@@ -169,6 +168,8 @@ import { mapGetters, mapState } from "vuex";
 import { mixin as clickaway } from "vue-clickaway";
 
 import AddClass from "../views/AddClass";
+
+
 import CreatePost from "../views/CreatePost";
 import ProjectDetail from "@/views/ProjectDetail";
 import QuestionDetail from "@/views/QuestionDetail";
@@ -210,7 +211,7 @@ export default {
   },
   watch: {
     $route(to, from) {
-      this.isMenuOpen = false
+      this.isMenuOpen = false;
       this.closeAll();
     }
   },
@@ -299,7 +300,9 @@ export default {
       isAssignmentOpen: state => state.isAssignmentOpen,
       showSocailShare: state => state.showSocailShare,
       selectedQuestion: state => state.post.selectedQuestion,
-      isQuestionOpen: state => state.isQuestionOpen
+      isQuestionOpen: state => state.isQuestionOpen,
+      isOpenLogin: state => state.isOpenLogin,
+      isOpenSignup: state => state.isOpenSignup
     })
   }
 };

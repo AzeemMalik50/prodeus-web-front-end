@@ -1,5 +1,5 @@
 <template>
-  <div @click="toggleSideMenu">
+  <div @click="closeSideMenu">
       <div data-collapse="medium" data-animation="over-right" data-duration="400" class="navbar-3 w-nav">
     <div class="div-block-2">
       <router-link to="/" class="w-nav-brand"><img src="../assets/Prodeus-Logo-White.svg" height="36" alt="" class="image-44"></router-link>
@@ -7,7 +7,7 @@
                <router-link to="/learning" class="nav-link-2 w-nav-link" :class="{'w--current': $router.name == 'home-learn'}">Learning</router-link>
        <router-link to="/teaching"  class="nav-link-2 w-nav-link">Teaching</router-link>
        <router-link to="/prodegrees"  class="nav-link-2 w-nav-link">ProDegrees</router-link>
-       <router-link to="/login"  class="nav-link-3 w-nav-link">Login</router-link>
+       <a href="#"  @click.prevent="openLogin" class="nav-link-3 w-nav-link">Login</a>
         </nav>
       <div class="menu-button w-nav-button" @click.stop="toggleSideMenu">
         <div class="w-icon-nav-menu"></div>
@@ -20,7 +20,7 @@
     <router-link to="/learning" class="nav-link-2 w-nav-link w--nav-link-open">Learning</router-link>
     <router-link to="/teaching" class="nav-link-2 w-nav-link w--nav-link-open">Teaching</router-link>
     <router-link to="/prodegrees" class="nav-link-2 w-nav-link w--nav-link-open">ProDegrees</router-link>
-    <router-link to="/login" class="nav-link-3 w-nav-link w--nav-link-open">Login</router-link>
+    <a href="#" @click.prevent="openLogin" class="nav-link-3 w-nav-link w--nav-link-open">Login</a>
     </nav></div>
   </div>
   <!-- <div data-collapse="medium" data-animation="default" data-duration="400" data-w-id="63b108a1-19eb-6641-a06b-7fed91a3e3c6" class="navbar-4 w-nav" data-ix="display-none">
@@ -36,7 +36,7 @@
       <div class="vert-top-left">
         <div class="_40px-bottom">
           <h1 class="heading">A whole new<br>way to learn</h1>
-        </div><router-link to="/sign-up" class="button-4 w-button">Register for our Free Private Beta</router-link>
+        </div><a href="#" @click.prevent="openSignUp" class="button-4 w-button">Register for our Free Private Beta</a>
         <div class="text-block-19 dark">Public Enrollment coming June 2019</div>
       </div><img src="https://uploads-ssl.webflow.com/5c4c89abdfbd6c122324f41c/5c4e50f57c1ca42a61063ab9_factoryAsset%2024.svg" alt="" class="image-45 learn"></div>
   </div>
@@ -131,18 +131,25 @@
 </template>
 <script>
 export default {
-  data(){
+  data() {
     return {
       isSideMenuOpen: false
-    }
+    };
   },
-  methods:{
-    toggleSideMenu(){
+  methods: {
+    toggleSideMenu() {
       this.isSideMenuOpen = !this.isSideMenuOpen;
     },
-    doNothing(){
-
+    doNothing() {},
+    closeSideMenu() {
+      this.isSideMenuOpen = false;
+    },
+     openLogin(){
+      this.$store.dispatch('setLoginForm', true)
+    },
+    openSignUp(){
+      this.$store.dispatch('setSignUpForm', true)
     }
   }
-}
+};
 </script>

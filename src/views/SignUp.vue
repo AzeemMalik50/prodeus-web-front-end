@@ -1,7 +1,7 @@
 <template>
-    <div class="modal-wrapper">
+    <div class="modal-wrapper" @click="closeSignUp">
     <div class="_100-vh center">
-      <div class="login-wrapper">
+      <div class="login-wrapper" @click.stop="doNothing">
         <div class="div-block-93">
           <div class="div-block-95">
             <div>
@@ -60,9 +60,9 @@
               <p class="paragraph-7">By signing up you agree to Prodeus’ Terms of Service and Privacy Policy.</p>
               <div class="div-block-99">
                 <div class="text-block-11">Already a member?</div>
-                <router-link class="link-4" to="login">
+                <a href="#" class="link-4" @click.prevent="openLogin">
                     Login
-                </router-link>
+                </a>
                 </div>
             </div>
           </div>
@@ -88,6 +88,14 @@ export default {
 
   },
   methods: {
+     closeSignUp() {
+      this.$store.dispatch("setSignUpForm", false);
+    },
+    openLogin(){
+      this.closeSignUp();
+      this.$store.dispatch('setLoginForm', true)
+    },
+    doNothing() {},
     handleSubmit(e) {
       this.submitted = true;
       const { email, password , fullName} = this;
