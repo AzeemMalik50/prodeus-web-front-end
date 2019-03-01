@@ -118,6 +118,7 @@ export default {
             let user = response.data.user;
             if (user.accessToken) {
               dispatch("authentication/loginSuccess", user);
+              this.closeLogin();
               this.$router.push("/app");
             }
           },

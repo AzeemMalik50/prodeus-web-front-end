@@ -21,6 +21,8 @@ export const authentication = {
         loginSuccess: ({ dispatch, commit }, payload) => {
             // store user details and jwt token in local storage to keep user logged in between page refreshes
             localStorage.setItem('user', JSON.stringify(payload));
+            commit('setLoginForm', false, { root: true });
+            commit('setSignUpForm', false, { root: true });
             commit('loginSuccess', payload);
         },
         loginFailure: ({ dispatch, commit }, payload) => {
@@ -33,6 +35,8 @@ export const authentication = {
         facebookAuth: ({ commit }, payload) => {
             userService.facebookAuth(payload).then(res => {
                 localStorage.setItem('user', JSON.stringify(res.data.user));
+                commit('setLoginForm', false, { root: true });
+                commit('setSignUpForm', false, { root: true });
                 commit('loginSuccess', res.data.user);
             }, err => {
                 console.error(err);
@@ -41,6 +45,8 @@ export const authentication = {
         googleAuth: ({ commit }, payload) => {
             userService.googleAuth(payload).then(res => {
                 localStorage.setItem('user', JSON.stringify(res.data.user));
+                commit('setLoginForm', false, { root: true });
+                commit('setSignUpForm', false, { root: true });
                 commit('loginSuccess', res.data.user);
             }, err => {
                 console.error(err);
@@ -75,7 +81,7 @@ export const authentication = {
         loginSuccess: (state, user) => {
             state.status = { loggedIn: true };
             state.user = user;
-            router.push({ path: '/' });
+            router.push({ path: '/app' });
         },
         loginFailure: (state) => {
             state.status = {};
