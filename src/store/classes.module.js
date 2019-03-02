@@ -19,6 +19,7 @@ export const classes = {
     currentClass: {},
     error: {},
     feeds: [],
+    feedsFilters:[],
     myClasses: {
       type: '',
       instructor: null,
@@ -78,8 +79,12 @@ export const classes = {
         },
           error => commit('failure', error));
     },
-    getFeeds({ commit }) {
-     return authService.get(`/feed`)
+    getFeeds({ commit }, query) {
+      let url = "/feed";
+      if(query) {
+        url = url + query;
+      }
+     return authService.get(url)
         // .then(
         //   response => commit('setFeeds', response.data),
         //   error => commit('failure', error)
@@ -134,9 +139,15 @@ export const classes = {
     },
     setEditClass({ commit }, payload) {
       commit('setEditClass', payload)
+    },
+    setFeedFilters({ commit }, payload) {
+      commit('setFeedFilters', payload);
     }
   },
   mutations: {
+    setFeedFilters(state, data) {
+      state.feedsFilters = data;
+    },
     setEditClass(state, data) {
       state.editClass = data;
     },

@@ -25,7 +25,7 @@
               <profile-card :user="profile" />
             <!-- <transition-group  name="fade" mode="out-in" :duration="{ enter: 500, leave: 250 }"> -->
               <detail :user="profile"  v-show="isDetail" key="detail" />
-              <feeds  v-show="isFeed" key="feeds"/>
+              <ProfileFeeds  v-show="isFeed" key="feeds"/>
               <show-case v-show="isShowCase" key="showCase" />
               <pro-degrees v-show="isProDegree" key="proDegree"/>
             <!-- </transition-group> -->
@@ -57,7 +57,7 @@
 <script>
 import { mapGetters, mapState} from "vuex";
 import Detail from "../components/Profile/Detail";
-import Feeds from "../components/Profile/Feeds";
+import ProfileFeeds from "../components/Profile/ProfileFeeds";
 import ProDegrees from "../components/Profile/ProDegrees";
 import ShowCase from "../components/Profile/ShowCase";
 import RecentProjects from "../components/Profile/RecentProjects";
@@ -74,7 +74,7 @@ export default {
   components: {
     Loading,
     Detail,
-    Feeds,
+    ProfileFeeds,
     ProDegrees,
     ShowCase,
     RecentProjects,

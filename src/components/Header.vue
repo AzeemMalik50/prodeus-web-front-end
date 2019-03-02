@@ -7,14 +7,14 @@
           <router-link to="/app" class="brand w-nav-brand">
             <img src="@/assets/Logo.svg" class="logo" />
           </router-link>
-          <img src="@/assets/filter.svg" alt="" class="filtermobile">
+          <img src="@/assets/filter.svg" @click.prevent.stop="toggelFilters();" alt="" class="filtermobile">
           <!-- </a> -->
           <!-- <form action="/search" class="search w-form">
             <img src="@/assets/Search.svg" class="image-4" />
             <input type="search" class="search-input w-input" maxlength="256" name="query" placeholder="Search prodeus" id="search" required="">
             <input type="submit" value="Search" class="search-button w-button"></form> -->
             <search-input />
-            <img src="@/assets/filter.svg" alt="" class="image-67">
+            <img src="@/assets/filter.svg" @click.prevent.stop="toggelFilters();" alt="" class="image-67">
           <!-- <a class="w-inline-block cursor-pointer"  >
               <img src="@/assets/Add-Post.svg" class="add-post" />
             </a> -->
@@ -46,6 +46,9 @@
           </a>
         </nav>
       </div>
+    </div>
+    <div v-on-clickaway="closeFilter">
+    <filters v-if="isFilterOpen"/>
     </div>
     <transition name="slide" v-if="isMenuOpen">
       <div class="page-section image-43">
@@ -177,6 +180,8 @@ import SearchInput from "../components/SearchInput";
 
 import Notifications from "./Notifications";
 import ProfileSetting from "../components/Profile/Settings";
+import Filters from "../components/Filters";
+
 
 export default {
   components: {
@@ -186,11 +191,13 @@ export default {
     ProfileSetting,
     ProjectDetail,
     QuestionDetail,
-    SearchInput
+    SearchInput,
+    Filters
   },
   mixins: [clickaway],
   data() {
     return {
+      isFilterOpen: false,
       isMenuOpen: false,
       answerPost: "Answer",
       postType: "",
@@ -216,6 +223,17 @@ export default {
     }
   },
   methods: {
+    toggelFilters() {
+      setTimeout(() => {
+      this.isFilterOpen = !this.isFilterOpen;
+      this.closeAll();
+      }, 200);
+    },
+    closeFilter() {
+      if(this.isFilterOpen) {
+        this.isFilterOpen = false;
+      }
+    },
     toggelMenu() {
       this.isMenuOpen = !this.isMenuOpen;
     },

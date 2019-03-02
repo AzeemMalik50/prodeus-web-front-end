@@ -18,6 +18,7 @@
 
 <script>
 import { mapGetters, mapState } from "vuex";
+import _ from "lodash";
 import ClassCard from "@/components/Feeds/ClassCard.vue";
 import ProjectCard from "@/components/Feeds/ProjectCard.vue";
 import QuestionCard from "@/components/Feeds/QuestionCard.vue";
@@ -59,7 +60,10 @@ export default {
           }
         );
       }
-    }
+    },
+    feedsFilters: _.debounce(function() {
+      this.fetchFeeds();
+    }, 1000)
   },
   created() {
     if (this.categoryId) {
@@ -72,14 +76,7 @@ export default {
         }
       );
     } else {
-      this.$store.dispatch("classes/getFeeds").then(
-        response => {
-          this.feeds = response.data;
-        },
-        error => {
-          console.error(error);
-        }
-      );
+      this.fetchFeeds();
     }
     this.$eventHub.$on("post-deleted", this.removeItem);
     this.$eventHub.$on("class-deleted", this.removeItem);
@@ -103,6 +100,20 @@ export default {
     };
   },
   methods: {
+    fetchFeeds() {
+      let query = "";
+      if (this.feedsFilters && this.feedsFilters.length) {
+        query = "?types=" + this.feedsFilters.toString();
+      }
+      this.$store.dispatch("classes/getFeeds", query).then(
+        response => {
+          this.feeds = response.data;
+        },
+        error => {
+          console.error(error);
+        }
+      );
+    },
     removeItem(item) {
       let index = this.feeds.findIndex(f => f._id === item._id);
       if (index > -1) {
@@ -120,7 +131,8 @@ export default {
       selectedQuestion: state => state.post.selectedQuestion,
       isQuestionOpen: state => state.isQuestionOpen,
       isProjectOpen: state => state.isProjectOpen,
-      showSocailShare: state => state.showSocailShare
+      showSocailShare: state => state.showSocailShare,
+      feedsFilters: state => state.classes.feedsFilters
     })
   }
 };

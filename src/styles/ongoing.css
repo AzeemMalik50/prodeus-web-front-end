@@ -5284,7 +5284,10 @@ h2 {
 }
 
 .div-block-104.filter {
-  right: 540px;
+  left: 380px;
+  top: 0%;
+  right: auto;
+  bottom: auto;
   width: 220px;
 }
 
@@ -8736,7 +8739,7 @@ html.w-mod-js *[data-ix="display-none"] {
   }
   .div-block-104 {
     position: fixed;
-    left: 0px;
+    left: 0px !important;
     top: 68px;
     right: 0px;
     bottom: 0px;
