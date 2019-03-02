@@ -68,7 +68,7 @@ export default {
       }
     },
     goClass() {
-      this.$router.push({ path: `/classes/${this.feedClass._id}` });
+      this.$router.push({ name:'classPage', params: {id: this.feedClass._id} });
     },
     enrollClass() {
       this.$store
