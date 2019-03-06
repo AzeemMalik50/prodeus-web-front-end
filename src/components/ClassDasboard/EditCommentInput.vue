@@ -138,7 +138,8 @@
         if (this.selectedMedia && this.selectedMedia.file) {
           return window.URL.createObjectURL(this.selectedMedia.file);
         } else if (this.isAlreadyMedia) {
-          return this.$apiBaseUrl + "/media/" + this.discItem.media.mediaId;
+      let user = JSON.parse(localStorage.getItem('user'));
+          return this.$apiBaseUrl + "/media/" + this.discItem.media.mediaId+ "?at="+user.accessToken;
         } else {
           return null;
         }

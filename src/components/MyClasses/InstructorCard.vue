@@ -71,7 +71,8 @@ export default {
     }
   },
   created() {
-    this.image = this.$apiBaseUrl + "/media/" + this.myClass.img;
+    let user = JSON.parse(localStorage.getItem('user'));
+    this.image = this.$apiBaseUrl + "/media/" + this.myClass.img+ "?at="+user.accessToken;;
     this.myClass.lessons.forEach(ls => {
       this.comments = this.comments + ls.comments.length;
       this.questions = this.questions + ls.questions.length;

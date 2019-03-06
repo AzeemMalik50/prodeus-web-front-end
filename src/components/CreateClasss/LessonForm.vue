@@ -122,8 +122,9 @@ export default {
 
   methods: {
     setEditLesson() {
+      let user = JSON.parse(localStorage.getItem('user'));
       this.lesson.lessonThumbnail =
-        process.env.VUE_APP_API_BASE_URL + "/media/" + this.lesson.img;
+        process.env.VUE_APP_API_BASE_URL + "/media/" + this.lesson.img+ "?at="+user.accessToken;;
         if(this.lesson.teacherAssignment) {
           this.lesson.hasAssignment = true;
         }

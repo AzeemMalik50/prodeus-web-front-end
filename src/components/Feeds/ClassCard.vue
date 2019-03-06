@@ -47,14 +47,16 @@ export default {
     };
   },
   created() {
-    this.backImage = this.$apiBaseUrl  + "/media/" + this.feedClass.img;
+    let user = JSON.parse(localStorage.getItem('user'));
+    this.backImage = this.$apiBaseUrl  + "/media/" + this.feedClass.img + "?at="+user.accessToken;
     this.getInstructorImg();
   },
   methods: {
     getInstructorImg() {
       if (this.feedClass.instructor.local.img) {
+    let user = JSON.parse(localStorage.getItem('user'));
         // this.getImage("userImage", this.feedClass.instructor.local.img);
-       this.userImage =  this.$apiBaseUrl  + "/media/" + this.feedClass.instructor.local.img;
+       this.userImage =  this.$apiBaseUrl  + "/media/" + this.feedClass.instructor.local.img+ "?at="+user.accessToken;;
       } else if (
         this.feedClass.instructor.facebook &&
         this.feedClass.instructor.facebook.img

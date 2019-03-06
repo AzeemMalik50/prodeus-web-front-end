@@ -59,14 +59,16 @@ export default {
   methods: {
     downloadFile(file) {
       let link = document.createElement("a");
+      let user = JSON.parse(localStorage.getItem('user'));
       link.href =
-        this.$apiBaseUrl  + "/media/" + file.originalName;
+        this.$apiBaseUrl  + "/media/" + file.originalName+ "?at="+user.accessToken;
       link.setAttribute("download", file.originalName);
       // link.download = file.originalName;
       link.click();
     },
     url(id) {
-      return this.$apiBaseUrl  + "/media/" + id;
+      let user = JSON.parse(localStorage.getItem('user'));
+      return this.$apiBaseUrl  + "/media/" + id+ "?at="+user.accessToken;
     },
     gotoClassRoom(){
       this.$router.push({name:'classRoom', params:{id: this.classId}})

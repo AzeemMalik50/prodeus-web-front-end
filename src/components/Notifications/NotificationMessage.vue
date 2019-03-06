@@ -28,12 +28,13 @@ export default {
     };
   },
   created() {
+      let user = JSON.parse(localStorage.getItem('user'));
     if (this.notification.from && this.notification.from.local.img) {
       this.userImage =
-        this.$apiBaseUrl + "/media/" + this.notification.from.local.img;
+        this.$apiBaseUrl + "/media/" + this.notification.from.local.img+ "?at="+user.accessToken;;
     }
     this.classImage =
-     this.notification.referenceDoc.img ? this.$apiBaseUrl + "/media/" + this.notification.referenceDoc.img: '';
+     this.notification.referenceDoc.img ? this.$apiBaseUrl + "/media/" + this.notification.referenceDoc.img+ "?at="+user.accessToken: '';
   },
   methods: {
     imageUrl() {},

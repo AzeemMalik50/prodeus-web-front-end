@@ -121,14 +121,16 @@ export default {
   },
   computed: {
     poster() {
-      return this.$apiBaseUrl  + "/media/" + this.currentClass.img;
+      let user = JSON.parse(localStorage.getItem('user'));
+      return this.$apiBaseUrl  + "/media/" + this.currentClass.img+ "?at="+user.accessToken;
     },
     videoUrl() {
+      let user = JSON.parse(localStorage.getItem('user'));
       if (this.currentClass && this.currentClass.trailer) {
         return (
           process.env.VUE_APP_API_BASE_URL +
           "/media/" +
-          this.currentClass.trailer.media
+          this.currentClass.trailer.media+ "?at="+user.accessToken
         );
       } else {
         return null;

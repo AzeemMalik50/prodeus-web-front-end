@@ -33,8 +33,9 @@ export default {
   computed: {
     profilePic() {
       if (this.instructor.img) {
+         let user = JSON.parse(localStorage.getItem('user'));
         return (
-          process.env.VUE_APP_API_BASE_URL + "/media/" + this.instructor.img.id
+          process.env.VUE_APP_API_BASE_URL + "/media/" + this.instructor.img.id+ "?at="+user.accessToken
         );
       } else if (this.instructor.facebook && this.instructor.facebook.img) {
         return this.instructor.facebook.img;

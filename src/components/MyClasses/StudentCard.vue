@@ -32,7 +32,8 @@
     }
   },
   created(){
-    this.image =  this.$apiBaseUrl  + "/media/" + this.myClass.img;
+      let user = JSON.parse(localStorage.getItem('user'));
+    this.image =  this.$apiBaseUrl  + "/media/" + this.myClass.img+ "?at="+user.accessToken;;
     // this.$store.dispatch("classes/getMedia", this.myClass.img).then(
     //     response => {
     //       this.image = response.data;

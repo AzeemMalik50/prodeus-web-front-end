@@ -183,15 +183,17 @@
         return this.currentClass.lessons[this.currentLessonIndex];
       },
       videoUrl() {
+      let user = JSON.parse(localStorage.getItem('user'));
         const id = this.currentLesson.media;
-        return process.env.VUE_APP_API_BASE_URL + "/media/" + id;
+        return process.env.VUE_APP_API_BASE_URL + "/media/" + id+ "?at="+user.accessToken;
       },
       profilePic() {
+      let user = JSON.parse(localStorage.getItem('user'));
         if (this.currentClass.instructor.img) {
           return (
             process.env.VUE_APP_API_BASE_URL +
             "/media/" +
-            this.currentClass.instructor.img.id
+            this.currentClass.instructor.img.id + "?at="+user.accessToken
           );
         } else if (
           this.currentClass.instructor.facebook &&
@@ -244,14 +246,16 @@
         this.$store.dispatch("classes/setShowSubmitAssignment", true);
       },
       downloadFile(file) {
+      let user = JSON.parse(localStorage.getItem('user'));
         let link = document.createElement("a");
         link.href =
-          process.env.VUE_APP_API_BASE_URL + "/media/" + file.originalName;
+          process.env.VUE_APP_API_BASE_URL + "/media/" + file.originalName + "?at="+user.accessToken;
         link.setAttribute("download", file.originalName);
         link.click();
       },
       url(id) {
-        return process.env.VUE_APP_API_BASE_URL + "/media/" + id;
+      let user = JSON.parse(localStorage.getItem('user'));
+        return process.env.VUE_APP_API_BASE_URL + "/media/" + id + "?at="+user.accessToken;
       },
       videoEnded() {
         let lessonIndex = this.watchedLessons.findIndex(

@@ -259,7 +259,8 @@ export default {
       this.$store.dispatch("toggelAssignmentDialog", false);
     },
     getMedia(mediaId) {
-      return this.$apiBaseUrl + "/media/" + mediaId;
+      let user = JSON.parse(localStorage.getItem('user'));
+      return this.$apiBaseUrl + "/media/" + mediaId + "?at="+user.accessToken;
     },
     disConnect() {
       this.$store.dispatch(
@@ -355,14 +356,16 @@ export default {
     },
     doNothing() {},
     downloadFile(file) {
+      let user = JSON.parse(localStorage.getItem('user'));
       let link = document.createElement("a");
       link.href =
-        process.env.VUE_APP_API_BASE_URL + "/media/" + file.originalName;
+        process.env.VUE_APP_API_BASE_URL + "/media/" + file.originalName + "?at="+user.accessToken;
       link.setAttribute("download", file.originalName);
       link.click();
     },
     url(id) {
-      return process.env.VUE_APP_API_BASE_URL + "/media/" + id;
+      let user = JSON.parse(localStorage.getItem('user'));
+      return process.env.VUE_APP_API_BASE_URL + "/media/" + id + "?at="+user.accessToken;
     }
   },
   computed: {

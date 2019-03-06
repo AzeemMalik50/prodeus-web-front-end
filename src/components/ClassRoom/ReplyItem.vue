@@ -148,7 +148,8 @@ export default {
       }
     },
     getMedia(mediaId) {
-      return this.$apiBaseUrl + "/media/" + mediaId;
+      let user = JSON.parse(localStorage.getItem('user'));
+      return this.$apiBaseUrl + "/media/" + mediaId+ "?at="+user.accessToken;;
     },
     visibelEdit() {
       this.isEdit = true;

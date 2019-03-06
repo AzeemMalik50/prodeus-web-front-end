@@ -25,8 +25,9 @@ export default {
         return null;
       }
       if (this.user.local && this.user.local.img) {
+      let user = JSON.parse(localStorage.getItem('user'));
         return (
-          process.env.VUE_APP_API_BASE_URL + "/media/" + this.user.local.img
+          process.env.VUE_APP_API_BASE_URL + "/media/" + this.user.local.img+ "?at="+user.accessToken
         );
       } else if (this.user.facebook && this.user.facebook.img) {
         return this.user.facebook.img;

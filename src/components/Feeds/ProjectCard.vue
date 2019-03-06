@@ -138,10 +138,11 @@ export default {
       return this.project.reBlogs.indexOf(this.loggedInUser._id) > -1;
     },
     projectImage() {
+      let user = JSON.parse(localStorage.getItem('user'));
       let imageContent = this.project.content.find(c => c.type === "image");
       let imageUrl = "";
       if (imageContent) {
-        imageUrl = this.$apiBaseUrl + "/media/" + imageContent.media;
+        imageUrl = this.$apiBaseUrl + "/media/" + imageContent.media+ "?at="+user.accessToken;
       }
       return imageUrl;
     },

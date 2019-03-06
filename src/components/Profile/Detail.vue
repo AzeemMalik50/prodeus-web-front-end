@@ -242,7 +242,8 @@
         this.$store.dispatch("profile/setProfileForm", this.PROFILE_FORMS.WORK);
       },
       companyLogo(logoId) {
-        return process.env.VUE_APP_API_BASE_URL + "/media/" + logoId;
+      let user = JSON.parse(localStorage.getItem('user'));
+        return process.env.VUE_APP_API_BASE_URL + "/media/" + logoId+ "?at="+user.accessToken;
       }
     },
     computed: {

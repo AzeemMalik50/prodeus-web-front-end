@@ -108,7 +108,8 @@ export default {
   },
   methods: {
     getImage(mediaId) {
-      return this.$apiBaseUrl + "/media/" + mediaId;
+      let user = JSON.parse(localStorage.getItem('user'));
+      return this.$apiBaseUrl + "/media/" + mediaId + "?at="+user.accessToken;
     },
     closePostModal(e) {
       /*  press escape to close modal */

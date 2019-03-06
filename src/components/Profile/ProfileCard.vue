@@ -117,7 +117,8 @@ export default {
     profilePic() {
       let storeUser = this.user;
       if (storeUser.local.img) {
-        return this.$apiBaseUrl + "/media/" + storeUser.local.img;
+      let user = JSON.parse(localStorage.getItem('user'));
+        return this.$apiBaseUrl + "/media/" + storeUser.local.img+ "?at="+user.accessToken;
       } else if (storeUser.facebook && storeUser.facebook.img) {
         return storeUser.facebook.img;
       } else if (storeUser.google && storeUser.google.img) {

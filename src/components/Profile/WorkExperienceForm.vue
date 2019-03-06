@@ -212,8 +212,9 @@ export default {
       if (this.newLogo) {
         return URL.createObjectURL(this.newLogo);
       } else if (this.currentWork.logo) {
+      let user = JSON.parse(localStorage.getItem('user'));
         return (
-          process.env.VUE_APP_API_BASE_URL + "/media/" + this.currentWork.logo
+          process.env.VUE_APP_API_BASE_URL + "/media/" + this.currentWork.logo+ "?at="+user.accessToken
         );
       } else {
         return null;
