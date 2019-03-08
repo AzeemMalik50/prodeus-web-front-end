@@ -1,13 +1,21 @@
 <template>
     <div class="page-section">
   <div class="flex-row">
-    <masonry :cols="{default: 5, 1600: 4, 1300: 3, 900: 2, 500: 1}" class="masonary">
+    <masonry :cols="{default: 5, 1600: 4, 1300: 3, 900: 2, 500: 1}" class="masonary" v-if="feeds && feeds.length">
     <div class="flexcolumn" v-for="feed in feeds" :key="feed._id">
       <ClassCard :feedClass="feed" v-if="!feed.postType" />
       <ProjectCard v-if="feed.postType==='Project'" :project="feed" />
       <QuestionCard v-if="feed.postType==='Question'" :question="feed" />
     </div>
     </masonry>
+    <div class="empty-feed" v-else>
+      <img src="../assets/feedAsset-20.svg" class="emp-img" alt="">
+        <h1 class="heading-55">There&#x27;s nothing here yet...</h1>
+        <!-- <div class="div-block-113 alt cursor-pointer">
+          <img src="../assets/add-white.svg" height="20" alt="" class="image-29">
+          <div class="text-block-14 alt">Create a post</div>
+        </div> -->
+      </div>
   </div>
     <!-- <create-post v-if="showAnswerPost" :type="postType" :parentPost="selectedQuestion" />
     <project-detail  v-if="isProjectOpen" />
@@ -137,3 +145,9 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.emp-img {
+  max-width: 50%;
+}
+</style>

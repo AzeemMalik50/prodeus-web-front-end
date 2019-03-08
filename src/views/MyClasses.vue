@@ -21,6 +21,16 @@
       <div class="flexcolumn" v-show="isStudent" v-for="myClass in myClasses.student" :key="myClass._id">
        <student-card :myClass="myClass" />
       </div>
+      <div class="flexcolumn" v-if="(isStudent && (!myClasses.student || !myClasses.student.length)) || (isInstructor && !myClasses.instructor || !myClasses.instructor.length)">
+      <div class="empty-feed" >
+      <img src="../assets/feedAsset-20.svg" class="emp-img" alt="">
+        <h1 class="heading-55">There&#x27;s nothing here yet...</h1>
+        <div class="div-block-113 alt cursor-pointer" v-if="isInstructor" @click="openCreateClass()">
+          <img src="../assets/add-white.svg" height="20" alt="" class="image-29">
+          <div class="text-block-14 alt">Create a class</div>
+        </div>
+      </div>
+      </div>
     </div>
     <Loading :color="'#8446e8'" :active.sync="isLoader" :is-full-page="true"></Loading>
 
@@ -60,6 +70,9 @@ export default {
     this.$eventHub.$off("class-deleted");
   },
   methods: {
+    openCreateClass() {
+      this.$store.dispatch("changeCreateClass", true);
+    },
     removeItem(item) {
       let sIndex = this.myClasses.student.findIndex(f => f._id === item._id);
       if (sIndex > -1) {
