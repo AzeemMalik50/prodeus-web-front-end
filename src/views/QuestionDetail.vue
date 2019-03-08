@@ -60,9 +60,9 @@
           <div class="left-align"><img src="../assets/Answer.svg" class="cursor-auto" width="20" height="20" alt="">
             <div class="text-block-7">{{(question.replies && question.replies.length) ? question.replies.length : 0}}</div>
           </div>
-          <div class="left-align"><img src="../assets/Group-5400.svg" class="cursor-auto" width="20" height="20" alt="">
+          <!-- <div class="left-align"><img src="../assets/Group-5400.svg" class="cursor-auto" width="20" height="20" alt="">
             <div class="text-block-7">4.2k</div>
-          </div>
+          </div> -->
         </div>
         <div class="social-share-wrap">
           <socail-share :data="socialShareData" />
