@@ -2,7 +2,7 @@
   <div @click="closeSideMenu">
     <div data-collapse="medium" data-animation="over-right" data-duration="400" class="navbar-3 w-nav">
       <div class="div-block-2">
-        <router-link to="/app" class="w-nav-brand"><img src="../assets/Prodeus-Logo-White.svg" height="36" alt="" class="image-44"></router-link>
+        <router-link to="/" class="w-nav-brand"><img src="../assets/Prodeus-Logo-White.svg" height="36" alt="" class="image-44"></router-link>
         <nav role="navigation" class="nav-menu-3 w-nav-menu">
           <router-link to="/learning" class="nav-link-2 w-nav-link">Learning</router-link>
           <router-link to="/teaching" class="nav-link-2 w-nav-link w--current">Teaching</router-link>
@@ -55,7 +55,7 @@
           </div>
           <div class="_30px-bottom">
             <div class="text-block-20 _30px-bottom">Prodeus is the world’s first peer-to-peer university, a space of learning for everyone, by everyone, about almost anything.</div>
-          </div><a href="#" class="link-8">Read more about Peer Certified Education</a></div><img src="../assets/higheredAsset-11.svg" alt="" class="image-46"></div>
+          </div><router-link to="/" class="link-8">Read more about Peer Certified Education</router-link></div><img src="../assets/higheredAsset-11.svg" alt="" class="image-46"></div>
     </section>
     <section id="debtfree" class="section-4">
       <div class="content-wrap right"><img src="../assets/debtfreeAsset-12.svg" alt="" class="image-47">
@@ -65,7 +65,7 @@
           </div>
           <div class="_30px-bottom">
             <div class="text-block-20 _30px-bottom right">At $14/mo you can earn a blockchain backed degree for the cost of a Netflix subscription.</div>
-          </div><a href="#" class="link-8">Read more about the ProDegree</a></div>
+          </div><router-link to="/prodegrees"  class="link-8">Read more about the ProDegree</router-link></div>
       </div>
     </section>
     <div class="section-5 alt">
@@ -506,7 +506,7 @@
           </div>
           <div class="_30px-bottom">
             <div class="text-block-20 _30px-bottom right">Everyone has knowledge to share. Create a class using our simple format, engage with your students and earn income every month.</div>
-          </div><a href="#" class="link-8">Read more about teaching</a></div><img src="../assets/teachAsset-152x-8.png" alt="" class="image-49"></div>
+          </div><router-link to="/teaching"  class="link-8">Read more about teaching</router-link></div><img src="../assets/teachAsset-152x-8.png" alt="" class="image-49"></div>
     </section>
     <div class="section-6 alt">
       <h1 class="heading-52">Featured Classes</h1>

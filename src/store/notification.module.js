@@ -27,6 +27,11 @@ export const notification = {
     readNotification({ commit }, id) {
       authService.put(`/notifications/${id}/read`, {})
         .then(response => {
+          authService.get(`/notifications/unread/count`)
+            .then(response => {
+              commit('setNotificationsCount', response.data);
+            },
+              error => commit('failure', error));
         },
           error => commit('failure', error));
     }

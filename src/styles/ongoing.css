@@ -7093,10 +7093,10 @@ h2 {
 }
 
 .image-45.degrees {
-  right: -40px;
+  right: -80px;
   bottom: 0px;
   height: auto;
-  max-height: 75vh;
+  max-height: 78vh;
   max-width: 78vw;
 }
 
@@ -7536,7 +7536,7 @@ h2 {
 
 .div-block-6._3 {
   background-image: url('../assets/newbg.jpg');
-  background-position: 0px 0px;
+  background-position: 50% 50%;
   background-size: cover;
 }
 
@@ -10935,7 +10935,7 @@ html.w-mod-js *[data-ix="display-none"] {
     display: none;
   }
   .slide-nav {
-    top: 652px;
+    top: 563px;
     display: block;
     margin-top: 0px;
   }
@@ -10970,7 +10970,7 @@ html.w-mod-js *[data-ix="display-none"] {
     display: none;
   }
   .section-7 {
-    height: auto;
+    height: 210px;
   }
   .image-52 {
     top: 190px;

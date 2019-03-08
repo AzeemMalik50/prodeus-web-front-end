@@ -31,7 +31,7 @@
             <!-- </transition-group> -->
 
               <!-- recent projects -->
-              <recent-projects />
+              <!-- <recent-projects /> -->
 
             </div>
           </div>
