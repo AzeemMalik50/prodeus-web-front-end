@@ -32,7 +32,8 @@ export default new Vuex.Store({
       text: ''
     },
     isOpenLogin: false,
-    isOpenSignup: false
+    isOpenSignup: false,
+    isOpenResetPassword: false
   },
   mutations: {
     setProfileSettingForm: (state, payload) => {
@@ -76,6 +77,9 @@ export default new Vuex.Store({
     },
     setSignUpForm: (state, payload) => {
       state.isOpenSignup = payload;
+    },
+    setResetpasswordForm: (state, payload) => {
+      state.isOpenResetPassword = payload;
     },
   },
   actions: {
@@ -132,6 +136,9 @@ export default new Vuex.Store({
     },
     setSignUpForm({ commit }, payload) {
       commit('setSignUpForm', payload);
+    },
+    setResetpasswordForm({ commit }, payload) {
+      commit('setResetpasswordForm', payload);
     },
   },
   getters: {

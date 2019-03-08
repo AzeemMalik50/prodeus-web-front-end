@@ -43,9 +43,9 @@
                 </div>
                 <div class="div-block-101 right">
                   <div>
-                 <router-link class="link-4" :to="{name: 'forgot-password'}">
+                 <a href="#" @click.prevent="openReset" class="link-4" >
                     Forgot password?
-                 </router-link>
+                 </a>
                     </div>
                 </div>
               </div>
@@ -100,6 +100,10 @@ export default {
     }
   },
   methods: {
+    openReset(){
+      this.closeLogin();
+      this.$store.dispatch("setResetpasswordForm", true);
+    },
     closeLogin() {
       this.$store.dispatch("setLoginForm", false);
     },

@@ -1,7 +1,7 @@
 <template>
-    <div class="modal-wrapper">
+    <div class="modal-wrapper" @click="closeReset">
     <div class="_100-vh center">
-      <div class="login-wrapper">
+      <div class="login-wrapper" @click.stop="doNothing">
         <div class="div-block-93">
           <div class="div-block-95">
             <div>
@@ -42,15 +42,15 @@
             <div class="_20px-bottom-margin">
               <div class="flex-space-between">
                 <div class="div-block-101">
-                  <router-link class="link-4" :to="{name: 'login'}">
+                  <a href="#" @click.prevent="openLogin" class="link-4">
                     Login
-                 </router-link>
+                 </a>
                 </div>
                 <div class="div-block-101 right">
                   <div>
-                 <router-link class="link-4" :to="{name: 'forgot-password'}">
+                 <!-- <router-link class="link-4" :to="{name: 'forgot-password'}">
                     Forgot password?
-                 </router-link>
+                 </router-link> -->
                     </div>
                 </div>
               </div>
@@ -80,12 +80,13 @@ export default {
   },
   computed: {
     passwordValidation() {
-      let pwdLength = this.password.length < 8 && this.confirmPassword.length > 1;
+      let pwdLength =
+        this.password.length < 8 && this.confirmPassword.length > 1;
       if (pwdLength) {
         this.resetError = "Password must be 8 characters long!";
         return false;
-      } else if (this.password !== this.confirmPassword ) {
-        this.resetError =  "Password and Confirm password should be same!";
+      } else if (this.password !== this.confirmPassword) {
+        this.resetError = "Password and Confirm password should be same!";
         return false;
       } else {
         this.resetError = "";
@@ -102,7 +103,7 @@ export default {
         dispatch("authentication/resetForgetPassword", {
           password,
           confirmPassword,
-          resetToken : this.resetToken
+          resetToken: this.resetToken
         }).then(
           response => {
             console.log(response.data);
@@ -116,8 +117,16 @@ export default {
         );
       }
     },
-    gotoLogin(){
-      this.$router.push({name:'login'});
+    gotoLogin() {
+      this.$router.push({ name: "login" });
+    },
+    closeReset() {
+      this.$store.dispatch("setResetpasswordForm", false);
+    },
+    doNothing() {},
+    openLogin() {
+      this.closeReset();
+      this.$store.dispatch("setLoginForm", true);
     }
   }
 };
