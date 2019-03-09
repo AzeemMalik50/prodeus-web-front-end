@@ -30,7 +30,7 @@
           <img src="@/assets/course-catalog.svg" width="24" alt="">
           </router-link>
           <router-link :to="{ name: 'myClasses', params: { id: loggedInUser._id} }" class="link-block w-inline-block">
-            <img src="@/assets/ClassroomInactive.svg" class="height-20" />
+            <img src="@/assets/Union-198.svg" class="height-20" />
           </router-link>
           <!-- <a href="#" class="link-block w-inline-block">
               <img src="@/assets/MessagesInactive.svg" class="width-20" />
@@ -116,7 +116,7 @@
     <div data-collapse="none" data-animation="default" data-duration="400" class="navbar-bottom w-nav">
       <nav role="navigation" class="nav-menu bottom w-nav-menu">
         <router-link :to="{ name: 'myClasses', params: { id: loggedInUser._id} }" @click="isMenuOpen = false" class="link-block w-inline-block">
-          <img src="@/assets/ClassroomInactive.svg" class="height-24" />
+          <img src="@/assets/Union-198.svg" class="height-24" />
         </router-link>
         <a href="#" class="link-block w-inline-block" @click.prevent="toggelePanel('isAdd');isMenuOpen = false">
           <img src="@/assets/Group-6084.svg" height="24" alt=""></a>
