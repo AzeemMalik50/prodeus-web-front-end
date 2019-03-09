@@ -8,7 +8,7 @@
       <QuestionCard v-if="feed.postType==='Question'" :question="feed" />
     </div>
     </masonry>
-    <div class="empty-feed" v-else>
+    <div class="empty-feed" v-if="!isFetching && (!feeds || !feeds.length)">
       <img src="../assets/feedAsset-20.svg" class="emp-img" alt="">
         <h1 class="heading-55">There&#x27;s nothing here yet...</h1>
         <!-- <div class="div-block-113 alt cursor-pointer">
@@ -104,7 +104,8 @@ export default {
     return {
       feeds: [],
       postType: "Answer",
-      projectData: {}
+      projectData: {},
+      isFetching:true
     };
   },
   methods: {
@@ -113,9 +114,11 @@ export default {
       if (this.feedsFilters && this.feedsFilters.length) {
         query = "?types=" + this.feedsFilters.toString();
       }
+      this.isFetching = true;
       this.$store.dispatch("classes/getFeeds", query).then(
         response => {
           this.feeds = response.data;
+          this.isFetching = false;
         },
         error => {
           console.error(error);
