@@ -55,7 +55,7 @@
           </div>
           <div class="_30px-bottom">
             <div class="text-block-20 _30px-bottom">Prodeus is the world’s first peer-to-peer university, a space of learning for everyone, by everyone, about almost anything.</div>
-          </div><router-link to="/" class="link-8">Read more about Peer Certified Education</router-link></div><img src="../assets/higheredAsset-11.svg" alt="" class="image-46"></div>
+          </div><router-link to="/learning" class="link-8">Read more about Peer Certified Education</router-link></div><img src="../assets/higheredAsset-11.svg" alt="" class="image-46"></div>
     </section>
     <section id="debtfree" class="section-4">
       <div class="content-wrap right"><img src="../assets/debtfreeAsset-12.svg" alt="" class="image-47">
