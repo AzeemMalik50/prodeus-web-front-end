@@ -4,7 +4,12 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "build": "vue-cli-service build",
+    "start": "vue-cli-service serve",
+    "run": "vue-cli-service serve",
+    "predeploy": "npm run build",
+    "deploy": "aws --profile prodeus-s3-user s3 sync dist/ s3://prodeus-web-production --delete",
+    "postdeploy": "aws --profile prodeus-s3-user cloudfront create-invalidation --distribution-id E24MBTROEKYP63 --paths '/*' && aws --profile prodeus-s3-user cloudfront create-invalidation --distribution-id E17ELMYDNTF68A  --paths '/*'"
   },
   "dependencies": {
     "axios": "^0.18.0",
