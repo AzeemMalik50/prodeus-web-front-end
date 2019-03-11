@@ -1,13 +1,19 @@
 <template>
     <div class="page-section">
   <div class="flex-row">
-    <masonry :cols="{default: 5, 1600: 4, 1300: 3, 900: 2, 500: 1}" class="masonary" v-if="feeds && feeds.length">
+    <masonry :cols="{default: 5, 1600: 4, 1300: 3, 900: 2, 500: 1}" class="masonary" v-if="feeds && feeds.length && feeds.length > 4">
     <div class="flexcolumn" v-for="feed in feeds" :key="feed._id">
       <ClassCard :feedClass="feed" v-if="!feed.postType" />
       <ProjectCard v-if="feed.postType==='Project'" :project="feed" />
       <QuestionCard v-if="feed.postType==='Question'" :question="feed" />
     </div>
     </masonry>
+     <div class="flexcolumn" v-for="feed in feeds" :key="feed._id" v-if="feeds && feeds.length && feeds.length < 4">
+      <ClassCard :feedClass="feed" v-if="!feed.postType" />
+      <ProjectCard v-if="feed.postType==='Project'" :project="feed" />
+      <QuestionCard v-if="feed.postType==='Question'" :question="feed" />
+    </div>
+
     <div class="empty-feed" v-if="!isFetching && (!feeds || !feeds.length)">
       <img src="../assets/feedAsset-20.svg" class="emp-img" alt="">
         <h1 class="heading-55">There&#x27;s nothing here yet...</h1>
@@ -75,9 +81,11 @@ export default {
   },
   created() {
     if (this.categoryId) {
+      this.isFetching = true;
       this.$store.dispatch("classes/getCatgClasses", this.categoryId).then(
         response => {
           this.feeds = response.data;
+      this.isFetching = false;
         },
         error => {
           console.error(error);

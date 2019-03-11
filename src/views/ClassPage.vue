@@ -12,7 +12,7 @@
             </div>
             <a  href="#" @click.prevent="enrollClass()" class="link">{{isEnrolled ? 'Enrolled': 'Enroll'}}</a>
             <div class="div-block-84">
-              <div class="back-wrap" @click="$router.push('/')">
+              <div class="back-wrap" @click="$router.push('/app')">
                 <img src="../assets/left-arrow.svg" class="image-13 left-arrow" />
                 <a href="#" class="link-3">Back</a></div>
             </div>

@@ -20,6 +20,10 @@ import Teach from '@/views/Teach.vue';
 import Learn from '@/views/Learn.vue';
 import ProDegrees from '@/views/ProDegrees.vue';
 import CourseCatalog from '@/views/CourseCatalog.vue';
+import PrivacyPolicy from '@/views/PrivacyPolicy.vue';
+import TermsCondition from '@/views/TermsCondition.vue';
+
+
 
 
 
@@ -85,6 +89,15 @@ const router = new Router({
       path: '/prodegrees',
       name: 'home-degrees',
       component: ProDegrees
+    },
+    {
+      path: '/terms-conditions',
+      name: 'terms-conditions',
+      component: TermsCondition
+    }, {
+      path: '/privacy-policy',
+      name: 'privacy-policy',
+      component: PrivacyPolicy
     },
     {
       path: '/login',

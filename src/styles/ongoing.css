@@ -8429,6 +8429,22 @@ h2 {
   text-align: center;
 }
 
+.rich-text-block-3 {
+  margin: 110px 50px 50px;
+}
+
+.section-10 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
 html.w-mod-js *[data-ix="display-none"] {
   display: none;
 }
@@ -9774,6 +9790,9 @@ html.w-mod-js *[data-ix="display-none"] {
   }
   .filtermobile {
     margin-right: 10px;
+  }
+  .rich-text-block-3 {
+    margin: 80px 30px 50px;
   }
 }
 
@@ -11126,6 +11145,10 @@ html.w-mod-js *[data-ix="display-none"] {
     -webkit-flex: 0 0 auto;
     -ms-flex: 0 0 auto;
     flex: 0 0 auto;
+  }
+  .rich-text-block-3 {
+    margin-right: 20px;
+    margin-left: 20px;
   }
 }
 

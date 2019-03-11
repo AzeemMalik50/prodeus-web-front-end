@@ -1,7 +1,7 @@
 <template>
-   <div class="modal-wrapper">
+   <div class="modal-wrapper" @click="closeReset">
     <div class="_100-vh center">
-      <div class="login-wrapper">
+      <div class="login-wrapper" @click.stop="doNothing">
         <div class="div-block-93">
           <div class="div-block-95">
             <div>
@@ -45,9 +45,9 @@
             </div>
             <div class="div-block-98">
               <div class="div-block-99">
-                 <router-link class="link-4" to="/login">
+                 <a href="#" @click.prevent="openLogin" class="link-4">
                     Login
-                </router-link>
+                </a>
                 </div>
             </div>
           </div>
@@ -85,6 +85,14 @@ export default {
           }
         );
       }
+    },
+    closeReset(){
+      this.$store.dispatch('setResetpasswordForm', false)
+    },
+    doNothing() {},
+    openLogin() {
+      this.closeReset();
+      this.$store.dispatch("setLoginForm", true);
     }
   }
 };
