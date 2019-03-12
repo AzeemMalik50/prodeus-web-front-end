@@ -1,5 +1,5 @@
 <template>
-  <div class="card nopadding">
+  <div class="card nopadding instructor">
     <div class="_30px-top-bottom-20-side-padding class-desc">
       <div class="div-block-116">
         <div class="div-block-118">
@@ -93,5 +93,8 @@ export default {
 <style lang="scss" scoped>
 .class-desc {
   width: 270px;
+}
+.instructor {
+  height: 380px;
 }
 </style>
