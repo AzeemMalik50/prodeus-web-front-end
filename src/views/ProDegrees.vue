@@ -6,7 +6,7 @@
         <nav role="navigation" class="nav-menu-3 w-nav-menu">
           <router-link to="/learning" class="nav-link-2 w-nav-link">Learning</router-link>
           <router-link to="/teaching" class="nav-link-2 w-nav-link">Teaching</router-link>
-          <router-link to="/prodegrees" class="nav-link-2 w-nav-link" :class="{'w--current': $router.name == 'home-degrees'}">ProDegrees</router-link>
+          <router-link to="/prodegrees" class="nav-link-2 w-nav-link w--current">ProDegrees</router-link>
           <a href="#" @click.prevent="openLogin" class="nav-link-3 w-nav-link">Login</a>
         </nav>
         <div class="menu-button w-nav-button" @click.stop="toggleSideMenu">
@@ -18,9 +18,9 @@
       <div class="div-block-2">
         <a href="homepage.html" class="w-nav-brand"><img src="https://uploads-ssl.webflow.com/5c4c89abdfbd6c122324f41c/5c61d222da78f067b8dd07a7_logoAsset%202.svg" alt="" class="image-44"></a>
         <nav role="navigation" class="nav-menu-3 w-nav-menu">
-          <router-link to="/learning" class="nav-link-2 dark w-nav-link w--current">Learning</router-link>
+          <router-link to="/learning" class="nav-link-2 dark w-nav-link">Learning</router-link>
           <router-link to="/teaching" class="nav-link-2 dark w-nav-link">Teaching</router-link>
-          <router-link to="/prodegrees" class="nav-link-2 dark w-nav-link">ProDegrees</router-link>
+          <router-link to="/prodegrees" class="nav-link-2 dark w-nav-link w--current">ProDegrees</router-link>
           <a href="#" @click.prevent="openLogin" class="nav-link-3 dark w-nav-link">Login</a>
         </nav>
         <div class="menu-button w-nav-button">
@@ -28,7 +28,7 @@
         </div>
       </div>
     </div>
-    <div class="hero prodegrees" data-ix="display-nav">
+    <!-- <div class="hero prodegrees" data-ix="display-nav">
       <div class="content alt">
         <div class="vert-top-left">
           <div class="_40px-bottom">
@@ -36,7 +36,18 @@
           </div><a href="#" @click.prevent="openSignUp" class="button-4 w-button">Register for our Free Private Beta</a>
           <div class="text-block-19 dark">Public Enrollment coming June 2019</div>
         </div><img src="https://uploads-ssl.webflow.com/5c4c89abdfbd6c122324f41c/5c4dcca9dfbd6c294925ff5b_peercertifiedAsset%2010.svg" alt="" class="image-45 degrees"></div>
-    </div>
+    </div> -->
+
+
+     <div class="hero prodegrees" data-ix="display-nav">
+    <div class="content alt">
+      <div class="vert-top-left">
+        <div class="_40px-bottom">
+          <h1 class="heading">Peer certified<br>degrees</h1>
+        </div><a href="#" @click.prevent="openSignUp" class="button-4 dark w-button">Register for our Free Private Beta</a>
+        <div class="text-block-19 dark">Public Enrollment coming June 2019</div>
+      </div><img src="https://uploads-ssl.webflow.com/5c4c89abdfbd6c122324f41c/5c4dcca9dfbd6c294925ff5b_peercertifiedAsset%2010.svg" alt="" class="image-45 degrees"></div>
+  </div>
     <div class="section-8 alt" data-ix="display-nav">
       <div class="div-block-11">
         <div class="_30px-bottom">

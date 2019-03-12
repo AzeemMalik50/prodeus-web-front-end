@@ -105,6 +105,10 @@ export default {
     this.profileFormData = JSON.parse(JSON.stringify(this.profile));
   },
   methods: {
+    setProfileData(){
+    this.$store.dispatch("profile/getProfile", this.userId);
+    this.profileFormData = JSON.parse(JSON.stringify(this.profile));
+    },
     changeTab(tab) {
       this.curTab = tab;
     },
@@ -149,6 +153,12 @@ export default {
       profileForm: state => state.profile.profileForm,
       profile: state => state.profile.profile
     }),
-  }
+  },
+   watch: {
+    $route(to, from) {
+       this.userId = to.params.userId;
+       this.setProfileData();
+    }
+  },
 };
 </script>

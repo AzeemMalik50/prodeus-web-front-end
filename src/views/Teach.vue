@@ -5,7 +5,7 @@
         <router-link to="/" class="w-nav-brand"><img src="../assets/Prodeus-Logo-White.svg" height="36" alt="" class="image-44"></router-link>
         <nav role="navigation" class="nav-menu-3 w-nav-menu">
           <router-link to="/learning" class="nav-link-2 w-nav-link">Learning</router-link>
-          <router-link to="/teaching" class="nav-link-2 w-nav-link" :class="{'w--current': $router.name == 'home-teach'}">Teaching</router-link>
+          <router-link to="/teaching" class="nav-link-2 w-nav-link w--current">Teaching</router-link>
           <router-link to="/prodegrees" class="nav-link-2 w-nav-link">ProDegrees</router-link>
           <a href="#" @click.prevent="openLogin" class="nav-link-3 w-nav-link">Login</a>
         </nav>
@@ -19,7 +19,7 @@
       <div @click.stop="doNothing" class="w-nav-overlay" v-if="isSideMenuOpen" data-wf-ignore="" style="height: 5495.97px; display: block; width: 200px;">
         <nav role="navigation" class="nav-menu-3 w-nav-menu w--nav-menu-open" style="transform: translateX(0px) translateY(0px); height: 5495.97px; transition: transform 400ms ease 0s;">
           <router-link to="/learning" class="nav-link-2 w-nav-link w--nav-link-open">Learning</router-link>
-          <router-link to="/teaching" class="nav-link-2 w-nav-link w--nav-link-open">Teaching</router-link>
+          <router-link to="/teaching" class="nav-link-2 w-nav-link w--nav-link-open w--current">Teaching</router-link>
           <router-link to="/prodegrees" class="nav-link-2 w-nav-link w--nav-link-open">ProDegrees</router-link>
           <a href="#" @click.prevent="openLogin" class="nav-link-3 w-nav-link w--nav-link-open">Login</a>
         </nav>

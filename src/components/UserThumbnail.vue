@@ -9,6 +9,8 @@ export default {
   props: ["user", "myClass", "link"],
   methods: {
     goToProfile() {
+      this.$store.dispatch("toggelQuestionDialog", false);
+      this.$store.dispatch("toggelProjectDialog", false);
       if (this.link !== 'no') {
         this.$router.push({
           name: "userProfile",
