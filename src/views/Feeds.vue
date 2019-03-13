@@ -17,10 +17,10 @@
     <div class="empty-feed" v-if="!isFetching && (!feeds || !feeds.length)">
       <img src="../assets/feedAsset-20.svg" class="emp-img" alt="">
         <h1 class="heading-55">There&#x27;s nothing here yet...</h1>
-        <!-- <div class="div-block-113 alt cursor-pointer">
-          <img src="../assets/add-white.svg" height="20" alt="" class="image-29">
-          <div class="text-block-14 alt">Create a post</div>
-        </div> -->
+        <div class="div-block-113 alt cursor-pointer" @click="$router.go(-1)">
+          <img src="../assets/left-arrow.svg" height="20" alt="" class="image-29">
+          <div class="text-block-14 alt">Back</div>
+        </div>
       </div>
   </div>
     <!-- <create-post v-if="showAnswerPost" :type="postType" :parentPost="selectedQuestion" />

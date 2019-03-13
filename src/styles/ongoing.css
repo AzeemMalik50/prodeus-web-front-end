@@ -9572,13 +9572,13 @@ html.w-mod-js *[data-ix="display-none"] {
     display: none;
   }
   .div-block-104 {
-    position: fixed;
-    left: 0px;
-    top: 68px;
-    right: 0px;
-    bottom: 62px;
-    padding-top: 0px;
-    padding-bottom: 0px;
+    position: fixed !important;
+    left: 0px !important;
+    top: 68px !important;
+    right: 0px !important;
+    bottom: 62px !important;
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
   }
   .div-block-113 {
     display: none;

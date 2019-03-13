@@ -1,12 +1,12 @@
 <template>
-  <div class="card nopadding instructor">
+  <div class="card nopadding">
     <div class="_30px-top-bottom-20-side-padding class-desc">
       <div class="div-block-116">
         <div class="div-block-118">
           <div class="_20px-bottom-margin">
-            <h1 class="heading-2 _400 left">{{myClass.title}}</h1>
+            <h1 class="heading-2 _400 left h-30">{{classTitle}}</h1>
           </div>
-          <h2 class="heading-6">{{myClass.category}}</h2>
+          <h2 class="heading-6 h-15">{{myClass.category}}</h2>
         </div>
         <edit-menu :onEdit="openEditClass" :onDel="deleteClass"/>
       </div>
@@ -86,6 +86,15 @@ export default {
     //       console.error(err);
     //     }
     //   );
+  },
+  computed: {
+     classTitle(){
+      if(this.myClass.title.length > 44) {
+        return this.myClass.title.slice(0, 44) + '...';
+      } else {
+        return this.myClass.title;
+      }
+    }
   }
 };
 </script>
@@ -96,5 +105,11 @@ export default {
 }
 .instructor {
   height: 380px;
+}
+.h-15 {
+  height: 15px;
+}
+.h-30 {
+  height: 30px;;
 }
 </style>

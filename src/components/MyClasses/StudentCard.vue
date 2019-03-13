@@ -4,9 +4,9 @@
       <div class="div-block-116">
          <div class="div-block-118">
           <div class="_20px-bottom-margin">
-            <h1 class="heading-2 _400 left">{{myClass.title}}</h1>
+            <h1 class="heading-2 _400 left h-30">{{classTitle}}</h1>
           </div>
-          <h2 class="heading-6">{{myClass.category}}</h2>
+          <h2 class="heading-6 h-15">{{myClass.category}}</h2>
         </div>
         <!-- <div class="div-block-117"><img src="@/assets/Menu.svg" width="4" alt=""></div> -->
       </div>
@@ -52,6 +52,13 @@
     progressWidth(){
       let percentage = Math.ceil((this.myClass.progress.watchedLessons.length/ this.myClass.lessons.length ) * 100);
       return `${percentage}%`
+    },
+    classTitle(){
+      if(this.myClass.title.length > 44) {
+        return this.myClass.title.slice(0, 44) + '...';
+      } else {
+        return this.myClass.title;
+      }
     }
   }
 }
@@ -60,7 +67,13 @@
 .class-desc {
       width: 270px;
 }
-.student {
-  height: 380px;
+// .student {
+//   height: 380px;
+// }
+.h-15 {
+  height: 15px;
+}
+.h-30 {
+  height: 30px;;
 }
 </style>
