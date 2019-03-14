@@ -71,9 +71,11 @@
 //   height: 380px;
 // }
 .h-15 {
-  height: 15px;
+  min-height: 15px;
+  max-height: 15px;
 }
 .h-30 {
-  height: 30px;;
+  min-height: 30px;
+  max-height: 30px;
 }
 </style>
