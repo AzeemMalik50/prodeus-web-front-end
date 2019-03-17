@@ -81,17 +81,24 @@
         </div>
       </div>
     </div>
+    <Loading :color="'#8446e8'" :active.sync="submitted" :is-full-page="true"></Loading>
+
   </div>
 </template>
 
 <script>
+import Loading from "vue-loading-overlay";
+
 export default {
+   components: {
+    Loading
+  },
   data() {
     return {
       email: "",
       password: "",
       submitted: false,
-      loginError: null
+      loginError: null,
     };
   },
   computed: {
