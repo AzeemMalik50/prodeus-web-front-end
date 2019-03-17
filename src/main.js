@@ -10,6 +10,7 @@ import VueMasonry from 'vue-masonry-css';
  // donuts chart
 import Donut from 'vue-css-donut-chart';
 import 'vue-css-donut-chart/dist/vcdonut.css';
+import VueAnalytics from 'vue-analytics';
 
 
 const VueScrollTo = require('vue-scrollto');
@@ -102,6 +103,12 @@ HelloJs.init({
 }, {
   redirect_uri: 'authcallback/'
 });
+
+Vue.use(VueAnalytics, {
+  id:  process.env.VUE_APP_GOOGLE_ANALYTICS_ID,
+  router
+});
+
 Vue.use(VueHello, HelloJs);
 Vue.config.productionTip = false
 Vue.use(VueQuillEditor, /* { default global options } */);
@@ -123,3 +130,4 @@ Vue.filter('duration', (totalSeconds) => {
 Vue.filter('length', (value, length) => {
   return value.length <= length ? value : value.slice(length)+ '...'
 });
+

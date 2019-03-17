@@ -17,6 +17,7 @@
     "lodash": "^4.17.11",
     "moment-timezone": "^0.5.23",
     "vue": "^2.5.17",
+    "vue-analytics": "^5.16.4",
     "vue-clickaway": "^2.2.2",
     "vue-cookies": "^1.5.7",
     "vue-css-donut-chart": "^1.0.1",

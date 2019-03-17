@@ -29,7 +29,6 @@ import TermsCondition from '@/views/TermsCondition.vue';
 
 
 
-
 import store from './store'
 Vue.use(Router)
 
@@ -147,5 +146,6 @@ router.beforeEach((to, from, next) => {
   }
   next();
 });
+
 
 export default router;
