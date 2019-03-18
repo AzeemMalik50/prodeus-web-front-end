@@ -3,20 +3,20 @@
     <router-view/>
     <Login  v-if="isOpenLogin"/>
     <SignUp v-if="isOpenSignup" />
-    <reset-forget-password v-if="isOpenResetPassword" />
+    <forgot-password v-if="isOpenResetPassword" />
   </div>
 </template>
 <script>
 import { mapGetters, mapState } from "vuex";
 import Login from "./views/Login";
 import SignUp from "./views/SignUp";
-import ResetForgetPassword from "./views/ResetForgetPassword";
+import ForgotPassword from "./views/ForgotPassword";
 
 export default {
 components:{
   Login,
   SignUp,
-  ResetForgetPassword
+  ForgotPassword
 },
 computed: {
    ...mapState({

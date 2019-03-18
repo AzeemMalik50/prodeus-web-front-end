@@ -21,13 +21,13 @@
                 <img src="../assets//wordmark.svg" class="wordmark" />
                 </div>
             <div class="form-block-5 w-form">
-              <form v-if="!successMessage" @submit.prevent="handleSubmit" id="email-form" name="email-form" data-name="Email Form" class="form-4">
+              <!-- <form v-if="!successMessage" @submit.prevent="handleSubmit" id="reset-pwd-form" name="reset-pwd-form" data-name="Email Form" class="form-4"> -->
                <img src="../assets/email.svg" class="pwd-icon email" />
                 <input type="email" v-model="email" class="text-field-3 w-input" maxlength="256" name="email" data-name="Email" placeholder="Email" id="email" required="">
                <!-- <img src="../assets/password.svg" class="pwd-icon" />
                 <input type="password" v-model="password" class="text-field-3 w-input" maxlength="256" name="password" data-name="password" placeholder="Password" id="password" required=""> -->
-                <input type="submit" :disabled="submitted || !email" value="Reset Password" data-wait="Please wait..." class="submit-button-4 w-button">
-                </form>
+                <input type="submit" :disabled="submitted || !email" value="Reset Password" data-wait="Please wait..." @click="handleSubmit" class="submit-button-4 w-button">
+                <!-- </form> -->
               <div class="w-form-done block" v-if="successMessage">
                 <div>{{successMessage}}</div>
               </div>
