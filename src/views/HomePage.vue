@@ -64,7 +64,7 @@
             <h1 class="heading-50 right">Debt Free Degrees</h1>
           </div>
           <div class="_30px-bottom">
-            <div class="text-block-20 _30px-bottom right">At $14/mo you can earn a blockchain backed degree for the cost of a Netflix subscription.</div>
+            <div class="text-block-20 _30px-bottom right">At $14/mo you can earn a peer certified degree for the cost of a Netflix subscription.</div>
           </div><router-link to="/prodegrees"  class="link-8">Read more about the ProDegree</router-link></div>
       </div>
     </section>
