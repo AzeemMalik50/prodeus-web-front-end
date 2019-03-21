@@ -183,7 +183,7 @@
         }
         // message += days + " days "
         if (years > 0) {
-          if (yearr == 1) {
+          if (years == 1) {
             message += years + "year )";
           } else {
             message += years + "years )";

@@ -28,13 +28,22 @@ export default {
     };
   },
   created() {
-      let user = JSON.parse(localStorage.getItem('user'));
+    let user = JSON.parse(localStorage.getItem("user"));
     if (this.notification.from && this.notification.from.local.img) {
       this.userImage =
-        this.$apiBaseUrl + "/media/" + this.notification.from.local.img+ "?at="+user.accessToken;;
+        this.$apiBaseUrl +
+        "/media/" +
+        this.notification.from.local.img +
+        "?at=" +
+        user.accessToken;
     }
-    this.classImage =
-     this.notification.referenceDoc.img ? this.$apiBaseUrl + "/media/" + this.notification.referenceDoc.img+ "?at="+user.accessToken: '';
+    this.classImage = this.notification.referenceDoc.img
+      ? this.$apiBaseUrl +
+        "/media/" +
+        this.notification.referenceDoc.img +
+        "?at=" +
+        user.accessToken
+      : "";
   },
   methods: {
     imageUrl() {},
@@ -51,9 +60,24 @@ export default {
         });
       }
       if (this.notification.docType === "Posts") {
-         this.$router.push({
-          name: this.notification.referenceDoc.postType.toLowerCase(),
-          params: { postId: this.notification.referenceDoc._id }
+        let param = {};
+        this.$store.dispatch("setCurrentPostId", this.notification.referenceDoc._id);
+        if (
+          this.notification.referenceDoc &&
+          this.notification.referenceDoc.postType
+        ) {
+          let type = this.notification.referenceDoc.postType.toLowerCase();
+          param[type] = this.notification.referenceDoc._id;
+          if (type === "project") {
+            this.$store.dispatch("toggelProjectDialog", true);
+          }
+          if (type === "question") {
+            this.$store.dispatch("toggelQuestionDialog", true);
+          }
+        }
+        this.$router.push({
+          name: "feed",
+          params: param
         });
       }
     },
