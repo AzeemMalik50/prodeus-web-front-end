@@ -496,7 +496,7 @@
           </div>
           <div class="_30px-bottom">
             <div class="text-block-20 _30px-bottom">All our classes are simply structured and pre-recorded so you can finish them on your own time.</div>
-          </div><a href="#" class="link-8">Read more about Prodeus classes</a></div><img src="https://uploads-ssl.webflow.com/5c4c89abdfbd6c122324f41c/5c4deac0a29a8f3bb0efce37_learnanywhereAsset%2013.svg" alt="" class="image-48"></div>
+          </div><router-link to="/learning" class="link-8">Read more about Prodeus classes</router-link></div><img src="https://uploads-ssl.webflow.com/5c4c89abdfbd6c122324f41c/5c4deac0a29a8f3bb0efce37_learnanywhereAsset%2013.svg" alt="" class="image-48"></div>
     </section>
     <section id="debtfree" class="section-4 blue">
       <div class="content-wrap teach">
