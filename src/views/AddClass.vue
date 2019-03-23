@@ -331,7 +331,7 @@ export default {
 
       this.currentLessonType = "lessons";
     } else {
-      this.addLessson(2);
+      this.addLessson(5);
     }
     window.addEventListener("keyup", this.closeClassModal);
   },

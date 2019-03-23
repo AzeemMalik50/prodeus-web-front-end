@@ -69,7 +69,10 @@
 
 <script>
 import FileUpload from "@/components/CreateClasss/FileUpload";
-
+import axios from 'axios';
+import { authHeader } from '../../_helpers';
+const CancelToken = axios.CancelToken;
+// const source = CancelToken.source();
 export default {
   components: {
     FileUpload
@@ -105,6 +108,7 @@ export default {
   },
   data() {
     return {
+      cancel: null,
       hasAssignment: false,
       isAssignReq: false,
       videoThumbnail: "",
@@ -144,6 +148,11 @@ export default {
       if (document.getElementById("videoFile")) {
         document.getElementById("videoFile").value = "";
       }
+
+     if(this.cancel) {
+       this.cancel();
+     }
+      this.lesson.toUpload.isUploading = false;
       this.videoThumbnail = null;
       this.lesson.lessonThumbnail = null;
       this.lesson.toUpload.video = null;
@@ -161,8 +170,16 @@ export default {
       let formData = new FormData();
       formData.append("thumbnail", this.lesson.toUpload.thumbnail);
       formData.append("video", this.lesson.toUpload.video);
-      this.$store.dispatch("classes/uploadVideo", formData).then(
+      // this.$store.dispatch("classes/uploadVideo", formData)
+      axios.post("/uploads/video", formData, {
+         cancelToken: new CancelToken( (c) => {
+            // An executor function receives a cancel function as a parameter
+            this.cancel = c;
+          }),
+        headers: authHeader({'Content-Type': 'multipart/form-data'}) })
+        .then(
         videos => {
+          this.cancel = null;
           this.lesson.media = videos.data.video._id;
           this.lesson.img = videos.data.thumbnail._id;
           this.lesson.toUpload.isUploading = false;

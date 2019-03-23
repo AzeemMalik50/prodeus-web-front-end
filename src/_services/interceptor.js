@@ -8,7 +8,10 @@ axios.interceptors.response.use((response) => {
 },  (error) => {
   // Do something with response error
   console.log(error)
-  if(error.response.status === 401){
+  if (axios.isCancel(error)) {
+    console.log('Request canceled');
+  }
+  if(error && error.response && error.response.status === 401){
     store.dispatch('authentication/logout');
   }
   return Promise.reject(error);
