@@ -70,7 +70,7 @@
                 </div> -->
                 <div class="card">
                   <div class="_40-side-padding">
-                    <div class="_40-top-30-bottom">
+                    <!-- <div class="_40-top-30-bottom">
                       <div class="flex-space-between"><img src="../../assets/Logo.svg" height="40" alt="">
                         <div class="vert-justify-start-align-right">
                           <div class="_5px-bottom-margin">
@@ -82,7 +82,7 @@
                           <h1 class="heading-18">(c. 2016)</h1>
                         </div>
                       </div>
-                    </div>
+                    </div> -->
                     <div class="_40px-bottom-margin">
                       <div class="underline"></div>
                     </div>
