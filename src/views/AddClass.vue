@@ -106,13 +106,14 @@
               </div>
               <div class="curriculum-block">
                 <div class="div-block-46" >
-                  <div class="lesson-container" @click="toTrailer()">
+                  <div class="lesson-container cursor-pointer" @click="toTrailer()">
                     <h1 class="heading-22" :class="{'complete': newClass.trailer.completed}">Trailer</h1>
                     <img src="../assets/check-line.svg" class="image-8 check" v-if="newClass.trailer.completed" />
                     </div>
                   <div class="lesson-container" v-for="(lesson, index) in newClass.lessons" :key="index" @click="toLesson(index)">
-                    <h1 class="heading-22" :class="{'complete':lesson.completed}">Lesson {{index + 1}}</h1>
+                    <h1 class="heading-22 cursor-pointer" :class="{'complete':lesson.completed}">Lesson {{index + 1}}</h1>
                     <img src="../assets/check-line.svg" class="image-8 check" v-if="lesson.completed" />
+                    <img src="../assets/Group 5677.svg" @click.prevent.stop="removeLesson(index)" class="lesson-remove" v-if="index === newClass.lessons.length - 1" />
                     </div>
                      <div class="lesson-container cursor-pointer" @click="addLesson();">
                     <h1 class="heading-22 add-lesson">+ Add Lesson</h1>
@@ -349,6 +350,12 @@ export default {
     }
   },
   methods: {
+    removeLesson(lessonIndex) {
+      if (this.lessonIndex === lessonIndex) {
+        this.lessonIndex = lessonIndex - 1;
+      }
+      this.newClass.lessons.splice(lessonIndex);
+    },
     toLesson(index) {
       if (this.newClass.lessons[index].completed) {
         this.currentLessonType = "lessons";
@@ -358,7 +365,7 @@ export default {
     toTrailer() {
       if (this.newClass.trailer.completed) {
         this.currentLessonType = "trailer";
-      }
+     }
     },
     addAssignment() {
       if (
@@ -709,5 +716,8 @@ export default {
 }
 .complete {
   cursor: pointer;
+}
+.lesson-remove {
+  margin-left: 10px;
 }
 </style>
