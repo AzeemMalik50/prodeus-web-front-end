@@ -120,8 +120,8 @@
                   </div>
                 </div>
                 <!-- lesson component-->
-                <lesson-form v-if="isTrailer" :lesson="newClass.trailer" :lessonHeading="lessonHeading" :isVideoSelected="isVideoSelected" :allowAssigment="False"/>
-                <lesson-form v-else :lesson="newClass.lessons[lessonIndex]" :lessonHeading="lessonHeading" :isVideoSelected="isVideoSelected" :allowAssigment="True"/>
+                <lesson-form v-show="isTrailer" :lesson="newClass.trailer" :lessonHeading="lessonHeading" :isVideoSelected="isVideoSelected" :allowAssigment="False"/>
+                <lesson-form v-show="!isTrailer && lessonIndex === index" v-for="(lesson, index) in newClass.lessons" :key="index" :lesson="newClass.lessons[index]" :lessonHeading="lessonHeading" :isVideoSelected="isVideoSelected" :allowAssigment="True"/>
               </div>
               <div class="_40-side-padding" v-if="lessonIndex !== newClass.lessons.length -1 || currentLesson().toUpload.isUploading">
                 <div class="_20-px-top-bottom-padding">
@@ -345,6 +345,15 @@ export default {
         if (lastIndex > -1) {
           this.lessonIndex = lastIndex;
         }
+
+        for (let i = 0; i < this.newClass.lessons.length; i++) {
+          if (this.checkIsLessonReady(this.newClass.lessons[i])) {
+            this.newClass.lessons[i].completed = true;
+          }
+        }
+        if (this.checkIsLessonReady(this.newClass.trailer)) {
+          this.newClass.trailer.completed = true;
+        }
       },
       deep: true
     }
@@ -357,15 +366,15 @@ export default {
       this.newClass.lessons.splice(lessonIndex);
     },
     toLesson(index) {
-      if (this.newClass.lessons[index].completed) {
-        this.currentLessonType = "lessons";
-        this.lessonIndex = index;
-      }
+      // if (this.newClass.lessons[index].completed) {
+      this.currentLessonType = "lessons";
+      this.lessonIndex = index;
+      // }
     },
     toTrailer() {
-      if (this.newClass.trailer.completed) {
-        this.currentLessonType = "trailer";
-     }
+      // if (this.newClass.trailer.completed) {
+      this.currentLessonType = "trailer";
+      //  }
     },
     addAssignment() {
       if (

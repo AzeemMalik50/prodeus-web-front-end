@@ -5,7 +5,7 @@
         <div class="flex-space-between">
           <h1 class="heading-4">{{lessonHeading}}</h1>
          <video v-show="isVideoSelected" id="video" controls height="150" width="180" hidden />
-        <input type="file" accept="video/mp4,video/x-m4v,video/*" id="videoFile" @change="fileSelect($event.target.name, $event.target.files);" class="input-file" hidden>
+        <input type="file" accept="video/mp4,video/x-m4v,video/*" :id="lesson.lessonNumber" @change="fileSelect($event.target.name, $event.target.files);" class="input-file" hidden>
          <div class="video-upload">
           <div class="button top-padding cursor-pointer" @click="chooseFiles()">
             <h1 class="form-button"> {{lesson.toUpload.video ? lesson.toUpload.video.name.substring(0,20) :'Upload Video'}}</h1>
@@ -142,11 +142,11 @@ export default {
     },
     chooseFiles() {
       this.lesson.toUpload.isUploaded = false;
-      document.getElementById("videoFile").click();
+      document.getElementById(this.lesson.lessonNumber).click();
     },
     removeSelectedFile() {
-      if (document.getElementById("videoFile")) {
-        document.getElementById("videoFile").value = "";
+      if (document.getElementById(this.lesson.lessonNumber)) {
+        document.getElementById(this.lesson.lessonNumber).value = "";
       }
 
      if(this.cancel) {
@@ -166,6 +166,9 @@ export default {
       this.$parent.addAssignment();
     },
     uploadVideo() {
+       if (document.getElementById(this.lesson.lessonNumber)) {
+        document.getElementById(this.lesson.lessonNumber).value = "";
+      }
       this.lesson.toUpload.isUploading = true;
       let formData = new FormData();
       formData.append("thumbnail", this.lesson.toUpload.thumbnail);
