@@ -113,7 +113,7 @@
                   <div class="lesson-container" v-for="(lesson, index) in newClass.lessons" :key="index" @click="toLesson(index)">
                     <h1 class="heading-22 cursor-pointer" :class="{'complete':lesson.completed}">Lesson {{index + 1}}</h1>
                     <img src="../assets/check-line.svg" class="image-8 check" v-if="lesson.completed" />
-                    <img src="../assets/Group 5677.svg" @click.prevent.stop="removeLesson(index)" class="lesson-remove" v-if="index === newClass.lessons.length - 1" />
+                    <img src="../assets/Group 5677.svg" @click.prevent.stop="removeLesson(index)" class="lesson-remove" v-if="index > 4" />
                     </div>
                      <div class="lesson-container cursor-pointer" @click="addLesson();">
                     <h1 class="heading-22 add-lesson">+ Add Lesson</h1>
@@ -131,6 +131,15 @@
                     </div>
                      <div v-else class="button outline" @click="completeLesson()">
                       <h1 class="form-button outline">Next Lesson</h1>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="_40-side-padding" v-else>
+                <div class="_20-px-top-bottom-padding">
+                  <div class="align-right">
+                     <div class="button outline" @click="addLesson()">
+                      <h1 class="form-button outline">Add Lesson</h1>
                     </div>
                   </div>
                 </div>
