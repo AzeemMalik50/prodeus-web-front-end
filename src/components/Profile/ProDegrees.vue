@@ -70,6 +70,14 @@
                 </div> -->
                 <div class="card">
                   <div class="_40-side-padding">
+                      <div class="empty-feed mb-15">
+      <img src="../../assets/feedAsset-20.svg" class="emp-img" alt="">
+        <h1 class="heading-55">There&#x27;s no degree here yet...</h1>
+        <div class="div-block-113 alt cursor-pointer" @click="goToFeeds">
+          <img src="../../assets/left-arrow.svg" height="20" alt="" class="image-29">
+          <div class="text-block-14 alt">Enroll Class</div>
+        </div>
+      </div>
                     <!-- <div class="_40-top-30-bottom">
                       <div class="flex-space-between"><img src="../../assets/Logo.svg" height="40" alt="">
                         <div class="vert-justify-start-align-right">
@@ -156,11 +164,11 @@ export default {
   data() {
     return {
       credit: 1,
-        // sections: [
-        //   { label: 'Red section', value: 0, color: '#8446e8' },
-        //   { label: 'Green section', value: 0, color: '#ebcb4d' },
-        //   { label: 'Blue section', value: 0, color: '#61cb96' }
-        // ],
+      // sections: [
+      //   { label: 'Red section', value: 0, color: '#8446e8' },
+      //   { label: 'Green section', value: 0, color: '#ebcb4d' },
+      //   { label: 'Blue section', value: 0, color: '#61cb96' }
+      // ],
       proDegreeData: {
         classesTaughtCount: 0,
         projectCounts: 0,
@@ -185,21 +193,46 @@ export default {
       }
     );
   },
+  methods: {
+goToFeeds() {
+  this.$store.dispatch('classes/setFeedFilters', ['classes']);
+  this.$router.push({name:'feed'})
+}
+  },
   computed: {
-    totalCredits(){
-      if(this.proDegreeData.credits){
+    totalCredits() {
+      if (this.proDegreeData.credits) {
         return this.proDegreeData.credits;
       } else {
         return 1;
       }
     },
-    sections(){
+    sections() {
       return [
-          { label: 'Class Credits', value: this.proDegreeData.classCredits, color: '#8446e8', tooltip: true },
-          { label: 'Project Credits', value: this.proDegreeData.projectCredits, color: '#ebcb4d' },
-          { label: 'Answer Credits', value: this.proDegreeData.answersCredits, color: '#61cb96' }
-        ]
+        {
+          label: "Class Credits",
+          value: this.proDegreeData.classCredits,
+          color: "#8446e8",
+          tooltip: true
+        },
+        {
+          label: "Project Credits",
+          value: this.proDegreeData.projectCredits,
+          color: "#ebcb4d"
+        },
+        {
+          label: "Answer Credits",
+          value: this.proDegreeData.answersCredits,
+          color: "#61cb96"
+        }
+      ];
     }
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.mb-15 {
+  margin-bottom: 15px;
+}
+</style>
