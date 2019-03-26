@@ -310,6 +310,52 @@ export default {
       this.editClass.currentClass &&
       this.editClass.currentClass._id
     ) {
+      this.isUploading = true;
+      this.$store
+        .dispatch("classes/getClassById", this.editClass.currentClass._id)
+        .then(
+          response => {
+            //  editClass = response.data;
+            this.$store.dispatch("classes/setEditClass", {
+              lessonIndex: 0,
+              currentClass: JSON.parse(JSON.stringify(response.data))
+            });
+            this.resetEditClass();
+            this.isUploading = false;
+          },
+          error => {
+            console.error(error);
+          }
+        );
+    } else {
+      this.addLessson(5);
+    }
+    window.addEventListener("keyup", this.closeClassModal);
+  },
+  watch: {
+    newClass: {
+      handler(val) {
+        const lastIndex = this.currentLessonIndex();
+        // set trailer image to class image
+        this.newClass.img = this.newClass.trailer.img;
+        if (lastIndex > -1) {
+          this.lessonIndex = lastIndex;
+        }
+
+        for (let i = 0; i < this.newClass.lessons.length; i++) {
+          if (this.checkIsLessonReady(this.newClass.lessons[i])) {
+            this.newClass.lessons[i].completed = true;
+          }
+        }
+        if (this.checkIsLessonReady(this.newClass.trailer)) {
+          this.newClass.trailer.completed = true;
+        }
+      },
+      deep: true
+    }
+  },
+  methods: {
+    resetEditClass() {
       for (let i = 0; i < this.editClass.currentClass.lessons.length; i++) {
         this.editClass.currentClass.lessons[i] = Object.assign(
           JSON.parse(JSON.stringify(newLesson)),
@@ -340,34 +386,7 @@ export default {
       this.newClass.trailer.completed = true;
 
       this.currentLessonType = "lessons";
-    } else {
-      this.addLessson(5);
-    }
-    window.addEventListener("keyup", this.closeClassModal);
-  },
-  watch: {
-    newClass: {
-      handler(val) {
-        const lastIndex = this.currentLessonIndex();
-        // set trailer image to class image
-        this.newClass.img = this.newClass.trailer.img;
-        if (lastIndex > -1) {
-          this.lessonIndex = lastIndex;
-        }
-
-        for (let i = 0; i < this.newClass.lessons.length; i++) {
-          if (this.checkIsLessonReady(this.newClass.lessons[i])) {
-            this.newClass.lessons[i].completed = true;
-          }
-        }
-        if (this.checkIsLessonReady(this.newClass.trailer)) {
-          this.newClass.trailer.completed = true;
-        }
-      },
-      deep: true
-    }
-  },
-  methods: {
+    },
     removeLesson(lessonIndex) {
       if (this.lessonIndex === lessonIndex) {
         this.lessonIndex = lessonIndex - 1;

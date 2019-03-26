@@ -6,7 +6,7 @@
           <h1 class="heading-4">{{lessonHeading}}</h1>
          <video v-show="isVideoSelected" id="video" controls height="150" width="180" hidden />
         <input type="file" accept="video/mp4,video/x-m4v,video/*" :id="lesson.lessonNumber" @change="fileSelect($event.target.name, $event.target.files);" class="input-file" hidden>
-         <div class="video-upload">
+         <div class="video-upload" v-if="lesson.toUpload">
           <div class="button top-padding cursor-pointer" @click="chooseFiles()">
             <h1 class="form-button"> {{lesson.toUpload.video ? lesson.toUpload.video.name.substring(0,20) :'Upload Video'}}</h1>
           </div>
@@ -136,6 +136,9 @@ export default {
       this.$store
         .dispatch("classes/getMediaDetail", this.lesson.media)
         .then(res => {
+          this.lesson.toUpload = {
+            video: {}
+          };
           this.lesson.toUpload.video = res.data;
           this.lesson.toUpload.video.name = res.data.originalName;
         });

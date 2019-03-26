@@ -79,6 +79,9 @@ export const classes = {
         },
           error => commit('failure', error));
     },
+    getClassById({ commit }, id) {
+     return  authService.get(`/classes/${id}`)
+    },
     getFeeds({ commit }, query) {
       let url = "/feed";
       if(query) {

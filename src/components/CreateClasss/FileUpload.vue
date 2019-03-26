@@ -28,7 +28,9 @@ export default {
     };
   },
   created() {
-    this.attachedFiles = this.attachObject.media;
+    if(this.attachObject.media && this.attachObject.media.length) {
+      this.attachedFiles = this.attachObject.media.slice(0);
+    }
   },
   methods: {
     chooseFiles: function() {
