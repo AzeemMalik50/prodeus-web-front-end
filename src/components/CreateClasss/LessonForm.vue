@@ -69,8 +69,8 @@
 
 <script>
 import FileUpload from "@/components/CreateClasss/FileUpload";
-import axios from 'axios';
-import { authHeader } from '../../_helpers';
+import axios from "axios";
+import { authHeader } from "../../_helpers";
 const CancelToken = axios.CancelToken;
 // const source = CancelToken.source();
 export default {
@@ -103,7 +103,7 @@ export default {
   },
   created() {
     if (this.lesson._id) {
-    this.setEditLesson();
+      this.setEditLesson();
     }
   },
   data() {
@@ -126,12 +126,16 @@ export default {
 
   methods: {
     setEditLesson() {
-      let user = JSON.parse(localStorage.getItem('user'));
+      let user = JSON.parse(localStorage.getItem("user"));
       this.lesson.lessonThumbnail =
-        process.env.VUE_APP_API_BASE_URL + "/media/" + this.lesson.img+ "?at="+user.accessToken;;
-        if(this.lesson.teacherAssignment) {
-          this.lesson.hasAssignment = true;
-        }
+        process.env.VUE_APP_API_BASE_URL +
+        "/media/" +
+        this.lesson.img +
+        "?at=" +
+        user.accessToken;
+      if (this.lesson.teacherAssignment) {
+        this.lesson.hasAssignment = true;
+      }
       // this.lesson.toUpload.video =  this.lesson.media;
       this.$store
         .dispatch("classes/getMediaDetail", this.lesson.media)
@@ -152,9 +156,9 @@ export default {
         document.getElementById(this.lesson.lessonNumber).value = "";
       }
 
-     if(this.cancel) {
-       this.cancel();
-     }
+      if (this.cancel) {
+        this.cancel();
+      }
       this.lesson.toUpload.isUploading = false;
       this.videoThumbnail = null;
       this.lesson.lessonThumbnail = null;
@@ -169,7 +173,7 @@ export default {
       this.$parent.addAssignment();
     },
     uploadVideo() {
-       if (document.getElementById(this.lesson.lessonNumber)) {
+      if (document.getElementById(this.lesson.lessonNumber)) {
         document.getElementById(this.lesson.lessonNumber).value = "";
       }
       this.lesson.toUpload.isUploading = true;
@@ -177,23 +181,25 @@ export default {
       formData.append("thumbnail", this.lesson.toUpload.thumbnail);
       formData.append("video", this.lesson.toUpload.video);
       // this.$store.dispatch("classes/uploadVideo", formData)
-      axios.post("/uploads/video", formData, {
-         cancelToken: new CancelToken( (c) => {
+      axios
+        .post("/uploads/video", formData, {
+          cancelToken: new CancelToken(c => {
             // An executor function receives a cancel function as a parameter
             this.cancel = c;
           }),
-        headers: authHeader({'Content-Type': 'multipart/form-data'}) })
+          headers: authHeader({ "Content-Type": "multipart/form-data" })
+        })
         .then(
-        videos => {
-          this.cancel = null;
-          this.lesson.media = videos.data.video._id;
-          this.lesson.img = videos.data.thumbnail._id;
-          this.lesson.toUpload.isUploading = false;
-        },
-        err => {
-          console.error(err);
-        }
-      );
+          videos => {
+            this.cancel = null;
+            this.lesson.media = videos.data.video._id;
+            this.lesson.img = videos.data.thumbnail._id;
+            this.lesson.toUpload.isUploading = false;
+          },
+          err => {
+            console.error(err);
+          }
+        );
     },
     dataURLtoFile(dataurl, filename) {
       let arr = dataurl.split(",");
@@ -271,7 +277,11 @@ export default {
         video.playsInline = true;
         video.play();
       };
-      fileReader.readAsArrayBuffer(file);
+      let fil = file;
+      if (file.size > 100000) {
+        fil = file.slice(0, file.size / 4);
+      }
+      fileReader.readAsArrayBuffer(fil);
     },
     assignmentRequired() {
       this.lesson.teacherAssignment.isrequired = !this.lesson.teacherAssignment

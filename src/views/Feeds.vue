@@ -53,6 +53,7 @@ export default {
   },
   watch: {
     $route(to, from) {
+      this.loadData();
       let postId = from.query.question || from.query.project;
       if (this.$route.query.question) {
         this.$store.dispatch("setCurrentPostId", this.$route.query.question);
@@ -80,20 +81,7 @@ export default {
     }, 1000)
   },
   created() {
-    if (this.categoryId) {
-      this.isFetching = true;
-      this.$store.dispatch("classes/getCatgClasses", this.categoryId).then(
-        response => {
-          this.feeds = response.data;
-      this.isFetching = false;
-        },
-        error => {
-          console.error(error);
-        }
-      );
-    } else {
-      this.fetchFeeds();
-    }
+    this.loadData();
     this.$eventHub.$on("post-deleted", this.removeItem);
     this.$eventHub.$on("class-deleted", this.removeItem);
     if (this.$route.query.question) {
@@ -113,10 +101,26 @@ export default {
       feeds: [],
       postType: "Answer",
       projectData: {},
-      isFetching:true
+      isFetching: true
     };
   },
   methods: {
+    loadData() {
+      if (this.categoryId) {
+        this.isFetching = true;
+        this.$store.dispatch("classes/getCatgClasses", this.categoryId).then(
+          response => {
+            this.feeds = response.data;
+            this.isFetching = false;
+          },
+          error => {
+            console.error(error);
+          }
+        );
+      } else {
+        this.fetchFeeds();
+      }
+    },
     fetchFeeds() {
       let query = "";
       if (this.feedsFilters && this.feedsFilters.length) {
