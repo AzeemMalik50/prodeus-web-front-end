@@ -506,12 +506,7 @@ export default {
         document.getElementById("attachFiles").value = "";
       }
       const refData = this.currentLesson();
-      if (
-        refData.title &&
-        refData.description &&
-        refData.lessonThumbnail &&
-        refData.media
-      ) {
+      if ( this.checkIsLessonReady(refData)) {
         // this.isUploading = true;
         if (this.isTrailer) {
           this.currentLessonType = "lessons";
@@ -595,9 +590,11 @@ export default {
       this.newClass.lessons.push(JSON.parse(JSON.stringify(newLesson)));
     },
     checkIsLessonReady(refData) {
-      return (
-        refData.title && refData.description && refData.media && refData.img
-      );
+      let res = refData.title && refData.description && refData.media && refData.img;
+      if(refData.hasAssignment && refData.teacherAssignment){
+        res = res && refData.teacherAssignment.guidelines;
+      }
+      return res;
     }
   },
   computed: {

@@ -33,8 +33,8 @@
         <div class="w-form-done">
           <div>Thank you! Your submission has been received!</div>
         </div>
-        <div class="w-form-fail" :class="{'display-block' : lesson.isError}">
-            <div>Oops! Missing required fields.</div>
+        <div class="w-form-fail" v-for="err in errors" :key="err" :class="{'display-block' : lesson.isError}">
+            <div>{{err}}</div>
          </div>
       </div>
       <div v-if="allowAssigment">
@@ -89,6 +89,23 @@ export default {
         if (this.lesson.teacherAssignment) {
           this.isAssignReq = this.lesson.teacherAssignment.isrequired;
         }
+        this.errors = [];
+        if (!this.lesson.title) {
+          this.errors.push("Title is required.");
+        }
+        if (!this.lesson.description) {
+          this.errors.push("Description is required.");
+        }
+        if (!this.lesson.media && !this.lesson.toUpload.video) {
+          this.errors.push("Video is required.");
+        }
+        if (
+          this.lesson.hasAssignment &&
+          this.lesson.teacherAssignment &&
+          !this.lesson.teacherAssignment.guidelines
+        ) {
+          this.errors.push("Assignment is required.");
+        }
       },
       deep: true
     },
@@ -108,6 +125,7 @@ export default {
   },
   data() {
     return {
+      errors: [],
       cancel: null,
       hasAssignment: false,
       isAssignReq: false,
