@@ -233,20 +233,22 @@ export default {
     fileSelect(fieldName, fileList) {
       if (!fileList.length) return;
       this.$parent.isVideoSelected = true;
-      var file = event.target.files[0];
-      var fileReader = new FileReader();
+      let file = event.target.files[0];
+      let fileReader = new FileReader();
       this.lesson.toUpload.video = file;
       fileReader.onload = () => {
-        var blob = new Blob([fileReader.result], { type: file.type });
-        var url = URL.createObjectURL(blob);
-        var video = document.getElementById("video");
+        this.lesson.toUpload.isUploading = true;
+
+        let blob = new Blob([fileReader.result], { type: file.type });
+        let url = URL.createObjectURL(blob);
+        let video = document.getElementById("video");
         video.onloadedmetadata = () => {
           window.URL.revokeObjectURL(video.src);
-          var duration = video.duration;
+          let duration = video.duration;
           this.lesson.secondsDuration = duration;
         };
 
-        var timeupdate = () => {
+        let timeupdate = () => {
           if (snapImage()) {
             video.removeEventListener("timeupdate", timeupdate);
             video.pause();
@@ -257,15 +259,15 @@ export default {
             video.removeEventListener("timeupdate", timeupdate);
           }
         });
-        var snapImage = () => {
-          var canvas = document.createElement("canvas");
+        let snapImage = () => {
+          let canvas = document.createElement("canvas");
           canvas.width = video.videoWidth;
           canvas.height = video.videoHeight;
           canvas
             .getContext("2d")
             .drawImage(video, 0, 0, canvas.width, canvas.height);
-          var image = canvas.toDataURL();
-          // var img_b64 = canvas.toDataURL('image/png');
+          let image = canvas.toDataURL();
+          // let img_b64 = canvas.toDataURL('image/png');
           // console.log(image);
 
           //  new File(
@@ -274,7 +276,7 @@ export default {
           // );
           // uploading video......
 
-          var success = image.length > 100000;
+          let success = image.length > 100000;
           if (success) {
             this.videoThumbnail = image;
             this.lesson.lessonThumbnail = image;
@@ -296,9 +298,6 @@ export default {
         video.play();
       };
       let fil = file;
-      if (file.size > 100000) {
-        fil = file.slice(0, file.size / 4);
-      }
       fileReader.readAsArrayBuffer(fil);
     },
     assignmentRequired() {
