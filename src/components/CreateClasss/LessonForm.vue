@@ -36,6 +36,11 @@
         <div class="w-form-fail" v-for="err in errors" :key="err" :class="{'display-block' : lesson.isError}">
             <div>{{err}}</div>
          </div>
+        <div class="w-form-fail" v-if="uploadError">
+         <div>
+         {{uploadError}}
+         </div>
+        </div>
       </div>
       <div v-if="allowAssigment">
         <div class="button secondary" @click="toggleAssignment()">
@@ -126,6 +131,7 @@ export default {
   data() {
     return {
       errors: [],
+      uploadError: null,
       cancel: null,
       hasAssignment: false,
       isAssignReq: false,
@@ -205,7 +211,12 @@ export default {
             // An executor function receives a cancel function as a parameter
             this.cancel = c;
           }),
-          headers: authHeader({ "Content-Type": "multipart/form-data" })
+          headers: authHeader({ "Content-Type": "multipart/form-data" }),
+          progress: e => {
+            if (e.lengthComputable) {
+              console.log(e.loaded / e.total * 100);
+            }
+          }
         })
         .then(
           videos => {
@@ -213,9 +224,20 @@ export default {
             this.lesson.media = videos.data.video._id;
             this.lesson.img = videos.data.thumbnail._id;
             this.lesson.toUpload.isUploading = false;
+            this.uploadError = null;
           },
           err => {
-            console.error(err);
+            console.log(err);
+            if (err.response) {
+              if (err.response.data.code === "NetworkingError") {
+                this.uploadError = "Slow Network  retrying upload please wait!";
+                this.uploadVideo();
+              } else if (err.response.data.code === "RequestTimeout") {
+                this.uploadError =
+                  "Timeout while uploading retrying upload please wait!";
+                this.uploadVideo();
+              }
+            }
           }
         );
     },
