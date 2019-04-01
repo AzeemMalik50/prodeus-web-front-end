@@ -100,8 +100,8 @@ export const classes = {
          //   error => commit('failure', error)
          // );
      },
-    getPorotfolioFeeds({ commit }) {
-      return authService.get(`/portfolio/feed`)
+    getPorotfolioFeeds({ commit }, userId) {
+      return authService.get(`/portfolio/feed/${userId}`)
      },
     getWatchedLessons({ commit }) {
       authService.get(`/classes/student/${JSON.parse(localStorage.getItem('user'))._id}/watched`)

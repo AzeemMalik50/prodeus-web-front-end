@@ -161,6 +161,7 @@
 </template>
 <script>
 export default {
+  props: ["userId"],
   data() {
     return {
       credit: 1,
@@ -184,7 +185,7 @@ export default {
     };
   },
   created() {
-    this.$store.dispatch("profile/getProdegreesData").then(
+    this.$store.dispatch("profile/getProdegreesData", this.userId).then(
       res => {
         this.proDegreeData = res.data;
       },
@@ -194,10 +195,10 @@ export default {
     );
   },
   methods: {
-goToFeeds() {
-  this.$store.dispatch('classes/setFeedFilters', ['classes']);
-  this.$router.push({name:'feed'})
-}
+    goToFeeds() {
+      this.$store.dispatch("classes/setFeedFilters", ["classes"]);
+      this.$router.push({ name: "feed" });
+    }
   },
   computed: {
     totalCredits() {

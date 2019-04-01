@@ -35,6 +35,7 @@ import { mapGetters, mapState } from "vuex";
   import ProjectCard from "@/components/Feeds/ProjectCard.vue";
   import QuestionCard from "@/components/Feeds/QuestionCard.vue";
   export default {
+    props:['userId'],
     data() {
       return {
         feeds: []
@@ -63,7 +64,7 @@ import { mapGetters, mapState } from "vuex";
         }
       },
       getFeeds() {
-        this.$store.dispatch("classes/getPorotfolioFeeds").then(
+        this.$store.dispatch("classes/getPorotfolioFeeds", this.userId ).then(
           response => {
             this.feeds = response.data;
           },

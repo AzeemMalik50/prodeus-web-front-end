@@ -25,9 +25,9 @@
               <profile-card :user="profile" />
             <!-- <transition-group  name="fade" mode="out-in" :duration="{ enter: 500, leave: 250 }"> -->
               <detail :user="profile"  v-show="isDetail" key="detail" />
-              <ProfileFeeds  v-show="isFeed" key="feeds"/>
+              <ProfileFeeds :userId="profileUserId"  v-show="isFeed" key="feeds"/>
               <show-case v-show="isShowCase" key="showCase" />
-              <pro-degrees v-show="isProDegree" key="proDegree"/>
+              <pro-degrees :userId="profileUserId" v-show="isProDegree" key="proDegree"/>
             <!-- </transition-group> -->
 
               <!-- recent projects -->
@@ -97,6 +97,7 @@ export default {
   },
   created() {
     this.$store.dispatch("profile/getProfile", this.userId);
+    console.log(this.userId)
      this.basicInfo = this.PROFILE_FORMS.BASIC_INFO;
       this.aboutMe = this.PROFILE_FORMS.ABOUT_ME;
       this.education = this.PROFILE_FORMS.EDUCATION;
@@ -147,6 +148,9 @@ export default {
     },
     isEditOpen(){
       return this.profileForm;
+    },
+    profileUserId() {
+      return this.userId || JSON.parse(localStorage.getItem('user'))._id;
     },
    ...mapState({
       PROFILE_FORMS: state => state.profile.PROFILE_FORMS,

@@ -70,8 +70,8 @@ export const profile = {
         },
           error => commit('failure', error));
     },
-    getProdegreesData({ commit }, connectionId) {
-      return authService.get('prodegrees');
+    getProdegreesData({ commit }, userId) {
+      return authService.get(`prodegrees/${userId}`);
     }
   },
   mutations: {
