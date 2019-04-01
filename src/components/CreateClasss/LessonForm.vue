@@ -36,7 +36,7 @@
         <div class="w-form-fail" v-for="err in errors" :key="err" :class="{'display-block' : lesson.isError}">
             <div>{{err}}</div>
          </div>
-        <div class="w-form-fail" v-if="uploadError">
+        <div class="w-form-fail display-block" v-if="uploadError">
          <div>
          {{uploadError}}
          </div>
