@@ -211,12 +211,16 @@ export default {
             // An executor function receives a cancel function as a parameter
             this.cancel = c;
           }),
+           onUploadProgress: function( progressEvent ) {
+        this.lesson.uploadPercentage = parseInt( Math.round( ( progressEvent.loaded * 100 ) / progressEvent.total ) );
+        console.log(this.lesson.uploadPercentage)
+      }.bind(this),
           headers: authHeader({ "Content-Type": "multipart/form-data" }),
-          progress: e => {
-            if (e.lengthComputable) {
-              console.log(e.loaded / e.total * 100);
-            }
-          }
+          // progress: e => {
+          //   if (e.lengthComputable) {
+          //     console.log(e.loaded / e.total * 100);
+          //   }
+          // }
         })
         .then(
           videos => {

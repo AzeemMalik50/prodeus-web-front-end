@@ -127,7 +127,7 @@
                 <div class="_20-px-top-bottom-padding">
                   <div class="align-right">
                     <div class="button outline inactive" v-if="currentLesson().toUpload.isUploading || (currentLesson().teacherAssignment && currentLesson().teacherAssignment.isUploading)">
-                      <h1 class="form-button outline"> Uploading...</h1>
+                      <h1 class="form-button outline"> Uploading... {{currentLesson().uploadPercentage}}%</h1>
                     </div>
                      <div v-else class="button outline" @click="completeLesson()">
                       <h1 class="form-button outline">Next Lesson</h1>
@@ -234,7 +234,8 @@ const newLesson = {
   lessonNumber: 0,
   hasAssignment: false,
   isUploading: false,
-  isError: false
+  isError: false,
+  uploadPercentage: 0
 };
 
 export default {
@@ -292,7 +293,8 @@ export default {
           img: "",
           media: "",
           isUploading: false,
-          isError: false
+          isError: false,
+          uploadPercentage: 0
         },
         finalProject: {
           title: "",
