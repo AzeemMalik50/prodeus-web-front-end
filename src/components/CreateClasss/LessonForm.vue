@@ -202,6 +202,7 @@ export default {
       }
       this.lesson.toUpload.isUploading = true;
       let formData = new FormData();
+      this.lesson.uploadPercentage = 0;
       formData.append("thumbnail", this.lesson.toUpload.thumbnail);
       formData.append("video", this.lesson.toUpload.video);
       // this.$store.dispatch("classes/uploadVideo", formData)
@@ -211,11 +212,12 @@ export default {
             // An executor function receives a cancel function as a parameter
             this.cancel = c;
           }),
-           onUploadProgress: function( progressEvent ) {
-        this.lesson.uploadPercentage = parseInt( Math.round( ( progressEvent.loaded * 100 ) / progressEvent.total ) );
-        console.log(this.lesson.uploadPercentage)
-      }.bind(this),
-          headers: authHeader({ "Content-Type": "multipart/form-data" }),
+          onUploadProgress: function(progressEvent) {
+            this.lesson.uploadPercentage = parseInt(
+              Math.round(progressEvent.loaded * 100 / progressEvent.total)
+            );
+          }.bind(this),
+          headers: authHeader({ "Content-Type": "multipart/form-data" })
           // progress: e => {
           //   if (e.lengthComputable) {
           //     console.log(e.loaded / e.total * 100);
