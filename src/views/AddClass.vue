@@ -98,7 +98,6 @@
           <div data-w-tab="Tab 2" class="w-tab-pane" v-if="selectedTab=='2'" :key="selectedTab"
           :class="{'w--tab-active': selectedTab=='2'}">
             <div class="add-class-block">
-
               <div class="_40-side-padding">
                 <div class="_30-px-top-bottom">
                   <h1 class="heading-4">Curriculum</h1>
@@ -508,7 +507,7 @@ export default {
         document.getElementById("attachFiles").value = "";
       }
       const refData = this.currentLesson();
-      if ( this.checkIsLessonReady(refData)) {
+      if (this.checkIsLessonReady(refData)) {
         // this.isUploading = true;
         if (this.isTrailer) {
           this.currentLessonType = "lessons";
@@ -592,9 +591,14 @@ export default {
       this.newClass.lessons.push(JSON.parse(JSON.stringify(newLesson)));
     },
     checkIsLessonReady(refData) {
-      let res = refData.title && refData.description && refData.media && refData.img;
-      if(refData.hasAssignment && refData.teacherAssignment){
-        res = res && refData.teacherAssignment.guidelines;
+      if (refData) {
+        let res =
+          refData.title && refData.description && refData.media && refData.img;
+        if (refData.hasAssignment && refData.teacherAssignment) {
+          res = res && refData.teacherAssignment.guidelines;
+        }
+      } else {
+        res = false;
       }
       return res;
     }
