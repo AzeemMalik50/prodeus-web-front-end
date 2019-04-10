@@ -11,7 +11,7 @@
             <h1 class="form-button"> {{lesson.toUpload.video ? lesson.toUpload.video.name.substring(0,20) :'Upload Video'}}</h1>
           </div>
           <div class="image-container" v-if="lesson.toUpload.video" @click="removeSelectedFile()" >
-          <img class="thumbnail"  :src="lesson.lessonThumbnail"/>
+          <img class="thumbnail"  :src="lesson.lessonThumbnail" :id="'thumb'+lesson.lessonNumber"/>
            <div class="after">
              <img src="@/assets/x.svg" class="cross" />
            </div>
@@ -312,8 +312,8 @@ export default {
               image,
               `lesson${this.lesson.lessonNumber}.png`
             );
-            this.uploadVideo();
             URL.revokeObjectURL(url);
+            this.uploadVideo();
           }
           return success;
         };

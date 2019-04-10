@@ -591,8 +591,9 @@ export default {
       this.newClass.lessons.push(JSON.parse(JSON.stringify(newLesson)));
     },
     checkIsLessonReady(refData) {
+      let res = false;
       if (refData) {
-        let res =
+        res =
           refData.title && refData.description && refData.media && refData.img;
         if (refData.hasAssignment && refData.teacherAssignment) {
           res = res && refData.teacherAssignment.guidelines;
