@@ -37,6 +37,9 @@ export const classes = {
           }, error => commit('failure', error)
         );
     },
+    addMedia({ commit }, payload) {
+      return authService.post('/medias', payload)
+    },
     updateClass({ commit }, payload) {
       return authService.put(`/classes/${payload._id}`, payload)
     },

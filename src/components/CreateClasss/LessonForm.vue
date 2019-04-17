@@ -205,47 +205,68 @@ export default {
       this.lesson.uploadPercentage = 0;
       formData.append("thumbnail", this.lesson.toUpload.thumbnail);
       formData.append("video", this.lesson.toUpload.video);
+      let voideoFile = this.lesson.toUpload.video;
+      let thumbnailFile = this.lesson.toUpload.thumbnail;
+
+      let videoBlob = voideoFile.slice(0, voideoFile.size, voideoFile.type);
+      let newVidFile = new File(
+        [videoBlob],
+        Date.now().toString() +
+          "." +
+          voideoFile.name.substr(voideoFile.name.lastIndexOf(".") + 1),
+        { type: voideoFile.type }
+      );
+
+      let thumbBlob = thumbnailFile.slice(
+        0,
+        thumbnailFile.size,
+        thumbnailFile.type
+      );
+      let newThumbFile = new File(
+        [thumbBlob],
+        Date.now().toString() +
+          "." +
+          thumbnailFile.name.substr(thumbnailFile.name.lastIndexOf(".") + 1),
+        { type: thumbnailFile.type }
+      );
+      this.uploadMedia(newThumbFile, "img");
+      this.uploadMedia(newVidFile, "media");
+
       // this.$store.dispatch("classes/uploadVideo", formData)
-      axios
-        .post("/uploads/video", formData, {
-          cancelToken: new CancelToken(c => {
-            // An executor function receives a cancel function as a parameter
-            this.cancel = c;
-          }),
-          onUploadProgress: function(progressEvent) {
-            this.lesson.uploadPercentage = parseInt(
-              Math.round(progressEvent.loaded * 100 / progressEvent.total)
-            );
-          }.bind(this),
-          headers: authHeader({ "Content-Type": "multipart/form-data" })
-          // progress: e => {
-          //   if (e.lengthComputable) {
-          //     console.log(e.loaded / e.total * 100);
-          //   }
-          // }
-        })
-        .then(
-          videos => {
-            this.cancel = null;
-            this.lesson.media = videos.data.video._id;
-            this.lesson.img = videos.data.thumbnail._id;
-            this.lesson.toUpload.isUploading = false;
-            this.uploadError = null;
-          },
-          err => {
-            console.log(err);
-            if (err.response) {
-              if (err.response.data.code === "NetworkingError") {
-                this.uploadError = "Slow Network  retrying upload please wait!";
-                this.uploadVideo();
-              } else if (err.response.data.code === "RequestTimeout") {
-                this.uploadError =
-                  "Timeout while uploading retrying upload please wait!";
-                this.uploadVideo();
-              }
-            }
-          }
-        );
+      // axios
+      //   .post("/uploads/video", formData, {
+      //     cancelToken: new CancelToken(c => {
+      //       this.cancel = c;
+      //     }),
+      //     onUploadProgress: function(progressEvent) {
+      //       this.lesson.uploadPercentage = parseInt(
+      //         Math.round(progressEvent.loaded * 100 / progressEvent.total)
+      //       );
+      //     }.bind(this),
+      //     headers: authHeader({ "Content-Type": "multipart/form-data" })
+      //   })
+      //   .then(
+      //     videos => {
+      //       this.cancel = null;
+      //       this.lesson.media = videos.data.video._id;
+      //       this.lesson.img = videos.data.thumbnail._id;
+      //       this.lesson.toUpload.isUploading = false;
+      //       this.uploadError = null;
+      //     },
+      //     err => {
+      //       console.log(err);
+      //       if (err.response) {
+      //         if (err.response.data.code === "NetworkingError") {
+      //           this.uploadError = "Slow Network  retrying upload please wait!";
+      //           this.uploadVideo();
+      //         } else if (err.response.data.code === "RequestTimeout") {
+      //           this.uploadError =
+      //             "Timeout while uploading retrying upload please wait!";
+      //           this.uploadVideo();
+      //         }
+      //       }
+      //     }
+      //   );
     },
     dataURLtoFile(dataurl, filename) {
       let arr = dataurl.split(",");
@@ -332,6 +353,47 @@ export default {
       this.lesson.teacherAssignment.isrequired = !this.lesson.teacherAssignment
         .isrequired;
       this.isAssignReq = this.lesson.teacherAssignment.isrequired;
+    },
+    uploadMedia(file, type) {
+      this.lesson.toUpload.isUploading = true;
+      axios
+        .get(`/uploads/medias3?filename=${file.name}&filetype=${file.type}`, {
+          headers: authHeader()
+        })
+        .then(result => {
+          let signedUrl = result.data;
+          let med = {
+            name: file.name,
+            originalName: file.name,
+            size: file.size,
+            mimetype: file.type,
+            s3BucketPath: signedUrl.slice(0, signedUrl.indexOf("?"))
+          };
+          this.$store.dispatch("classes/addMedia", med).then(md => {
+            this.lesson[type] = md.data._id;
+          });
+          let options = {
+            headers: {
+              "Content-Type": file.type
+            },
+            onUploadProgress: progressEvent => {
+              if (this.lesson.uploadPercentage < 100) {
+                this.lesson.uploadPercentage = parseInt(
+                  Math.round(progressEvent.loaded * 100 / progressEvent.total)
+                );
+              }
+            }
+          };
+
+          axios
+            .put(signedUrl, file, options)
+            .then(result => {
+              this.lesson.toUpload.isUploading = false;
+            })
+            .catch(function(err) {
+              console.log(err);
+            });
+        });
     }
   }
 };
