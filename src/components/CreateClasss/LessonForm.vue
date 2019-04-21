@@ -94,6 +94,11 @@ export default {
         if (this.lesson.teacherAssignment) {
           this.isAssignReq = this.lesson.teacherAssignment.isrequired;
         }
+        if (this.lesson.media && this.lesson.img) {
+          this.lesson.toUpload.isUploading = false;
+        } else {
+          this.lesson.toUpload.isUploading = true;
+        }
         this.errors = [];
         if (!this.lesson.title) {
           this.errors.push("Title is required.");
@@ -369,18 +374,22 @@ export default {
             mimetype: file.type,
             s3BucketPath: signedUrl.slice(0, signedUrl.indexOf("?"))
           };
+          let medid;
           this.$store.dispatch("classes/addMedia", med).then(md => {
-            this.lesson[type] = md.data._id;
+            medid = md.data._id;
           });
           let options = {
             headers: {
               "Content-Type": file.type
             },
             onUploadProgress: progressEvent => {
-              if (this.lesson.uploadPercentage < 100) {
-                this.lesson.uploadPercentage = parseInt(
+              if (this.lesson.uploadPercentage < 100 && type === 'media') {
+                let percet = parseInt(
                   Math.round(progressEvent.loaded * 100 / progressEvent.total)
                 );
+                if(percet > this.lesson.uploadPercentage) {
+                  this.lesson.uploadPercentage = percet;
+                }
               }
             }
           };
@@ -389,6 +398,7 @@ export default {
             .put(signedUrl, file, options)
             .then(result => {
               this.lesson.toUpload.isUploading = false;
+              this.lesson[type] = medid;
             })
             .catch(function(err) {
               console.log(err);
