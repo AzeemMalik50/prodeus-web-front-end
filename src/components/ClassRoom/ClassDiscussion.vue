@@ -13,6 +13,9 @@
            <div class="div-block-113 class side cursor-pointer" @click="addAnnouncement()"><img src="../../assets/add-white.svg" height="20" width="20" alt="" class="image-29">
             <div class="text-block-14">Make an announcement</div>
           </div>
+           <div class="div-block-113 class side cursor-pointer" @click="addReview()"><img src="../../assets/add-white.svg" height="20" width="20" alt="" class="image-29">
+            <div class="text-block-14">Add review</div>
+          </div>
         </div>
       </div>
     </div>
@@ -122,6 +125,9 @@ export default {
     }
   },
   methods: {
+    addReview(){
+      this.$store.dispatch('classes/openClassReview', this.classId);
+    },
     addComment() {
       if (this.isQuestion || !this.discus.type) {
         this.discus.type = "Comment";

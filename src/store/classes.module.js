@@ -25,10 +25,20 @@ export const classes = {
       instructor: null,
       student: null
     },
+    reviewClass:{id:'', isOpen: false},
     watchedLessons: {},
     showSubmitAssignment: false
   },
   actions: {
+    submitClassReview({commit}, payload) {
+      return authService.post(`/classes/instructor/${payload.classId}/review`, payload);
+    },
+    openClassReview({commit}, payload) {
+      commit('openClassReview', payload);
+    },
+    closeClassReview({commit}, payload) {
+      commit('closeClassReview');
+    },
     createClass({ commit }, payload) {
       authService.post('/classes', payload)
         .then(
@@ -151,6 +161,14 @@ export const classes = {
     }
   },
   mutations: {
+    openClassReview(state, data) {
+      state.reviewClass.id = data;
+      state.reviewClass.isOpen = true;
+    },
+    closeClassReview(state, data) {
+      state.reviewClass.id = '';
+      state.reviewClass.isOpen = false;
+    },
     setFeedFilters(state, data) {
       state.feedsFilters = data;
     },

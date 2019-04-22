@@ -163,6 +163,7 @@
     <share-modal v-if="showSocailShare" />
     <create-post v-if="showAnswerPost" :type="answerPost" :parentPost="selectedQuestion" />
     <project-detail v-if="isAssignmentOpen" isAssignment="true" />
+    <add-review v-if="reviewClass.id && reviewClass.isOpen" />
   </div>
 </template>
 
@@ -181,7 +182,7 @@ import SearchInput from "../components/SearchInput";
 import Notifications from "./Notifications";
 import ProfileSetting from "../components/Profile/Settings";
 import Filters from "../components/Filters";
-
+import AddReview from  '../components/Class/AddReview';
 
 export default {
   components: {
@@ -192,7 +193,8 @@ export default {
     ProjectDetail,
     QuestionDetail,
     SearchInput,
-    Filters
+    Filters,
+    AddReview
   },
   mixins: [clickaway],
   data() {
@@ -320,7 +322,8 @@ export default {
       selectedQuestion: state => state.post.selectedQuestion,
       isQuestionOpen: state => state.isQuestionOpen,
       isOpenLogin: state => state.isOpenLogin,
-      isOpenSignup: state => state.isOpenSignup
+      isOpenSignup: state => state.isOpenSignup,
+      reviewClass : state => state.classes.reviewClass
     })
   }
 };
