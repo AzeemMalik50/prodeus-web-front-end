@@ -23,7 +23,7 @@
           <div class="text-block-7">{{questions}}</div>
         </div>
         <div class="left-align"><img src="@/assets/reviews.svg" width="20" height="20" alt="">
-          <div class="text-block-7">4.2k</div>
+          <div class="text-block-7">{{myClass.reviews.length}}</div>
         </div>
       </div>
     </div>

@@ -1,16 +1,15 @@
 <template>
     <div class="_30px-top-bottom-20-side-padding">
         <div class="_20px-bottom-margin">
-            <div class="profile-picture center"></div>
+            <user-thumbnail :user="review.user" :myClass="'profile-picture center'" />
         </div>
         <div class="_20px-bottom-margin">
-            <h1 class="paragraph-3 center">@willcairns</h1>
+            <h1 class="paragraph-3 center">@{{review.user.fullName}}</h1>
         </div>
         <div class="_15px-bottom-padding">
-            <RatingStars :rating="rating" />
+            <RatingStars :rating="review.rating" />
         </div>
-        <p class="paragraph center">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique. Duis cursus, mi quis viverra ornare, eros dolor interdum nulla, ut commodo diam libero vitae erat. Aenean faucibus nibh et justo cursus id
-            rutrum lorem imperdiet. Nunc ut sem vitae risus tristique posuere.</p>
+        <p class="paragraph center">{{review.body}}</p>
         <div class="_1px-line-spacer"></div>
     </div>
 </template>
@@ -19,6 +18,7 @@
 import RatingStars from "./RatingStars.vue";
 export default {
   name: "StudentReview",
+  props:['review'],
   components: {
     RatingStars
   },

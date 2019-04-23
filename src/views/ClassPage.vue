@@ -70,7 +70,7 @@
       </div>
       <div class="flexcolumn">
         <InstructorInfo :instructor="currentClass.instructor" />
-        <ClassRatingReview />
+        <ClassRatingReview :ratingPercentage="currentClass.ratingPercentage" :rating="currentClass.rating" :totalRatings="currentClass.reviews.length" />
         <div class="card">
           <div>
             <div class="_20px-margin">
@@ -81,10 +81,7 @@
             <h1 class="heading-6">MOST RECENT</h1>
           </div>
           <div class="scroll">
-            <StudentReview />
-            <StudentReview />
-            <StudentReview />
-            <StudentReview />
+            <StudentReview v-for="(review, index) in currentClass.reviews" :key="index" :review="review" />
           </div>
         </div>
       </div>

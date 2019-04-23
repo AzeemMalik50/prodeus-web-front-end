@@ -3,7 +3,7 @@
     <div class="class-header">
       <div class="flex-space-between">
         <h1 class="heading-6 grey">{{feedClass.difficulty}}</h1>
-        <star-rating :inline="true" :star-size="16" :read-only="true" v-model="rating" :show-rating="false" :star-points="[23,2, 14,17, 0,19, 10,34, 7,50, 23,43, 38,50, 36,34, 46,19, 31,17]" :rating="5" inactive-color="#dbdbdb" active-color="#8446E8"></star-rating>
+        <star-rating :inline="true" :star-size="16" :read-only="true" v-model="feedClass.rating" :show-rating="false" :star-points="[23,2, 14,17, 0,19, 10,34, 7,50, 23,43, 38,50, 36,34, 46,19, 31,17]" :rating="5" inactive-color="#dbdbdb" active-color="#8446E8"></star-rating>
       </div>
     </div>
     <div class="class-image" @click="goClass()" :style="getBackImage(backImage)"></div>
