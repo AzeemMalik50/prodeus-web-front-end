@@ -157,7 +157,7 @@ export default {
       return this.answers[0].downVotes.indexOf(this.loggedInUser._id) > -1;
     },
     isCreater() {
-      return this.loggedInUser._id === this.question.user._id;
+      return this.loggedInUser &&  (this.loggedInUser._id === this.question.user._id);
     }
   }
 };

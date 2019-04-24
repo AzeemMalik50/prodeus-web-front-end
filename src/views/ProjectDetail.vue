@@ -277,7 +277,7 @@ export default {
     onSubmit() {
       if (this.discus.body && this.discus.type) {
         let disc = JSON.parse(JSON.stringify(this.discus));
-        if (!disc.media.mediaId) {
+        if (!disc.media || !disc.media.mediaId) {
           delete disc.media;
         }
         this.$store.dispatch(`${this.moduleType}/addPostComment`, disc).then(

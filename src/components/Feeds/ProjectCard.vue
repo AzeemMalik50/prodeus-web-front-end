@@ -178,7 +178,7 @@ export default {
       }
     },
     isCreater() {
-      return this.loggedInUser._id === this.project.user._id;
+      return this.loggedInUser &&  (this.loggedInUser._id === this.project.user._id);
     }
   }
 };

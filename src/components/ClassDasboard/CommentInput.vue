@@ -84,6 +84,9 @@ export default {
       }
     },
     uploadMedia() {
+      if(!this.discItem.media){
+        this.discItem.media = {};
+      }
       this.discItem.media.type = this.discItem.selectedMedia.mediaType;
       let formData = new FormData();
       formData.append("prodeusFiles", this.discItem.selectedMedia.file);

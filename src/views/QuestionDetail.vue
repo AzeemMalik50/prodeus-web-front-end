@@ -224,7 +224,9 @@ export default {
           this.question.replies.push(post.data);
           this.answer.title = "";
           this.discus.body = "";
-          this.discus.media.mediaId = "";
+          if(this.discus.media) {
+            this.discus.media.mediaId = "";
+          }
         },
         err => {
           console.error(err);

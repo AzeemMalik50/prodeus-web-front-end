@@ -112,7 +112,7 @@ export default {
         : this.feedClass.title.slice(0, 45) + "...";
     },
     currentUserId() {
-      return this.$store.state.authentication.user._id;
+      return this.$store.state.authentication ? this.$store.state.authentication.user._id : '';
     },
     isEnrolled() {
       const enrollIndex = this.feedClass.enrolledStudents.findIndex(
