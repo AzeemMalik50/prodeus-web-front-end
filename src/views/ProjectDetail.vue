@@ -284,7 +284,9 @@ export default {
           resp => {
             this.project.discussions.push(resp.data);
             this.discus.body = "";
-            this.discus.media.mediaId = "";
+            if(this.discus.media){
+              this.discus.media.mediaId = "";
+            }
           },
           err => {}
         );

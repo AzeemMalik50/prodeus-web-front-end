@@ -265,6 +265,7 @@ export default {
   margin-top: 20px;
 }
 .delete {
+  z-index: 999;
   height: 25px;
   position: absolute;
   right: 25px;
