@@ -312,8 +312,8 @@ export default {
       this.editClass.currentClass._id
     ) {
       this.isUploading = true;
-       this.resetEditClass();
-       this.isUploading = false;
+      this.resetEditClass();
+      this.isUploading = false;
       // this.$store
       //   .dispatch("classes/getClassById", this.editClass.currentClass._id)
       //   .then(
@@ -662,6 +662,12 @@ export default {
         this.isFinalProjectReady
       );
     }
+  },
+  destroyed() {
+    this.$store.dispatch("classes/setEditClass", {
+      lessonIndex: 0,
+      currentClass: null
+    });
   }
 };
 </script>
