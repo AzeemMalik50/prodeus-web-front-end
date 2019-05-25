@@ -55,11 +55,25 @@ export default {
       );
     },
     openEditClass() {
-      this.$store.dispatch("classes/setEditClass", {
-        lessonIndex: 0,
-        currentClass: JSON.parse(JSON.stringify(this.myClass))
-      });
-      this.$store.dispatch("changeCreateClass", true);
+      // this.$store.dispatch("classes/setEditClass", {
+      //   lessonIndex: 0,
+      //   currentClass: JSON.parse(JSON.stringify(this.myClass))
+      // });
+      this.$store
+        .dispatch("classes/getClassById", this.myClass._id)
+        .then(
+          response => {
+            //  editClass = response.data;
+            this.$store.dispatch("classes/setEditClass", {
+              lessonIndex: 0,
+              currentClass: JSON.parse(JSON.stringify(response.data))
+            });
+            this.$store.dispatch("changeCreateClass", true);
+          },
+          error => {
+            console.error(error);
+          }
+        );
     },
     gotoClassRoom() {
       this.$router.push({

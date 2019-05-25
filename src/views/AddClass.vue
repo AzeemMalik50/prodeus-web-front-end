@@ -312,22 +312,25 @@ export default {
       this.editClass.currentClass._id
     ) {
       this.isUploading = true;
-      this.$store
-        .dispatch("classes/getClassById", this.editClass.currentClass._id)
-        .then(
-          response => {
-            //  editClass = response.data;
-            this.$store.dispatch("classes/setEditClass", {
-              lessonIndex: 0,
-              currentClass: JSON.parse(JSON.stringify(response.data))
-            });
-            this.resetEditClass();
-            this.isUploading = false;
-          },
-          error => {
-            console.error(error);
-          }
-        );
+       this.resetEditClass();
+       this.isUploading = false;
+      // this.$store
+      //   .dispatch("classes/getClassById", this.editClass.currentClass._id)
+      //   .then(
+      //     response => {
+      //       //  editClass = response.data;
+      //       console.log('response.data', response.data)
+      //       this.$store.dispatch("classes/setEditClass", {
+      //         lessonIndex: 0,
+      //         currentClass: JSON.parse(JSON.stringify(response.data))
+      //       });
+      //       this.resetEditClass();
+      //       this.isUploading = false;
+      //     },
+      //     error => {
+      //       console.error(error);
+      //     }
+      //   );
     } else {
       this.addLessson(5);
     }

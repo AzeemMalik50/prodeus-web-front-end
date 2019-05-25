@@ -173,6 +173,10 @@ export const classes = {
       state.feedsFilters = data;
     },
     setEditClass(state, data) {
+      state.editClass = {
+        lessonIndex: 0,
+        currentClass: null
+      };
       state.editClass = data;
     },
     setShowSubmitAssignment(state, flag) {
