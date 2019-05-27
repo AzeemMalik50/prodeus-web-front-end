@@ -119,8 +119,8 @@
                   </div>
                 </div>
                 <!-- lesson component-->
-                <lesson-form v-show="isTrailer" :lesson="newClass.trailer" :lessonHeading="lessonHeading" :isVideoSelected="isVideoSelected" :allowAssigment="False"/>
-                <lesson-form v-show="!isTrailer && lessonIndex === index" v-for="(lesson, index) in newClass.lessons" :key="index" :lesson="newClass.lessons[index]" :lessonHeading="lessonHeading" :isVideoSelected="isVideoSelected" :allowAssigment="True"/>
+                <lesson-form v-show="isTrailer" :classThumbnail="classThumbnail" :lesson="newClass.trailer" :lessonHeading="lessonHeading" :isVideoSelected="isVideoSelected" :allowAssigment="False"/>
+                <lesson-form v-show="!isTrailer && lessonIndex === index" :classThumbnail="classThumbnail" v-for="(lesson, index) in newClass.lessons" :key="index" :lesson="newClass.lessons[index]" :lessonHeading="lessonHeading" :isVideoSelected="isVideoSelected" :allowAssigment="True"/>
               </div>
               <div class="_40-side-padding" v-if="lessonIndex !== newClass.lessons.length -1 || currentLesson().toUpload.isUploading">
                 <div class="_20-px-top-bottom-padding">
@@ -246,6 +246,10 @@ export default {
 
   data() {
     return {
+      classThumbnail: {
+        id: "",
+        file: null
+      },
       skill: "",
       currentLessonType: "trailer",
       isVideoSelected: false,
@@ -353,6 +357,19 @@ export default {
         }
         if (this.checkIsLessonReady(this.newClass.trailer)) {
           this.newClass.trailer.completed = true;
+        }
+      },
+      deep: true
+    },
+    classThumbnail: {
+      handler(val) {
+        if (this.classThumbnail.id) {
+          for (let i = 0; i < this.newClass.lessons.length; i++) {
+            this.newClass.lessons[i].img = this.classThumbnail.id;
+            if(!this.newClass.lessons[i].lessonThumbnail) {
+              this.newClass.lessons[i].lessonThumbnail = URL.createObjectURL(this.classThumbnail.file);
+            }
+          }
         }
       },
       deep: true

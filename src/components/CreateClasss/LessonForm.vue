@@ -8,9 +8,14 @@
         <input type="file" accept="video/mp4,video/x-m4v,video/*" :id="lesson.lessonNumber" @change="fileSelect($event.target.name, $event.target.files);" class="input-file" hidden>
          <div class="video-upload" v-if="lesson.toUpload">
           <div class="button top-padding cursor-pointer" @click="chooseFiles()">
+            <img src="@/assets/x.svg" v-if="lesson.toUpload.video" class="cross-video" @click.stop="removeSelectedFile()" />
             <h1 class="form-button"> {{lesson.toUpload.video ? lesson.toUpload.video.name.substring(0,20) :'Upload Video'}}</h1>
           </div>
-          <div class="image-container" v-if="lesson.toUpload.video" @click="removeSelectedFile()" >
+        <input type="file" accept="image/*" :id="lesson.lessonNumber+'thumb'" @change="thumnbFileSelect($event.target.name, $event.target.files);" class="input-file" hidden>
+           <div v-if="!classThumbnail.file" class="button thumbnail-btn top-padding cursor-pointer image-container" @click="selectThumbnail()">
+            <span class=""> Select Thumbnail</span>
+          </div>
+          <div class="image-container" v-if="classThumbnail.file" @click="removeSelectedThumbFile()" >
           <img class="thumbnail"  :src="lesson.lessonThumbnail" :id="'thumb'+lesson.lessonNumber"/>
            <div class="after">
              <img src="@/assets/x.svg" class="cross" />
@@ -86,7 +91,8 @@ export default {
     lesson: Object,
     lessonHeading: String,
     allowAssigment: Boolean,
-    isVideoSelected: Boolean
+    isVideoSelected: Boolean,
+    classThumbnail: Object
   },
   watch: {
     lesson: {
@@ -132,6 +138,13 @@ export default {
     if (this.lesson._id) {
       this.setEditLesson();
     }
+    if (this.classThumbnail.id) {
+      this.lesson.img = this.classThumbnail.id;
+      this.lesson.toUpload.thumbnail = this.classThumbnail.file;
+    }
+     if(!this.lesson.lessonThumbnail) {
+              this.lesson.lessonThumbnail = URL.createObjectURL(this.classThumbnail.file);
+            }
   },
   data() {
     return {
@@ -154,6 +167,9 @@ export default {
   },
 
   methods: {
+    selectThumbnail() {
+      document.getElementById(this.lesson.lessonNumber + "thumb").click();
+    },
     setEditLesson() {
       let user = JSON.parse(localStorage.getItem("user"));
       this.lesson.lessonThumbnail =
@@ -178,7 +194,9 @@ export default {
     },
     chooseFiles() {
       this.lesson.toUpload.isUploaded = false;
-      document.getElementById(this.lesson.lessonNumber).click();
+      if(!this.lesson.toUpload.video){
+        document.getElementById(this.lesson.lessonNumber).click();
+      }
     },
     removeSelectedFile() {
       if (document.getElementById(this.lesson.lessonNumber)) {
@@ -189,13 +207,17 @@ export default {
         this.cancel();
       }
       this.lesson.toUpload.isUploading = false;
-      this.videoThumbnail = null;
-      this.lesson.lessonThumbnail = null;
+      // this.videoThumbnail = null;
+      // this.lesson.lessonThumbnail = null;
       this.lesson.toUpload.video = null;
-      this.lesson.toUpload.thumbnail = null;
+      // this.lesson.toUpload.thumbnail = null;
       this.lesson.toUpload.isUploaded = true;
       this.lesson.media = "";
-      this.lesson.img = "";
+      // this.lesson.img = "";
+    },
+    removeSelectedThumbFile() {
+      this.classThumbnail.file = null;
+      this.classThumbnail.id = "";
     },
     toggleAssignment() {
       this.lesson.hasAssignment = !this.lesson.hasAssignment;
@@ -211,7 +233,7 @@ export default {
       formData.append("thumbnail", this.lesson.toUpload.thumbnail);
       formData.append("video", this.lesson.toUpload.video);
       let voideoFile = this.lesson.toUpload.video;
-      let thumbnailFile = this.lesson.toUpload.thumbnail;
+      // let thumbnailFile = this.lesson.toUpload.thumbnail;
 
       let videoBlob = voideoFile.slice(0, voideoFile.size, voideoFile.type);
       let newVidFile = new File(
@@ -222,19 +244,19 @@ export default {
         { type: voideoFile.type }
       );
 
-      let thumbBlob = thumbnailFile.slice(
-        0,
-        thumbnailFile.size,
-        thumbnailFile.type
-      );
-      let newThumbFile = new File(
-        [thumbBlob],
-        Date.now().toString() +
-          "." +
-          thumbnailFile.name.substr(thumbnailFile.name.lastIndexOf(".") + 1),
-        { type: thumbnailFile.type }
-      );
-      this.uploadMedia(newThumbFile, "img");
+      // let thumbBlob = thumbnailFile.slice(
+      //   0,
+      //   thumbnailFile.size,
+      //   thumbnailFile.type
+      // );
+      // let newThumbFile = new File(
+      //   [thumbBlob],
+      //   Date.now().toString() +
+      //     "." +
+      //     thumbnailFile.name.substr(thumbnailFile.name.lastIndexOf(".") + 1),
+      //   { type: thumbnailFile.type }
+      // );
+      // this.uploadMedia(newThumbFile, "img");
       this.uploadMedia(newVidFile, "media");
 
       // this.$store.dispatch("classes/uploadVideo", formData)
@@ -273,86 +295,108 @@ export default {
       //     }
       //   );
     },
-    dataURLtoFile(dataurl, filename) {
-      let arr = dataurl.split(",");
-      let mime = arr[0].match(/:(.*?);/)[1];
-      let bstr = atob(arr[1]);
-      let n = bstr.length;
-      let u8arr = new Uint8Array(n);
-      while (n--) {
-        u8arr[n] = bstr.charCodeAt(n);
-      }
-      return new File([u8arr], filename, { type: mime });
+    // dataURLtoFile(dataurl, filename) {
+    //   let arr = dataurl.split(",");
+    //   let mime = arr[0].match(/:(.*?);/)[1];
+    //   let bstr = atob(arr[1]);
+    //   let n = bstr.length;
+    //   let u8arr = new Uint8Array(n);
+    //   while (n--) {
+    //     u8arr[n] = bstr.charCodeAt(n);
+    //   }
+    //   return new File([u8arr], filename, { type: mime });
+    // },
+    thumnbFileSelect(fieldName, fileList) {
+      if (!fileList.length) return;
+      let file = event.target.files[0];
+      this.classThumbnail.file = file;
+      this.lesson.toUpload.thumbnail = file;
+      this.lesson.lessonThumbnail = URL.createObjectURL(file);
+      let thumbnailFile = this.lesson.toUpload.thumbnail;
+      let thumbBlob = thumbnailFile.slice(
+        0,
+        thumbnailFile.size,
+        thumbnailFile.type
+      );
+      let newThumbFile = new File(
+        [thumbBlob],
+        Date.now().toString() +
+          "." +
+          thumbnailFile.name.substr(thumbnailFile.name.lastIndexOf(".") + 1),
+        { type: thumbnailFile.type }
+      );
+      this.uploadMedia(newThumbFile, null);
     },
     fileSelect(fieldName, fileList) {
       if (!fileList.length) return;
       this.$parent.isVideoSelected = true;
       let file = event.target.files[0];
-      let fileReader = new FileReader();
+      // let fileReader = new FileReader();
       this.lesson.toUpload.video = file;
-      fileReader.onload = () => {
-        this.lesson.toUpload.isUploading = true;
+      this.uploadVideo();
+      // fileReader.onload = () => {
+      //   this.lesson.toUpload.isUploading = true;
 
-        let blob = new Blob([fileReader.result], { type: file.type });
-        let url = URL.createObjectURL(blob);
-        let video = document.getElementById("video");
-        video.onloadedmetadata = () => {
-          window.URL.revokeObjectURL(video.src);
-          let duration = video.duration;
-          this.lesson.secondsDuration = duration;
-        };
+      //   let blob = new Blob([fileReader.result], { type: file.type });
+      //   let url = URL.createObjectURL(blob);
+      //   let video = document.getElementById("video");
+      //   video.onloadedmetadata = () => {
+      //     window.URL.revokeObjectURL(video.src);
+      //     let duration = video.duration;
+      //     this.lesson.secondsDuration = duration;
+      //   };
 
-        let timeupdate = () => {
-          if (snapImage()) {
-            video.removeEventListener("timeupdate", timeupdate);
-            video.pause();
-          }
-        };
-        video.addEventListener("loadeddata", () => {
-          if (snapImage()) {
-            video.removeEventListener("timeupdate", timeupdate);
-          }
-        });
-        let snapImage = () => {
-          let canvas = document.createElement("canvas");
-          canvas.width = video.videoWidth;
-          canvas.height = video.videoHeight;
-          canvas
-            .getContext("2d")
-            .drawImage(video, 0, 0, canvas.width, canvas.height);
-          let image = canvas.toDataURL();
-          // let img_b64 = canvas.toDataURL('image/png');
-          // console.log(image);
+      //   let timeupdate = () => {
+      //     if (snapImage()) {
+      //       video.removeEventListener("timeupdate", timeupdate);
+      //       video.pause();
+      //     }
+      //   };
+      //   video.addEventListener("loadeddata", () => {
+      //     if (snapImage()) {
+      //       video.removeEventListener("timeupdate", timeupdate);
+      //     }
+      //   });
+      //   let snapImage = () => {
+      //     let canvas = document.createElement("canvas");
+      //     canvas.width = video.videoWidth;
+      //     canvas.height = video.videoHeight;
+      //     canvas
+      //       .getContext("2d")
+      //       .drawImage(video, 0, 0, canvas.width, canvas.height);
+      //     let image = canvas.toDataURL();
+      //     // let img_b64 = canvas.toDataURL('image/png');
+      //     // console.log(image);
 
-          //  new File(
-          //   [image],
-          //   `lesson${this.lesson.lessonNumber}.png`
-          // );
-          // uploading video......
+      //     //  new File(
+      //     //   [image],
+      //     //   `lesson${this.lesson.lessonNumber}.png`
+      //     // );
+      //     // uploading video......
 
-          let success = image.length > 100000;
-          if (success) {
-            this.videoThumbnail = image;
-            this.lesson.lessonThumbnail = image;
-            this.lesson.toUpload.thumbnail = this.dataURLtoFile(
-              image,
-              `lesson${this.lesson.lessonNumber}.png`
-            );
-            URL.revokeObjectURL(url);
-            this.uploadVideo();
-          }
-          return success;
-        };
-        video.addEventListener("timeupdate", timeupdate);
-        video.preload = "metadata";
-        video.src = url;
-        // Load video in Safari / IE11
-        video.muted = true;
-        video.playsInline = true;
-        video.play();
-      };
-      let fil = file;
-      fileReader.readAsArrayBuffer(fil);
+      //     let success = image.length > 100000;
+      //     if (success) {
+      //       this.videoThumbnail = image;
+      //       this.lesson.lessonThumbnail = image;
+      //       this.lesson.toUpload.thumbnail = this.dataURLtoFile(
+      //         image,
+      //         `lesson${this.lesson.lessonNumber}.png`
+      //       );
+      //       URL.revokeObjectURL(url);
+      //       this.uploadVideo();
+      //     }
+      //     return success;
+      //   };
+      //   video.addEventListener("timeupdate", timeupdate);
+      //   video.preload = "metadata";
+      //   video.src = url;
+      //   // Load video in Safari / IE11
+      //   video.muted = true;
+      //   video.playsInline = true;
+      //   video.play();
+      // };
+      // let fil = file;
+      // fileReader.readAsArrayBuffer(fil);
     },
     assignmentRequired() {
       this.lesson.teacherAssignment.isrequired = !this.lesson.teacherAssignment
@@ -360,7 +404,9 @@ export default {
       this.isAssignReq = this.lesson.teacherAssignment.isrequired;
     },
     uploadMedia(file, type) {
-      this.lesson.toUpload.isUploading = true;
+      if (type) {
+        this.lesson.toUpload.isUploading = true;
+      }
       axios
         .get(`/uploads/medias3?filename=${file.name}&filetype=${file.type}`, {
           headers: authHeader()
@@ -383,11 +429,11 @@ export default {
               "Content-Type": file.type
             },
             onUploadProgress: progressEvent => {
-              if (this.lesson.uploadPercentage < 100 && type === 'media') {
+              if (this.lesson.uploadPercentage < 100 && type === "media") {
                 let percet = parseInt(
                   Math.round(progressEvent.loaded * 100 / progressEvent.total)
                 );
-                if(percet > this.lesson.uploadPercentage) {
+                if (percet > this.lesson.uploadPercentage) {
                   this.lesson.uploadPercentage = percet;
                 }
               }
@@ -398,7 +444,12 @@ export default {
             .put(signedUrl, file, options)
             .then(result => {
               this.lesson.toUpload.isUploading = false;
-              this.lesson[type] = medid;
+              if (type) {
+                this.lesson[type] = medid;
+              } else {
+                this.classThumbnail.id = medid;
+                this.lesson.img = medid;
+              }
             })
             .catch(function(err) {
               console.log(err);
@@ -477,5 +528,18 @@ export default {
 }
 .display-block {
   display: block;
+}
+.cross-video {
+  position: relative;
+  height: 20px;
+  left: -25px;
+  top: 0px;
+}
+.thumbnail-btn {
+  min-width: 70px;
+  span {
+    font-size: 12px;
+    text-align: center;
+  }
 }
 </style>
