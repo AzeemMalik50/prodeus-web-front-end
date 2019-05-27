@@ -12,10 +12,10 @@
             <h1 class="form-button"> {{lesson.toUpload.video ? lesson.toUpload.video.name.substring(0,20) :'Upload Video'}}</h1>
           </div>
         <input type="file" accept="image/*" :id="lesson.lessonNumber+'thumb'" @change="thumnbFileSelect($event.target.name, $event.target.files);" class="input-file" hidden>
-           <div v-if="!classThumbnail.file" class="button thumbnail-btn top-padding cursor-pointer image-container" @click="selectThumbnail()">
+           <div v-if="!classThumbnail.file && !lesson.lessonThumbnail" class="button thumbnail-btn top-padding cursor-pointer image-container" @click="selectThumbnail()">
             <span class=""> Select Thumbnail</span>
           </div>
-          <div class="image-container" v-if="classThumbnail.file" @click="removeSelectedThumbFile()" >
+          <div class="image-container" v-if="lesson.lessonThumbnail" @click="removeSelectedThumbFile()" >
           <img class="thumbnail"  :src="lesson.lessonThumbnail" :id="'thumb'+lesson.lessonNumber"/>
            <div class="after">
              <img src="@/assets/x.svg" class="cross" />
@@ -218,6 +218,7 @@ export default {
     removeSelectedThumbFile() {
       this.classThumbnail.file = null;
       this.classThumbnail.id = "";
+      this.lesson.lessonThumbnail = null;
     },
     toggleAssignment() {
       this.lesson.hasAssignment = !this.lesson.hasAssignment;
